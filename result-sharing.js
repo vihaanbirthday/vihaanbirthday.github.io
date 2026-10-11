@@ -65,7 +65,7 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
     const frame = gameContainer.querySelector('iframe');
     if (!gameDialog.open || !frame || event.source !== frame.contentWindow ||
         event.data?.type !== 'invitation:share-result' || dialog.open) return;
-    const game = new URL(frame.src).pathname.match(/\/games\/(taptaptap|flappy|hextris|ohhi|spiderman|toystory)\/index\.html$/)?.[1];
+    const game = new URL(frame.src).pathname.match(/\/games\/(taptaptap|flappy|hextris|ohhi)\/index\.html$/)?.[1];
     const result = normalizeResult(game, event.data.result);
     if (!result) return;
     release();
@@ -110,7 +110,7 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
 
 function normalizeResult(game, data) {
   if (!data || !Number.isSafeInteger(data.score) || data.score < 0) return null;
-  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Hogwarts Flyer', hextris: 'Frozen Hextris', ohhi: 'Moana’s Ocean Logic', spiderman: 'Rooftop Rescue', toystory: 'Toy Match' };
+  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Hogwarts Flyer', hextris: 'Hextris', ohhi: '0h h1' };
   if (!names[game]) return null;
   const result = { score: data.score, name: names[game], slug: game === 'taptaptap' ? 'tap-tap-tap' : game };
   if (game === 'taptaptap') {
@@ -125,18 +125,6 @@ function normalizeResult(game, data) {
     result.summary = `${result.cleared}/8 levels cleared`;
     result.detail = data.detail;
     result.footer = `${data.hearts} heart${data.hearts === 1 ? '' : 's'} left · Level ${data.level} of 8`;
-  } else if (game === 'spiderman') {
-    if (!Number.isSafeInteger(data.best) || data.best < data.score || !Number.isInteger(data.webs) || data.webs < 0 || data.webs > 12 || typeof data.won !== 'boolean' || data.won !== (data.webs === 12)) return null;
-    result.heading = data.won ? 'New York is safe!' : 'A brave rescue!';
-    result.summary = `${data.webs}/12 webs collected`;
-    result.detail = `Best this visit: ${data.best}`;
-    result.footer = 'Your friendly neighbourhood Spider-Man.';
-  } else if (game === 'toystory') {
-    if (!Number.isSafeInteger(data.moves) || data.moves < 6 || data.pairs !== 6) return null;
-    result.heading = 'Friends reunited!';
-    result.summary = `All 6 pairs in ${data.moves} moves`;
-    result.detail = 'Andy’s toy box is together again.';
-    result.footer = 'To infinity and beyond!';
   } else if (game === 'ohhi') {
     if (![4, 6, 8, 10].includes(data.size) || typeof data.tutorial !== 'boolean') return null;
     result.heading = data.tutorial ? 'Tutorial complete!' : 'Puzzle complete!';
@@ -162,10 +150,8 @@ function normalizeResult(game, data) {
 function drawResult(canvas, result) {
   const ctx = canvas.getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 800);
-  const palettes = { 'tap-tap-tap': ['#613a87', '#211337'], hextris: ['#396f99', '#173653'], ohhi: ['#167e89', '#073f53'], spiderman: ['#354675', '#14203e'], toystory: ['#477eaa', '#213d61'], flappy: ['#333755', '#111a31'] };
-  const palette = palettes[result.slug];
-  gradient.addColorStop(0, palette[0]);
-  gradient.addColorStop(1, palette[1]);
+  gradient.addColorStop(0, result.slug === 'flappy' ? '#333755' : '#2b5251');
+  gradient.addColorStop(1, result.slug === 'flappy' ? '#111a31' : '#122d33');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 720, 800);
   ctx.textAlign = 'center';

@@ -341,20 +341,3 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready #game-dialog[data-game="flappy"] #game-frame-container{height:auto;flex:1;min-height:0}
   .invitation-ready #game-dialog[data-game="flappy"] .game-dialog-footer{padding:4px 18px;flex-shrink:0}
 }
-
-/* Six themed adventures: keep covers and readable text, scroll the phone shelf. */
-.invitation-ready .game-card:not([data-game="flappy"]) .game-type{display:block;font-size:10px;letter-spacing:.8px;margin-bottom:5px;line-height:1.3}
-@media(min-width:1051px){.invitation-ready .games-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.invitation-ready .game-card{display:grid;grid-template-columns:116px minmax(0,1fr)}.invitation-ready .game-preview{height:180px}.invitation-ready .game-content{padding:18px}.invitation-ready .game-content h3{font-size:25px}.invitation-ready .game-content p{font-size:16px}}
-
-/* On landscape phones, use the height for the two new play areas. */
-@media(max-height:500px){
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0;overflow:hidden}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"])[open]{display:flex;flex-direction:column}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) .game-toolbar{padding:6px 18px 4px;flex-shrink:0}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) .game-toolbar .eyebrow{display:none}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) .game-toolbar h2{font-size:24px;margin:0}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) .game-tabs{position:absolute;top:6px;right:80px;margin:0;padding:0;border:0;gap:20px}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) #game-help{font-size:12px;padding:0 18px 7px;flex-shrink:0}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) #game-frame-container{height:auto;flex:1;min-height:0}
-.invitation-ready #game-dialog:is([data-game="spiderman"],[data-game="toystory"]) .game-dialog-footer{padding:4px 18px;flex-shrink:0}
-}

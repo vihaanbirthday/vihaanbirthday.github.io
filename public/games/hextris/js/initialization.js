@@ -6,29 +6,29 @@ function initialize(a) {
 	window.rush = 1;
 	window.lastTime = Date.now();
 	window.iframHasLoaded = false;
-	window.colors = ["#a46bd5", "#f1b949", "#388dcc", "#35b7ab"];
+	window.colors = ["#e74c3c", "#f1c40f", "#3498db", "#2ecc71"];
 	window.hexColorsToTintedColors = {
-		"#a46bd5": "rgb(207,170,236)",
-		"#f1b949": "rgb(255,226,171)",
-		"#388dcc": "rgb(163,218,248)",
-		"#35b7ab": "rgb(162,236,228)"
+		"#e74c3c": "rgb(241,163,155)",
+		"#f1c40f": "rgb(246,223,133)",
+		"#3498db": "rgb(151,201,235)",
+		"#2ecc71": "rgb(150,227,183)"
 	};
 
 	window.rgbToHex = {
-		"rgb(164,107,213)": "#a46bd5",
-		"rgb(241,185,73)": "#f1b949",
-		"rgb(56,141,204)": "#388dcc",
-		"rgb(53,183,171)": "#35b7ab"
+		"rgb(231,76,60)": "#e74c3c",
+		"rgb(241,196,15)": "#f1c40f",
+		"rgb(52,152,219)": "#3498db",
+		"rgb(46,204,113)": "#2ecc71"
 	};
 
 	window.rgbColorsToTintedColors = {
-		"rgb(164,107,213)": "rgb(207,170,236)",
-		"rgb(241,185,73)": "rgb(255,226,171)",
-		"rgb(56,141,204)": "rgb(163,218,248)",
-		"rgb(53,183,171)": "rgb(162,236,228)"
+		"rgb(231,76,60)": "rgb(241,163,155)",
+		"rgb(241,196,15)": "rgb(246,223,133)",
+		"rgb(52,152,219)": "rgb(151,201,235)",
+		"rgb(46,204,113)": "rgb(150,227,183)"
 	};
 
-	window.hexagonBackgroundColor = 'rgba(225, 246, 255, 0.84)';
+	window.hexagonBackgroundColor = 'rgb(236, 240, 241)';
 	window.hexagonBackgroundColorClear = 'rgba(236, 240, 241, 0.5)';
 	window.centerBlue = 'rgb(44,62,80)';
 	window.angularVelocityConst = 4;

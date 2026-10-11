@@ -56,7 +56,7 @@ var Game = new (function() {
     showTitleScreen();
     resize();
     
-    var colors = ['#083f54', '#d67558', '#38b9ba']
+    var colors = ['#a7327c', '#c24b31', '#c0cd31']
     Utils.setColorScheme(colors[1]);
   }
 

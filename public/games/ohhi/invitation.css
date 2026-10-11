@@ -5,5 +5,3 @@ body:has(#share-final-score:not([hidden])) #bar .iconcon{padding:8px 0;min-heigh
 body:has(#share-final-score:not([hidden])) #score{bottom:max(17%,104px)}
 #share-final-score{bottom:52px;left:50%;width:min(90vw,320px);transform:translateX(-50%);white-space:nowrap}
 @media(max-height:350px){body:has(#share-final-score:not([hidden])) #menugrid,body:has(#share-final-score:not([hidden])) #chooseSize{display:none}body:has(#share-final-score:not([hidden])) #score{font-size:24px!important;line-height:26px!important;height:26px!important}}
-
-html,body{background:#084f66 url('art/ocean.svg') center/cover fixed!important;color:#fff4dd}.board{background:#083f54e8;border-radius:16px}.tile .inner{background-color:#15566c!important}.tile-1 .inner{background:#d67558 url('art/sail.svg') center/72% no-repeat!important}.tile-2 .inner{background:#38b9ba url('art/heart.svg') center/70% no-repeat!important}.moana-companion{position:fixed;left:0;bottom:0;width:130px;opacity:.35;pointer-events:none;mask-image:linear-gradient(transparent,#000 65%)}#share-final-score{background:#a74735}#title h1{font-size:48px}#title p{font-size:18px}@media(max-width:450px){.moana-companion{width:90px}}

@@ -2,7 +2,7 @@
 from pathlib import Path
 import zipfile
 root = Path('public/games')
-for name in ['taptaptap', 'hextris', 'ohhi', 'flappy', 'spiderman', 'toystory']:
+for name in ['taptaptap', 'hextris', 'ohhi', 'flappy']:
     with zipfile.ZipFile(root / (name + '-source.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in sorted((root / name).rglob('*')):
             if path.is_file():

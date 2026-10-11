@@ -26,13 +26,11 @@ function syncDialogMotion() {
 }
 new MutationObserver(syncDialogMotion).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
 const games = {
-  taptaptap: { name: 'Tap Tap Tap', help: 'KPop Demon Hunters: tap blue notes +, avoid red demons ×, catch gold stars ★. Eight stages.' },
+  taptaptap: { name: 'Tap Tap Tap', help: 'Eight levels, gold bonus stars and a final challenge. Tap blue circles; avoid red ones.' },
   flappy: { name: 'Hogwarts Flyer', help: 'Choose your character, then tap, click or press Space to fly.' },
-  hextris: { name: 'Frozen Hextris', help: 'Tap the left or right side to rotate. Match three ice colours in Elsa’s kingdom. Keyboard: ← →.' },
-  ohhi: { name: 'Moana’s Ocean Logic', help: 'Balance coral sails and ocean hearts with Moana. Start with “How to play” for a friendly tutorial.' },
+  hextris: { name: 'Hextris', help: 'Tap the left or right side to rotate. Match three colours. Keyboard: ← →.' },
+  ohhi: { name: '0h h1', help: 'Tap tiles to change colour. Start with “How to play” for a friendly tutorial.' },
 };
-games.spiderman = { name: 'Rooftop Rescue', help: 'Spider-Man: collect webs, dodge bombs. Tap a lane or use ← →.' };
-games.toystory = { name: 'Toy Match', help: 'Toy Story: turn two cards. Find all six pairs of Andy’s toys.' };
 const gameDialog = $('#game-dialog');
 let activeGame, gameTrigger, loadingTimer;
 const gameContainer = $('#game-frame-container');
@@ -61,11 +59,6 @@ function loadGame() {
     hero.classList.add('hogwarts-loading');
     hero.querySelector('img').src = './games/flappy/art/harry.svg';
     hero.querySelector('.eyebrow').textContent = 'A LITTLE MAGIC AWAITS';
-  }
-  if (activeGame !== 'flappy') {
-    hero.classList.add('themed-loading', `loading-${activeGame}`);
-    hero.querySelector('img').src = `./assets/game-covers/${activeGame}.svg`;
-    hero.querySelector('.eyebrow').textContent = 'YOUR NEXT ADVENTURE';
   }
   hero.querySelector('h3').textContent = games[activeGame].name;
   const frame = document.createElement('iframe');

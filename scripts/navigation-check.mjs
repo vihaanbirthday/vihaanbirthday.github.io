@@ -29,8 +29,7 @@ try {
       })), 'Header controls stay visible with accessible touch targets');
       const active = page.locator(`#${id}`);
       assert(await active.evaluate(el => el.scrollWidth <= el.clientWidth), `${width}px: ${id} has no horizontal overflow`);
-      // The six-game shelf may scroll internally; information chapters still fit.
-      if (height >= 740 && id !== 'games') assert(await active.evaluate(el => el.scrollHeight <= el.clientHeight + 1), `${width}px: ${id} fits without scrolling`);
+      if (height >= 740) assert(await active.evaluate(el => el.scrollHeight <= el.clientHeight + 1), `${width}px: ${id} fits without scrolling`);
       if (index === 0) assert(await page.locator('#page-next').isHidden(), 'Opening has only Open invitation');
       else assert(await page.locator('#page-next').evaluate(el => {
         const box = el.getBoundingClientRect();
@@ -69,12 +68,12 @@ try {
     await checkChapter(4);
     await page.goForward();
     await checkChapter(5);
-    await page.locator('button[data-game="taptaptap"]').click();
+    await page.locator('[data-game="taptaptap"]').click();
     await page.locator('.game-tabs a[href="#games"]').click();
     await page.waitForFunction(() => !document.querySelector('#game-dialog').open && !document.querySelector('iframe'));
     await checkChapter(5);
     assert.equal(await page.evaluate(() => document.activeElement.id), 'games', 'Returning to the current chapter closes the game and focuses its page');
-    await page.locator('button[data-game="taptaptap"]').click();
+    await page.locator('[data-game="taptaptap"]').click();
     assert(await page.locator('#game-dialog').isVisible());
     await page.locator('.game-tabs a[href="#rsvp"]').click();
     await page.waitForFunction(() => !document.querySelector('#game-dialog').open && !document.querySelector('iframe'));

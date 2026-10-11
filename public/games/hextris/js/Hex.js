@@ -1,7 +1,7 @@
 function Hex(sideLength) {
 	this.playThrough = 0;
-	this.fillColor = [45,91,135];
-	this.tempColor = [45,91,135];
+	this.fillColor = [44,62,80];
+	this.tempColor = [44,62,80];
 	this.angularVelocity = 0;
 	this.position = 0;
 	this.dy = 0;
@@ -162,11 +162,6 @@ function Hex(sideLength) {
 		}
  
 		drawPolygon(this.x + gdx, this.y + gdy + this.dy, this.sides, this.sideLength, this.angle,arrayToColor(this.fillColor) , 0, 'rgba(0,0,0,0)');
-		if (window.frozenCrystal?.complete && window.frozenCrystal.naturalWidth) {
-			ctx.save(); ctx.globalAlpha = .2;
-			ctx.drawImage(window.frozenCrystal, this.x + gdx - this.sideLength * .65, this.y + gdy + this.dy - this.sideLength * .65, this.sideLength * 1.3, this.sideLength * 1.3);
-			ctx.restore();
-		}
 	};
 }
 

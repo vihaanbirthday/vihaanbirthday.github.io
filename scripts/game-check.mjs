@@ -12,9 +12,9 @@ page.on('console', m => { if (m.type() === 'error') failures.push(m.text()); });
 page.on('request', r => { if (!r.url().startsWith(base) && !/^(data|blob):/.test(r.url())) external.push(r.url()); });
 await page.goto(base + '#games');
 await page.locator('[data-game="taptaptap"]').scrollIntoViewIfNeeded();
-assert.equal(await page.locator('[data-game]').count(), 6);
+assert.equal(await page.locator('[data-game]').count(), 4);
 assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
-for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy', 'spiderman', 'toystory']) {
+for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
   const loaded = page.waitForEvent('framenavigated', frame => frame.url().includes(`/games/${game}/`));
   await page.locator(`[data-game="${game}"]`).tap();
   const frame = await loaded;
@@ -47,24 +47,6 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy', 'spiderman', 'toys
     const tile = frame.locator('#board .tile:not(.tile-1):not(.tile-2)').first();
     console.log('Oh hi board tiles', await frame.locator('#board .tile').count());
     if (await tile.count()) { const before = await tile.getAttribute('class'); await tile.tap(); assert.notEqual(await tile.getAttribute('class'), before, 'Logic tile responds to touch'); }
-  } else if (game === 'spiderman') {
-    await frame.locator('#start').tap();
-    await frame.locator('#left').tap();
-    assert.equal(await frame.evaluate(() => rooftopGame.lane), 0);
-    await frame.locator('#pause').tap();
-    const time = await frame.evaluate(() => rooftopGame.time);
-    await page.waitForTimeout(200);
-    assert.equal(await frame.evaluate(() => rooftopGame.time), time, 'Rescue pause preserves time');
-    await frame.locator('#resume').tap();
-    await frame.locator('#right').tap();
-    assert.equal(await frame.evaluate(() => rooftopGame.lane), 1);
-  } else if (game === 'toystory') {
-    await frame.locator('#start').tap();
-    const deck = await frame.evaluate(() => memoryGame.deck);
-    const second = deck.indexOf(deck[0], 1);
-    await frame.locator('.toy-card').nth(0).tap();
-    await frame.locator('.toy-card').nth(second).tap();
-    assert.equal(await frame.evaluate(() => memoryGame.pairs), 1, 'Toy pair responds to touch');
   } else {
     await frame.locator('[data-character="hermione"]').tap();
     await frame.locator('#start-flight').tap();
@@ -89,13 +71,13 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy', 'spiderman', 'toys
   console.log(`${game}: touch gameplay, isolation, restart and close passed`);
 }
 await page.locator('#games').scrollIntoViewIfNeeded();
-await page.screenshot({ path: 'test-results/six-games-mobile.png', fullPage: true });
+await page.screenshot({ path: 'test-results/four-games-mobile.png', fullPage: true });
 for (const width of [320, 768, 1440]) {
   await page.setViewportSize({ width, height: 900 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `No horizontal overflow at ${width}px`);
 }
-await page.screenshot({ path: 'test-results/six-games-desktop.png', fullPage: true });
+await page.screenshot({ path: 'test-results/four-games-desktop.png', fullPage: true });
 await browser.close();
 assert.deepEqual(external, [], 'No external requests');
 assert.deepEqual(failures, [], 'No browser errors');
-console.log('All six games passed production mobile browser tests.');
+console.log('All four games passed production mobile browser tests.');
