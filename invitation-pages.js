@@ -11,6 +11,8 @@ export function setupInvitationPages() {
   const next = document.querySelector('#page-next');
   const welcome = pages[0];
   let current = -1;
+  let historyPosition = 0, restoringHistory = false;
+  history.replaceState({ ...history.state, invitationPosition: 0 }, '', location.href);
   const { finish: finishWriting, play: playWriting } = setupNameWriting(welcome, () => current === 0);
   const pageMenu = document.querySelector('#page-menu');
   function showPage(index, { focus = true } = {}) {
@@ -51,9 +53,13 @@ export function setupInvitationPages() {
     if (focus) pages[index].focus({ preventScroll: true });
     if (index === 0) playWriting();
   }
-  function go(index) {
+  function canNavigate(proceed) {
+    return document.dispatchEvent(new CustomEvent('invitation:before-navigate', { cancelable: true, detail: { proceed } }));
+  }
+  function go(index, confirmed = false) {
     if (index < 0 || index >= pages.length) return;
-    if (location.hash !== hashes[index]) history.pushState(null, '', hashes[index]);
+    if (!confirmed && !canNavigate(() => go(index, true))) return;
+    if (location.hash !== hashes[index]) history.pushState({ invitationPosition: ++historyPosition }, '', hashes[index]);
     showPage(index);
   }
   document.addEventListener('click', event => {
@@ -67,7 +73,20 @@ export function setupInvitationPages() {
     event.preventDefault();
     go(index);
   });
-  const followHistory = () => showPage(Math.max(0, hashes.indexOf(location.hash || '#main')));
+  const followHistory = () => {
+    if (restoringHistory) { restoringHistory = false; return; }
+    const index = Math.max(0, hashes.indexOf(location.hash || '#main'));
+    if (index === current) return;
+    const targetPosition = history.state?.invitationPosition;
+    const delta = Number.isInteger(targetPosition) ? targetPosition - historyPosition : 0;
+    if (!canNavigate(() => go(index, true))) {
+      if (delta) { restoringHistory = true; history.go(-delta); }
+      else history.replaceState({ invitationPosition: historyPosition }, '', hashes[current]);
+      return;
+    }
+    if (Number.isInteger(targetPosition)) historyPosition = targetPosition;
+    showPage(index);
+  };
   window.addEventListener('popstate', followHistory);
   window.addEventListener('hashchange', followHistory);
   const previousPage = () => current === gamesIndex ? gamesReturnPage : current - 1;

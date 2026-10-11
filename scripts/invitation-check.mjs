@@ -39,6 +39,10 @@ try {
    await page.locator('#close-rsvp').tap();
    assert(await trigger.evaluate(el => document.activeElement === el));
   }
+  await page.locator('.rsvp-shortcut').tap();
+  assert(await page.locator('#rsvp-dialog').isVisible());
+  await page.locator('#close-rsvp').tap();
+  assert(await page.locator('.rsvp-shortcut').evaluate(el => document.activeElement === el));
   await openChapter(page, '#rsvp');
   await page.locator('#rsvp-button').tap();
   assert(await page.locator('#rsvp-dialog').isVisible());
@@ -66,6 +70,10 @@ try {
    await page.locator('#guest-count').selectOption('3');
    if (test.actual) await page.screenshot({path:'test-results/rsvp-accept.png'});
    await page.locator('#rsvp-form button[type=submit]').tap();
+   assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Review does not open WhatsApp before the guest chooses it');
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'rsvp-status','Focus moves to the prepared reply');
+   assert(await page.locator('#copy-rsvp').evaluate(el => el.getBoundingClientRect().bottom <= innerHeight),'Copy is visible without scrolling');
+   await page.locator('#open-rsvp-whatsapp').tap();
    const url=new URL(await page.evaluate(()=>window.testOpenedURL));
    assert.equal(url.origin,'https://wa.me');
    assert.equal(url.pathname,`/${test.event.whatsappNumber}`);
@@ -86,12 +94,15 @@ try {
    assert((await page.locator('#copy-status').textContent()).includes('Select and copy'));
    assert.equal(await page.evaluate(() => document.activeElement.id), 'rsvp-message');
    for (const count of ['1', '2', '4']) {
+    await page.locator('#edit-rsvp').tap();
     await page.locator('#guest-count').selectOption(count);
     await page.locator('#rsvp-form button[type=submit]').tap();
+    await page.locator('#open-rsvp-whatsapp').tap();
     const reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
     assert(reply.includes(`*Total guests:* ${count} ${count === '1' ? 'guest' : 'guests'} (including me and children)`));
     assert(reply.includes(`*Attendance:* ${count === '1' ? "I'll be there" : "We'll be there"}`));
    }
+   await page.locator('#edit-rsvp').tap();
    // Even a modified dropdown must not generate a reply above the limit.
    await page.locator('#guest-count').evaluate(select => select.add(new Option('5 guests', '5')));
    await page.locator('#guest-count').selectOption('5');
@@ -102,13 +113,16 @@ try {
    await page.locator('#guest-count').selectOption('4');
    await page.locator('#guest-count option[value="5"]').evaluate(option => option.remove());
    await page.locator('#rsvp-form button[type=submit]').tap();
+   await page.locator('#open-rsvp-whatsapp').tap();
    assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('4 guests'),'Four guests are accepted after correcting an invalid count');
+   await page.locator('#edit-rsvp').tap();
    await page.locator('#guest-attendance').selectOption('no');
    assert.equal(await page.locator('#guest-party').isVisible(),false);
    assert.equal(await page.locator('#rsvp-fallback').isVisible(),false,'Changing the answer clears the stale prepared reply');
    assert(await page.locator('#guest-count').isDisabled());
    if (test.actual) await page.screenshot({path:'test-results/rsvp-decline.png'});
    await page.locator('#rsvp-form button[type=submit]').tap();
+   await page.locator('#open-rsvp-whatsapp').tap();
    const decline = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert.equal(decline, [
     'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
@@ -116,6 +130,7 @@ try {
     'Sending Vihaan lots of love for his big day! 💛',
    ].join('\n'));
    assert(!decline.includes('guests'),'Decline has no headcount');
+   await page.locator('#edit-rsvp').tap();
    await page.locator('#guest-attendance').selectOption('yes');
    assert(await page.locator('#guest-count').isVisible(),'Switching back restores the guest count');
    assert.equal(await page.locator('#guest-count').inputValue(),'4');

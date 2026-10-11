@@ -3,6 +3,7 @@ import { getEventDate } from './event-details.js';
 import { setupSafariFriends } from './safari-friends.js';
 import { setupInvitationPages } from './invitation-pages.js';
 import { setupResultSharing } from './result-sharing.js';
+import { setupGameExit } from './game-exit.js';
 const $ = (s) => document.querySelector(s);
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 function syncMotionPreference() {
@@ -35,6 +36,7 @@ const gameDialog = $('#game-dialog');
 let activeGame, gameTrigger, loadingTimer;
 const gameContainer = $('#game-frame-container');
 const closeResultSharing = setupResultSharing({ gameDialog, gameContainer, whatsappNumber: event.whatsappNumber });
+const requestGameAction = setupGameExit(gameDialog, gameContainer);
 function clearGameLoading() {
   clearTimeout(loadingTimer);
   gameContainer.removeAttribute('aria-busy');
@@ -84,12 +86,13 @@ document.querySelectorAll('[data-game]').forEach(button => button.addEventListen
   gameDialog.showModal();
   loadGame();
 }));
-$('#close-game').addEventListener('click', () => gameDialog.close());
-$('#restart-game').addEventListener('click', loadGame);
+$('#close-game').addEventListener('click', () => requestGameAction(() => gameDialog.close()));
+$('#restart-game').addEventListener('click', () => requestGameAction(loadGame, 'restart'));
 gameDialog.addEventListener('close', () => {
   closeResultSharing();
   clearGameLoading();
   gameContainer.replaceChildren();
+  delete gameDialog.dataset.game;
   if (!gameDialog.dataset.navigationClose && gameTrigger?.closest('[data-page]')?.hidden === false) gameTrigger.focus({ preventScroll: true });
   delete gameDialog.dataset.navigationClose;
 });
@@ -144,9 +147,25 @@ $('#rsvp-form').addEventListener('submit', e => {
   $('#rsvp-message').value = message;
   $('#rsvp-status').textContent = 'Your reply is ready. Send your message in WhatsApp to finish your RSVP.';
   $('#copy-status').textContent = '';
+  $('#rsvp-form').hidden = true;
   $('#rsvp-fallback').hidden = false;
-  window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+  rsvpDialog.scrollTop = 0;
+  $('#rsvp-status').focus({ preventScroll: true });
 });
+$('#open-rsvp-whatsapp').addEventListener('click', () => {
+  const message = $('#rsvp-message').value;
+  if (rsvpReady && message) window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+});
+$('#edit-rsvp').addEventListener('click', () => {
+  $('#rsvp-fallback').hidden = true;
+  $('#rsvp-form').hidden = false;
+  rsvpDialog.scrollTop = 0;
+  $('#guest-name').focus({ preventScroll: true });
+});
+if (rsvpReady) {
+  $('#rsvp-contact').hidden = false;
+  $('#rsvp-contact').href = `tel:+${event.whatsappNumber}`;
+}
 $('#rsvp-form').addEventListener('input', () => {
   $('#guest-name').setCustomValidity('');
   guestCount.setCustomValidity('');
@@ -174,6 +193,9 @@ $('#hero-date').textContent = eventDate
 $('#hero-time').textContent = eventDate && event.time
   ? new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Indian/Mauritius' }).format(eventDate) + ' · Mauritius time'
   : 'Time coming soon';
+document.querySelectorAll('[data-event-recap]').forEach(el => {
+  el.replaceChildren(...[$('#hero-date').textContent, $('#hero-time').textContent, 'Paps Restaurant'].map(text => { const line = document.createElement('span'); line.textContent = text; return line; }));
+});
 if (event.date) {
   const date = getEventDate(event);
   if (date) {

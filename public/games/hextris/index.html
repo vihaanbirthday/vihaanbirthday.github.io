@@ -70,14 +70,14 @@
 	<body>
 		<canvas id="canvas"></canvas>
 		<div id="overlay" class="faded overlay"></div>
-		<div id='startBtn' ></div>
+		<button id="startBtn" type="button" aria-label="Play Hextris"><span class="visually-hidden">Play Hextris</span></button>
 		<div id="helpScreen" class='unselectable'>
 			<div id='inst_main_body'></div>
 		</div>
-		<img id="openSideBar" class='helpText' src="./images/btn_help.svg"/>
+		<button id="openSideBar" type="button" src="./images/btn_help.svg" aria-label="How to play" class="helpText"></button>
 		<div class="faded overlay"></div>
-		<img id="pauseBtn" src="./images/btn_pause.svg"/>
-		<img id='restartBtn' src="./images/btn_restart.svg"/>
+		<button id="pauseBtn" type="button" src="./images/btn_pause.svg" aria-label="Pause game" ></button>
+		<button id="restartBtn" type="button" src="./images/btn_restart.svg" aria-label="Restart game" ></button>
 		<div id='HIGHSCORE'>HIGH SCORE</div>
 		
 		<div id='highScoreInGameText'>
@@ -94,7 +94,7 @@
 			</div>
 			<div id='bottomContainer'>
 				<button id="share-final-score" type="button">Share final score ↗</button>
-				<img id='restart' src='./images/btn_restart.svg' height='57px'>
+				<button id="restart" type="button" aria-label="Play again">Play again ↻</button>
 				<div id='socialShare'>
 					<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 					<svg width="224.6377px" height="57px"  viewBox="0 0 255 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

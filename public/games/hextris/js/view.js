@@ -128,7 +128,7 @@ function setMainMenu() {
 		canRestart = 's';
 	}, 500);
 	$('#restartBtn').hide();
-	if ($("#pauseBtn").replace(/^.*[\\\/]/, '') == "btn_pause.svg") {
+	if ($("#pauseBtn").attr("src").replace(/^.*[\\\/]/, '') == "btn_pause.svg") {
 		$("#pauseBtn").attr("src","./images/btn_resume.svg");
 	} else {
 		$("#pauseBtn").attr("src","./images/btn_pause.svg");

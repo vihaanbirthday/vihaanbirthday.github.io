@@ -85,7 +85,7 @@ function Grid(size, height, id) {
             tile = tiles[index],
             label = tile? ((tile.value > 0)? tile.value : '') : '';
         var odd = (x + (y % 2)) % 2;
-        html += '<td data-x="'+x+'" data-y="'+y+'" class="' + (odd? 'even' : 'odd') + '"><div id="tile-' + x + '-' + y + '" class="tile tile-' + label + '"><div class="inner"></div></div></td>';
+        html += '<td data-x="'+x+'" data-y="'+y+'" class="' + (odd? 'even' : 'odd') + '"><div id="tile-' + x + '-' + y + '" class="tile tile-' + label + '"><button type="button" class="inner tile-button" tabindex="'+(index===0?0:-1)+'" aria-disabled="'+String(!!(tile && tile.system))+'" aria-label="Row '+(y+1)+', column '+(x+1)+': '+(['empty','red','blue'][tile ? tile.value : 0])+(tile && tile.system ? ', fixed' : '')+'"></button></div></td>';
       }      
       html += '</tr>';
     }

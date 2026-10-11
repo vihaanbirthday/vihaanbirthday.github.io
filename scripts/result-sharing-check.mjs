@@ -90,6 +90,11 @@ try {
       }
       assert(await button.isHidden(), `${game}: replay clears the sharing control`);
       await page.locator('#close-game').tap();
+      if (game !== 'flappy') {
+        await page.locator('#game-exit-dialog').waitFor({ state: 'visible' });
+        await page.locator('#discard-game').tap();
+      }
+      await page.locator('#game-dialog').waitFor({ state: 'hidden' });
     }
     assert.deepEqual(errors, []);
     await page.close();

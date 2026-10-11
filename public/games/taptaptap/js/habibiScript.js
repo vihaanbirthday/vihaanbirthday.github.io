@@ -190,4 +190,8 @@ $('retryLevelBtn').addEventListener('click', () => {
 document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
 window.addEventListener('resize', () => { if (gameEngine.state === 'playing') targets(); });
 show('pageGameMenu');
+window.invitationRegisterSession({
+  hasProgress: () => ['countdown', 'playing', 'paused'].includes(gameEngine.state) || (gameEngine.state === 'between' && gameEngine.levelNum < levels.length),
+  pause,
+});
 window.invitationGameReady?.();

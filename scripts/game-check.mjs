@@ -41,12 +41,13 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
     await frame.locator('#canvas').tap({ position: { x: 35, y: 300 } });
     assert.notEqual(await frame.evaluate(() => MainHex.position), position, 'Hextris rotates with touch');
   } else if (game === 'ohhi') {
-    await frame.locator('#title').tap();
+    await frame.locator('#menu [data-action="tutorial"]').tap();
     await frame.locator('#board').waitFor({ state: 'visible' });
     assert(await frame.locator('#board').isVisible(), 'Logic tutorial opens immediately');
-    const tile = frame.locator('#board .tile:not(.tile-1):not(.tile-2)').first();
+    const tileId = await frame.locator('#board .tile:not(.tile-1):not(.tile-2)').first().getAttribute('id');
+    const tile = frame.locator(`#${tileId}`);
     console.log('Oh hi board tiles', await frame.locator('#board .tile').count());
-    if (await tile.count()) { const before = await tile.getAttribute('class'); await tile.tap(); assert.notEqual(await tile.getAttribute('class'), before, 'Logic tile responds to touch'); }
+    if (await tile.count()) { const before = await tile.getAttribute('class'); await tile.locator('button').tap(); assert.notEqual(await tile.getAttribute('class'), before, 'Logic tile responds to touch'); }
   } else {
     await frame.locator('[data-character="lumi"]').tap();
     await frame.locator('#start-flight').tap();
@@ -65,6 +66,10 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
   await page.waitForTimeout(650);
   await page.screenshot({ path: `test-results/${game}.png` });
   await page.locator('#restart-game').tap();
+  if (game !== 'flappy') {
+    await page.locator('#game-exit-dialog').waitFor({state:'visible'});
+    await page.locator('#discard-game').tap();
+  }
   await page.waitForTimeout(300);
   await page.locator('#close-game').tap();
   await page.waitForFunction(() => !document.querySelector('iframe'));

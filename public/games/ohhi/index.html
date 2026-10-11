@@ -27,7 +27,7 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <style>html,body{background:#222;}</style>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
@@ -55,19 +55,13 @@
         <div id="menu" class="screen">
             <div class="vertical">
             <h2>Oh hi</h2>
-                <p data-action="tutorial">
-                How to play
-                </p>
-                <p data-action="play">
-                Play
-                </p>
-                <p data-action="about">
-                    About
-                </p>
+                <button type="button" data-action="tutorial">How to play</button>
+                <button type="button" data-action="play">Play</button>
+                <button type="button" data-action="about">About</button>
             </div>
         </div>
 
-        <div id="about" class="screen text" data-action="show-menu">
+        <div id="about" class="screen text">
             <div class="vertical">
             <h3>About</h3>
             <p>
@@ -82,7 +76,7 @@
             <br>
             (c) 2014<br>
             www.q42.com
-            </p>
+            </p><button type="button" data-action="show-menu">Back to menu</button>
             </div>
         </div>
 
@@ -105,8 +99,8 @@
 
             <div id="menugrid" class="vertical board hidden">
 <table data-grid="menugrid" cellpadding="0" cellspacing="0"><tbody>
-<tr><td class="odd"><div class="tile tile-2"><div data-action="startGame" data-size="1" class="inner"></div></div></td><td class="even"><div class="tile tile-1"><div data-action="startGame" data-size="2" class="inner"></div></div></td></tr>
-<tr><td class="even"><div class="tile tile-1"><div data-action="startGame" data-size="3" class="inner"></div></div></td><td class="odd"><div class="tile tile-2"><div data-action="startGame" data-size="4" class="inner"></div></div></td></tr>
+<tr><td class="odd"><div class="tile tile-2"><button type="button" data-action="startGame" data-size="1" class="inner" aria-label="Play 4 by 4 puzzle"></button></div></td><td class="even"><div class="tile tile-1"><button type="button" data-action="startGame" data-size="2" class="inner" aria-label="Play 6 by 6 puzzle"></button></div></td></tr>
+<tr><td class="even"><div class="tile tile-1"><button type="button" data-action="startGame" data-size="3" class="inner" aria-label="Play 8 by 8 puzzle"></button></div></td><td class="odd"><div class="tile tile-2"><button type="button" data-action="startGame" data-size="4" class="inner" aria-label="Play 10 by 10 puzzle"></button></div></td></tr>
 </tbody></table>
             </div>
 
@@ -115,10 +109,10 @@
             </div>
             <button id="share-final-score" type="button" hidden>Share final score ↗</button>
             <div id="bar">
-                <div class="iconcon" data-action="undo"><div id="undo" class="icon"></div></div>
-                <div class="iconcon" data-action="back"><div id="back" class="icon"></div></div>
+                <button class="iconcon" type="button" data-action="undo" aria-label="Undo last move"><span id="undo" class="icon"></span></button>
+                <button class="iconcon" type="button" data-action="back" aria-label="Back to puzzles"><span id="back" class="icon"></span></button>
                 <a class="iconcon" id="tweeturl" target="_blank" href="about:blank" data-action="tweet"><span id="tweet" class="icon"></span></a>
-                <div class="iconcon" data-action="help"><div id="help" class="icon"></div></div>
+                <button class="iconcon" type="button" data-action="help" aria-label="Get a hint"><span id="help" class="icon"></span></button>
             </div>
         </div>
     </div>

@@ -6,7 +6,8 @@ var states = Object.freeze({
    SplashScreen: 0,
    GameScreen: 1,
    ScoreScreen: 2,
-   DemoScreen: 3
+   DemoScreen: 3,
+   PausedScreen: 4
 });
 
 var currentstate;
@@ -55,6 +56,7 @@ $(document).ready(function() {
 
    //start with the splash screen
    showSplash();
+   window.invitationRegisterSession({ hasProgress: function() { return currentstate === states.GameScreen || currentstate === states.PausedScreen; }, pause: pauseFlight });
    window.invitationGameReady();
 });
 
@@ -80,6 +82,8 @@ function setCookie(cname,cvalue,exdays)
 
 function showSplash()
 {
+   document.getElementById('pause-flight').hidden = true;
+   document.getElementById('flight-pause').hidden = true;
    stopDemo();
    currentstate = states.SplashScreen;
 
@@ -209,6 +213,7 @@ function startGame()
    if(!demoSeen) { showDemo(); return; }
    stopDemo();
    currentstate = states.GameScreen;
+   document.getElementById('pause-flight').hidden = false;
 
    $("#splash").hide();
    $("#player").css('visibility', 'visible');
@@ -245,6 +250,29 @@ function flightFrame(now)
    if(currentstate === states.GameScreen)
       loopGameloop = requestAnimationFrame(flightFrame);
 }
+
+function pauseFlight() {
+   if(currentstate !== states.GameScreen) return;
+   currentstate = states.PausedScreen;
+   cancelAnimationFrame(loopGameloop);
+   loopGameloop = null;
+   document.getElementById('pause-flight').hidden = true;
+   document.getElementById('flight-pause').hidden = false;
+   document.getElementById('resume-flight').focus({ preventScroll: true });
+}
+function resumeFlight() {
+   if(currentstate !== states.PausedScreen || document.hidden) return;
+   document.getElementById('flight-pause').hidden = true;
+   document.getElementById('pause-flight').hidden = false;
+   currentstate = states.GameScreen;
+   document.activeElement.blur();
+   previousFlightFrame = performance.now();
+   loopGameloop = requestAnimationFrame(flightFrame);
+}
+document.getElementById('pause-flight').addEventListener('click', pauseFlight);
+document.getElementById('resume-flight').addEventListener('click', resumeFlight);
+document.addEventListener('visibilitychange', function() { if(document.hidden) pauseFlight(); });
+window.addEventListener('blur', pauseFlight);
 
 function updatePlayer(player, steps = 1)
 {
@@ -377,6 +405,7 @@ function gameloop(steps = 1) {
 
 //Handle space bar
 $(document).keydown(function(e){
+   if(e.keyCode === 80 && !e.repeat) { e.preventDefault(); if(currentstate === states.PausedScreen) resumeFlight(); else pauseFlight(); return; }
    // Let native buttons handle Space/Enter while choosing or sharing.
    if($(e.target).closest('button').length) return;
    //space bar!
@@ -465,6 +494,8 @@ function setMedal()
 
 function playerDead()
 {
+   document.getElementById('pause-flight').hidden = true;
+   document.getElementById('flight-pause').hidden = true;
    //stop animating everything!
    $(".animated").css('animation-play-state', 'paused');
    $(".animated").css('-webkit-animation-play-state', 'paused');

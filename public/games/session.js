@@ -10,6 +10,17 @@
 // Sharing stays in the parent invitation; game frames keep their sandbox intact.
 window.invitationShareResult = result => window.parent.postMessage({ type: 'invitation:share-result', result }, '*');
 
+// Parent requests are authenticated by their window, including opaque sandbox origins.
+window.invitationRegisterSession = ({ hasProgress, pause = () => {} }) => {
+ window.addEventListener('message', event => {
+  if (event.source !== window.parent) return;
+  if (event.data?.type === 'invitation:check-exit') {
+   window.parent.postMessage({ type: 'invitation:exit-state', requestId: event.data.requestId, hasProgress: !!hasProgress() }, '*');
+  }
+  if (event.data?.type === 'invitation:pause-game') pause();
+ });
+};
+
 // Keep the parent hero visible until assets, fonts and the first paint are ready.
 window.invitationGameReady = (() => {
  let sent = false;

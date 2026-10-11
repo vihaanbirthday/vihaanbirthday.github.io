@@ -63,6 +63,7 @@ function Tile(value, grid, index) {
     else {
       var $tile = $('#tile-' + x + '-' + y);
       $tile.removeClass().addClass('tile tile-' + value);
+      $tile.find('button').attr('aria-label', 'Row ' + (y+1) + ', column ' + (x+1) + ': ' + ['empty', 'red', 'blue'][value]);
     }
     return self;
   }

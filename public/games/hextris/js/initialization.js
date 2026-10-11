@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	initialize();
+	window.invitationRegisterSession({ hasProgress: function() { return gameState === 1 || gameState === -1; }, pause: function() { if (gameState === 1) pause(); } });
 	window.invitationGameReady();
 });
 function initialize(a) {
@@ -144,9 +145,9 @@ function initialize(a) {
 		};
 		$('#startBtn').off();
 		if (settings.platform == 'mobile') {
-			$('#startBtn').on('touchstart', startBtnHandler);
+			$('#startBtn').on('click', startBtnHandler);
 		} else {
-			$('#startBtn').on('mousedown', startBtnHandler);
+			$('#startBtn').on('click', startBtnHandler);
 		}
 
 		document.addEventListener('touchmove', function(e) {
@@ -254,14 +255,17 @@ function handlePause() {
 }
 
 function handleTap(e) {
+	if (e.target.closest('button')) return;
 	handleClickTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 }
 
 function handleClick(e) {
+	if (e.target.closest('button')) return;
 	handleClickTap(e.clientX, e.clientY);
 }
 
 function handleTapBefore(e) {
+	if (e.target.closest('button')) return;
 	var x = e.changedTouches[0].clientX;
 	var y = e.changedTouches[0].clientY;
 
@@ -272,6 +276,7 @@ function handleTapBefore(e) {
 }
 
 function handleClickBefore(e) {
+	if (e.target.closest('button')) return;
 	var x = e.clientX;
 	var y = e.clientY;
 
@@ -280,3 +285,15 @@ function handleClickBefore(e) {
 		return;
 	}
 }
+
+// Native controls own Enter and Space; canvas shortcuts stay available elsewhere.
+document.addEventListener('keydown', function(event) {
+ if (event.target.closest('button') && (event.key === 'Enter' || event.key === ' ')) event.stopPropagation();
+}, true);
+document.addEventListener('DOMContentLoaded', function() {
+new MutationObserver(function() {
+ var button = document.getElementById('pauseBtn');
+ button.setAttribute('aria-label', button.getAttribute('src').includes('resume') ? 'Resume game' : 'Pause game');
+}).observe(document.getElementById('pauseBtn'), { attributes: true, attributeFilter: ['src'] });
+document.getElementById('openSideBar').addEventListener('click', showHelp);
+});

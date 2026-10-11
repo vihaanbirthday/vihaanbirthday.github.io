@@ -5,3 +5,16 @@ body:has(#share-final-score:not([hidden])) #bar .iconcon{padding:8px 0;min-heigh
 body:has(#share-final-score:not([hidden])) #score{bottom:max(17%,104px)}
 #share-final-score{bottom:52px;left:50%;width:min(90vw,320px);transform:translateX(-50%);white-space:nowrap}
 @media(max-height:350px){body:has(#share-final-score:not([hidden])) #menugrid,body:has(#share-final-score:not([hidden])) #chooseSize{display:none}body:has(#share-final-score:not([hidden])) #score{font-size:24px!important;line-height:26px!important;height:26px!important}}
+
+/* Clear menu choices and native keyboard controls, available immediately. */
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+#menu button,#about button{display:block;margin:14px auto;padding:12px 18px;min-width:150px;min-height:44px;border:1px solid #ffffff80;border-radius:10px;background:#333;color:white;font:20px 'Josefin Sans',sans-serif}
+button.inner{display:block;padding:0;border:0;border-radius:inherit}
+button.iconcon{border:0;background:transparent;min-height:44px;min-width:44px}
+button.iconcon .icon{margin:auto}
+button:focus-visible{outline:3px solid #ffd56c;outline-offset:3px}
+#menu button:hover,#about button:hover{background:#444}
+
+#menu.screen{opacity:1;transition:none}
+.tile-button[aria-disabled="true"]{cursor:default}
+@media(prefers-reduced-motion:reduce){.screen,.iconcon,.tile,.tile .inner{transition:none!important;animation:none!important}}

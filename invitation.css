@@ -23,6 +23,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .invitation-ready .site-header .section-nav .menu-credits{font-size:14px;border-top:1px solid var(--line);border-radius:0;margin-top:6px}
 .gaming-shortcut{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 20px;border:1px solid #284f3c60;border-radius:100px;font-size:16px;font-weight:500;background:#eaf0e270}
 .gaming-shortcut:hover,.gaming-shortcut[aria-current]{color:white;background:var(--ink)}
+.rsvp-shortcut{min-height:48px;padding:0 20px;border:0;border-radius:100px;background:var(--ink);color:#fffdf4;font-size:16px;font-weight:500}
+.rsvp-shortcut:hover{filter:brightness(1.15)}
 .invitation-ready #main{position:absolute;inset:var(--story-header) 0 var(--story-footer);overflow:clip}
 .invitation-ready .invitation-page{height:100%;min-height:0;max-width:none;margin:0;width:100%;padding:32px max(5vw,28px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain auto;scrollbar-width:thin;scrollbar-color:#aaba9f transparent;animation:chapter-enter .4s ease both}
 .invitation-ready .invitation-page:focus{outline:none}
@@ -180,7 +182,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .header-actions{gap:7px}
   .page-menu summary{width:44px;min-height:44px;padding:0}
   .page-menu summary>span{display:none}
-  .gaming-shortcut{min-height:44px;padding:0 13px;font-size:15px;gap:6px}
+  .gaming-shortcut{min-height:44px;padding:0 10px;font-size:15px;gap:6px}
+  .rsvp-shortcut{min-height:44px;padding:0 12px;font-size:15px}
   .gaming-shortcut>span{display:none}
   .invitation-ready .site-header .section-nav{right:-125px;width:260px;top:calc(100% + 14px)}
   .invitation-ready .invitation-page{padding:22px 24px}
@@ -263,6 +266,7 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .game-preview>div:not(.preview-castle){transform:scale(.53)}
   .invitation-ready .preview-wizard{width:75px}
 }
+
 @media(max-width:360px){
   .invitation-ready .header-inner{width:calc(100% - 24px)}
   .invitation-ready .header-actions{gap:4px}
@@ -341,3 +345,46 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready #game-dialog[data-game="flappy"] #game-frame-container{height:auto;flex:1;min-height:0}
   .invitation-ready #game-dialog[data-game="flappy"] .game-dialog-footer{padding:4px 18px;flex-shrink:0}
 }
+
+/* Keep event context close to the actions without crowding the artwork. */
+.invitation-ready .hero-details{display:flex;flex-direction:column;gap:3px;font-size:15px;line-height:1.4;margin:0 0 14px;color:var(--body-text)}
+.invitation-ready .hero-details>*+*{border:0;padding:0;margin:0}
+.invitation-ready .rsvp-section>.event-recap{max-width:440px;font-size:16px;line-height:1.5;margin:12px 0 0}
+#rsvp-fallback{margin:0;padding:0;border:0}
+.reply-actions{display:grid;gap:10px;margin:18px 0 8px}
+.reply-actions .text-link{justify-content:center}
+.reply-actions .button{width:100%}
+#rsvp-status:focus{outline:none}
+#game-exit-dialog{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:28px}
+.invitation-ready #game-exit-dialog h2{font-size:32px;margin:0 0 16px}
+.invitation-ready #game-exit-dialog p{font-size:17px}
+.game-exit-actions{display:grid;gap:12px;margin-top:22px}
+@media(max-width:700px){
+  .invitation-ready .hero{gap:14px}
+  .invitation-ready #hero-title{font-size:38px;margin:8px 0 12px}
+  .invitation-ready .hero-art .safari-frame img{max-height:23dvh}
+  .invitation-ready .hero-details{font-size:15px;margin-bottom:12px}
+  .invitation-ready .rsvp-section h2{margin:10px 0 12px}
+  .invitation-ready .rsvp-section>.event-recap{font-size:15px;max-width:330px}
+  .invitation-ready .rsvp-section .button{margin-top:16px}
+  .invitation-ready .rsvp-section .signature{margin-top:16px}
+  .invitation-ready .rsvp-section .ending-games{margin-top:16px}
+}
+@media(max-width:360px){
+  .invitation-ready .header-inner{width:calc(100% - 24px)}
+  .invitation-ready .site-header .brand{font-size:23px}
+  .invitation-ready .header-actions{gap:4px}
+  .rsvp-shortcut{padding-inline:10px}
+  .gaming-shortcut{padding-inline:8px}
+  .invitation-ready .games-heading{margin-bottom:12px}
+  .invitation-ready .games-heading h2{font-size:32px}
+  .invitation-ready .game-card{grid-template-columns:60px minmax(0,1fr)}
+  .invitation-ready .game-content h3{font-size:21px}
+  .invitation-ready .game-content{padding:10px 12px}
+  .invitation-ready .game-content p{font-size:15px}
+  .invitation-ready .hero-art .safari-frame img{max-height:20dvh}
+  .invitation-ready .rsvp-section .signature{margin-top:12px}
+  .invitation-ready .rsvp-section .ending-games{margin-top:12px}
+}
+
+.event-recap span{display:block}

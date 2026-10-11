@@ -43,8 +43,7 @@ var Game = new (function() {
           size = $el.attr('data-size') * 1,
           label = sizes[size - 1];
       $el.html(label)
-      $el.on('touchstart mousedown', function(evt){
-        if (Utils.isDoubleTapBug(evt)) return false;
+      $el.on('click', function(evt){
         var size = sizes[$(evt.target).closest('[data-size]').attr('data-size') * 1 - 1];
         loadGame(size);
       })
@@ -53,7 +52,8 @@ var Game = new (function() {
     $(window).on('resize', resize);
     $(window).on('orientationchange', resize);
 
-    showTitleScreen();
+    showMenu();
+    window.invitationRegisterSession({ hasProgress: function() { return !onHomeScreen && !gameEnded && $('#board').is(':visible') && !$('#board').hasClass('hidden'); } });
     resize();
     
     var colors = ['#a7327c', '#c24b31', '#c0cd31']
@@ -71,10 +71,7 @@ var Game = new (function() {
       showMenu();
       return;
     }
-    setTimeout(function(){$('.hide0').removeClass('hide0')}, 300);
-    setTimeout(function(){$('.hide1').removeClass('hide1')}, 1300);
-    setTimeout(function(){$('.show01').removeClass('hidehs')}, 2300);
-    setTimeout(function(){$('.show01').removeClass('show01').addClass('hidehs');}, 4200);
+
   }
 
   function resize() {
@@ -324,7 +321,20 @@ var Game = new (function() {
   function addEventListeners() {
     document.addEventListener("backbutton", backButtonPressed, false);
 
+    $(document).on('focusin', '#grid .tile-button', function() {
+      $('#grid .tile-button').attr('tabindex', '-1');
+      this.setAttribute('tabindex', '0');
+    });
     $(document).on('keydown', function(evt){
+      if ($(evt.target).is('.tile-button') && ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].indexOf(evt.key) !== -1) {
+        evt.preventDefault();
+        var cell = $(evt.target).closest('td'), x = Number(cell.attr('data-x')), y = Number(cell.attr('data-y'));
+        x = Math.max(0, Math.min(grid.width - 1, x + (evt.key === 'ArrowRight' ? 1 : evt.key === 'ArrowLeft' ? -1 : 0)));
+        y = Math.max(0, Math.min(grid.height - 1, y + (evt.key === 'ArrowDown' ? 1 : evt.key === 'ArrowUp' ? -1 : 0)));
+        document.querySelector('#tile-' + x + '-' + y + ' button').focus();
+        return;
+      }
+      if ($(evt.target).closest('button').length && (evt.keyCode === 32 || evt.keyCode === 13)) return;
       if (evt.keyCode == 27 /* escape */) { backButtonPressed(); return false; }
       if (evt.keyCode == 32 /* space */) { doAction('help'); return false; }
       if (evt.keyCode == 90 /* Z */ && (evt.metaKey || evt.ctrlKey)) {
@@ -333,8 +343,11 @@ var Game = new (function() {
       }
     });
     $(document).on('touchend mouseup', click);
-    $(document).on('touchstart mousedown', '#grid td', function(e) {
-      if (Utils.isDoubleTapBug(e)) return false;
+    $(document).on('click', 'button[data-action]:not([data-size])', function(evt) {
+      doAction(this.getAttribute('data-action'), this.getAttribute('data-value'));
+      return false;
+    });
+    $(document).on('click', '#grid .tile-button', function(e) {
       var $el = $(e.target).closest('td'),
           x = $el.attr('data-x') * 1,
           y = $el.attr('data-y') * 1,
@@ -386,6 +399,7 @@ var Game = new (function() {
   }
 
   function click(evt) {
+    if ($(evt.target).closest('button').length) return;
     if (Utils.isDoubleTapBug(evt)) return false;
     var $el = $(evt.target).closest('*[data-action]'),
         action = $(evt.target).closest('*[data-action]').attr('data-action'),
@@ -447,7 +461,7 @@ var Game = new (function() {
         //grid.state.restore('empty');
         break;
       case 'help':
-        if (gameEnded) 
+        if (!grid || gameEnded)
           break;
         clearTimeout(checkTOH);
         if (Tutorial.active && !Tutorial.hintAllowed())
@@ -508,7 +522,7 @@ var Game = new (function() {
 
   function backButtonPressed() {
     if (onHomeScreen)
-      navigator.app.exitApp()
+      return;
     else 
       doAction('back');
   }

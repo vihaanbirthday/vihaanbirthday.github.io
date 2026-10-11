@@ -32,6 +32,7 @@
     <div class="header-inner wrap">
       <a class="brand" href="#main" aria-label="Vihaan's first birthday, home"><span>Vihaan<span class="brand-small">FIRST BIRTHDAY</span></span></a>
       <div class="header-actions">
+        <button class="rsvp-shortcut" data-rsvp type="button">RSVP</button>
         <details class="page-menu" id="page-menu">
           <summary aria-label="Choose invitation page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Pages</span></summary>
           <nav class="section-nav" aria-label="Invitation pages">
@@ -96,7 +97,7 @@
       <div class="hero-copy">
         <div class="eyebrow">YOU'RE INVITED</div>
         <h2 id="hero-title">Our little<br><span class="safari-anchor" data-safari-anchor="lion"><em>explorer</em></span><br>is turning one.</h2>
-        <div class="hero-details" hidden><span id="hero-date"></span><span id="hero-time"></span></div>
+        <div class="hero-details"><span id="hero-date"></span><span id="hero-time"></span><span>Paps Restaurant</span></div>
         <p class="hero-description">Join us for Vihaan’s first birthday.<br>A little safari. A whole lot of love.</p>
       </div>
       <div class="hero-art"><div class="safari-frame"><img src="./assets/safari.webp" width="1254" height="1254" alt="A lion, giraffe and tiger celebrate beside balloons and a giant number one" fetchpriority="high"></div></div>
@@ -139,6 +140,7 @@
       <div class="eyebrow">ONE LITTLE BOY. SO MUCH LOVE.</div>
       <h2>Come celebrate<br><span class="safari-anchor" data-safari-anchor="tiger"><em>with us.</em></span></h2>
       <p>We’d love to share<br>his big day with you.</p>
+      <p class="event-recap" data-event-recap></p>
       <button class="button" id="rsvp-button" data-rsvp type="button"><span data-icon="message"></span> RSVP on WhatsApp <span aria-hidden="true">↗</span></button>
       <span class="rsvp-note" id="rsvp-note">Message Madhav & Urvashee</span>
       <div class="signature">With love, <strong>Madhav & Urvashee</strong></div>
@@ -164,6 +166,11 @@
     </section>
 
   </main>
+  <dialog id="game-exit-dialog" aria-labelledby="game-exit-title" aria-describedby="game-exit-note">
+    <h2 id="game-exit-title">Leave this game?</h2>
+    <p id="game-exit-note">Your game is paused. Leaving will discard this round’s progress.</p>
+    <div class="game-exit-actions"><button class="button" id="keep-playing" type="button" autofocus>Keep playing</button><button class="button button-outline" id="discard-game" type="button">Leave game</button></div>
+  </dialog>
   <footer class="invitation-controls" id="invitation-controls" hidden>
     <button class="page-back" id="page-back" type="button" aria-label="Previous invitation page">← <span>Back</span></button>
     <div class="page-progress"><span id="page-counter">01 / 05</span><span class="page-progress-track" aria-hidden="true"><i id="page-progress-fill"></i></span><p id="page-status" role="status" aria-live="polite" aria-atomic="true">The opening</p></div>
@@ -204,15 +211,16 @@
           <option value="1">Just me</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4">4 guests</option>
         </select>
       </div>
-      <button class="button" type="submit">Continue to WhatsApp ↗</button>
+      <button class="button" type="submit">Review reply →</button>
       <p class="form-note" id="rsvp-form-note">You’ll review and send your message in WhatsApp. Your details aren’t stored on this website.</p>
     </form>
     <div id="rsvp-fallback" hidden>
-      <p id="rsvp-status" role="status" aria-live="polite"></p>
-      <label for="rsvp-message">WhatsApp didn’t open? Copy your message:</label>
-      <textarea id="rsvp-message" readonly rows="9"></textarea>
-      <button id="copy-rsvp" class="button button-outline" type="button">Copy message</button>
+      <p id="rsvp-status" role="status" aria-live="polite" tabindex="-1"></p>
+      <div class="reply-actions"><button id="open-rsvp-whatsapp" class="button" type="button">Open WhatsApp ↗</button><button id="copy-rsvp" class="button button-outline" type="button">Copy message</button><button id="edit-rsvp" class="text-link" type="button">Edit reply</button></div>
       <p id="copy-status" role="status" aria-live="polite"></p>
+      <label for="rsvp-message">Your prepared message</label>
+      <textarea id="rsvp-message" readonly rows="8"></textarea>
+      <a id="rsvp-contact" class="text-link" hidden>Prefer to call Madhav?</a>
     </div>
   </dialog>
 </body>
