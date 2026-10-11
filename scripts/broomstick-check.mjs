@@ -50,6 +50,23 @@ try {
         await frame.locator('#start-flight').focus();
         await page.keyboard.press('Enter');
       } else await frame.locator('#start-flight').tap();
+      if (character === 'nova') {
+        assert(await frame.locator('#flight-demo').isVisible(), 'First flight opens the demonstration');
+        assert.equal(await frame.evaluate(() => currentstate), 3);
+        assert.equal(await frame.locator('#demo-rider').getAttribute('src'), 'art/nova.svg');
+        const demoLayout = await frame.locator('#flight-demo').evaluate(el => ({ width: el.clientWidth, scrollWidth: el.scrollWidth, height: el.clientHeight, scrollHeight: el.scrollHeight }));
+        assert(demoLayout.scrollWidth <= demoLayout.width && demoLayout.scrollHeight <= demoLayout.height, `Demo fits the screen: ${JSON.stringify(demoLayout)}`);
+        await page.clock.runFor(2200);
+        assert((await frame.locator('#demo-tip').textContent()).includes('drift down'));
+        await page.clock.runFor(3400);
+        assert.equal(await frame.locator('#demo-point').evaluate(el => getComputedStyle(el).opacity), '1');
+        await page.screenshot({ path: `test-results/broomstick-demo-${viewport.width}.png` });
+        assert.deepEqual(await frame.evaluate(() => ({ score, towers: pipes.length, visible: $('#player').css('visibility') })), { score: 0, towers: 0, visible: 'hidden' }, 'The demo never runs or scores a real flight');
+        if(desktop) await page.keyboard.press('Enter');
+        else await frame.locator('#demo-start').tap();
+        assert(await frame.locator('#flight-demo').isHidden());
+        assert.equal(await frame.evaluate(() => demoFrame), null, 'Takeoff stops the demo animation');
+      }
       assert.equal(await frame.evaluate(() => currentstate), 1);
       assert.equal(await frame.evaluate(() => velocity), -4.6);
       assert(await frame.locator('#splash').isHidden());
@@ -87,6 +104,14 @@ try {
       assert(await frame.locator('#splash').isVisible(), 'Replay offers character selection');
       assert(await frame.locator('#share-final-score').isHidden());
     }
+    await frame.locator('#watch-demo').click();
+    assert(await frame.locator('#flight-demo').isVisible());
+    assert.equal(await frame.locator('#demo-rider').getAttribute('src'), 'art/lumi.svg');
+    await frame.locator('#demo-back').click();
+    assert.equal(await frame.evaluate(() => currentstate), 0);
+    assert.equal(await frame.evaluate(() => demoFrame), null);
+    assert.equal(await frame.evaluate(() => score), 0, 'Replay resets score and difficulty');
+    assert.equal(await frame.evaluate(() => pipeheight), await frame.evaluate(() => baseGap));
     await page.clock.resume();
     await page.locator('#restart-game').click();
     await page.locator('.game-loading').waitFor({ state: 'detached' });

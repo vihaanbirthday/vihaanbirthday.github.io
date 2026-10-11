@@ -16,6 +16,7 @@
       <div id="ceiling"></div>
       <div id="player" aria-label="Broomstick rider"><img src="art/nova.svg" alt="" draggable="false"></div>
       <div id="rider-name"></div>
+      <div id="difficulty-label" role="status"></div>
       <div id="bigscore" aria-label="Score" aria-live="off"></div>
       <div id="splash">
         <div class="start-card">
@@ -28,9 +29,21 @@
               <button class="character-option" data-character="lumi" type="button" aria-pressed="false"><img src="art/lumi.svg" alt="" draggable="false"><strong>Lumi</strong><small>The lantern keeper</small></button>
             </div>
             <p id="selection-status" role="status">Your adventure starts with you.</p>
-            <button id="start-flight" type="button" disabled>Choose a character to fly</button>
+            <div class="takeoff-actions"><button id="start-flight" type="button" disabled>Choose a character to fly</button><button id="watch-demo" type="button" disabled aria-label="Watch the flying demo">Demo</button></div>
             <p class="instructions">Tap, click or press Space to stay in the air.<br>Fly through the gaps between enchanted towers.</p>
           </div>
+        </div>
+      </div>
+      <div id="flight-demo" role="region" aria-labelledby="demo-title" hidden>
+        <div class="demo-card">
+          <span class="eyebrow">YOUR FIRST FLYING LESSON</span>
+          <h2 id="demo-title">A little lift. A little magic.</h2>
+          <div id="demo-scene" aria-hidden="true"><div class="demo-tower"><i></i><i></i></div><img id="demo-rider" src="art/nova.svg" alt=""><span id="demo-tap">TAP ↑</span><span id="demo-point">+1 ✦</span></div>
+          <ol class="demo-steps"><li>Tap, click or press <strong>Space</strong> to rise.</li><li>Ease off to drift down. Keep tapping to stay aloft.</li><li>Fly through a gap for <strong>+1 point</strong>. Avoid the stone.</li></ol>
+          <p id="demo-tip" role="status">A tap lifts your broomstick.</p>
+          <p class="demo-difficulty">As your score grows, towers move faster and gaps get narrower.</p>
+          <button id="demo-start" type="button">Got it — let's fly ✦</button>
+          <button id="demo-back" type="button">Choose another rider</button>
         </div>
       </div>
       <div id="scoreboard">

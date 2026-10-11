@@ -50,6 +50,7 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
   } else {
     await frame.locator('[data-character="lumi"]').tap();
     await frame.locator('#start-flight').tap();
+    await frame.locator('#demo-start').tap();
     await frame.locator('#flyarea').tap({ position: { x: 100, y: 180 } });
     assert.equal(await frame.evaluate(() => currentstate), 1, 'Broomstick starts with touch');
     await page.waitForTimeout(250);

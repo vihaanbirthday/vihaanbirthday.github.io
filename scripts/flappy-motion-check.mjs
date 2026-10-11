@@ -17,6 +17,7 @@ try {
   await page.clock.pauseAt(new Date());
   await frame.locator('[data-character="nova"]').tap();
   await frame.locator('#start-flight').tap();
+  await frame.locator('#demo-start').tap();
   const pose = () => frame.evaluate(() => {
     const matrix = new DOMMatrix(getComputedStyle(document.getElementById('player')).transform);
     return { rotation, rendered: Math.atan2(matrix.b, matrix.a) * 180 / Math.PI, position, velocity, state: currentstate };
@@ -44,7 +45,6 @@ try {
   // Compare equal elapsed time at 60 Hz and 120 Hz, including flight distance.
   const rates = await frame.evaluate(() => {
     cancelAnimationFrame(loopGameloop);
-    clearInterval(loopPipeloop);
     pipes = [];
     $('.pipe').remove();
     function simulate(steps, count) {

@@ -29,6 +29,7 @@ try {
         name = 'Broomstick Flyer'; expectedScore = 7;
         await frame.locator('[data-character="pip"]').tap();
         await frame.locator('#start-flight').tap();
+        await frame.locator('#demo-start').tap();
         await frame.evaluate(() => { score = 7; playerDead(); });
         await frame.locator('#scoreboard').waitFor({ state: 'visible' });
         await page.waitForTimeout(1300);

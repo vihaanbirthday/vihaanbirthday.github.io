@@ -5,7 +5,8 @@ var debugmode = false;
 var states = Object.freeze({
    SplashScreen: 0,
    GameScreen: 1,
-   ScoreScreen: 2
+   ScoreScreen: 2,
+   DemoScreen: 3
 });
 
 var currentstate;
@@ -20,7 +21,8 @@ var flyArea = $("#flyarea").height();
 var score = 0;
 var highscore = 0;
 
-var pipeheight = Math.min(160, Math.max(90, flyArea * 0.4), flyArea * 0.65);
+var baseGap = Math.min(175, Math.max(105, flyArea * 0.46), flyArea * 0.68);
+var pipeheight = baseGap;
 var pipewidth = 52;
 var pipes = new Array();
 
@@ -31,15 +33,20 @@ var characters = Object.freeze({ nova: 'Nova', pip: 'Pip', lumi: 'Lumi' });
 // Silent invitation edition; original sound assets are not distributed.
 //loops
 var loopGameloop;
-var loopPipeloop;
 var previousFlightFrame = 0;
 var flightStepMs = 1000 / 60;
+var towerElapsedMs = 0;
+var demoSeen = false;
+var demoFrame;
+var demoStartedAt = 0;
+var demoStep = -1;
+var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 $(document).ready(function() {
    if(window.location.search == "?debug")
       debugmode = true;
    if(window.location.search == "?easy")
-      pipeheight = 200;
+      baseGap = Math.min(200, flyArea * 0.68);
 
    //get the highscore
    var savedscore = getCookie("highscore");
@@ -73,6 +80,7 @@ function setCookie(cname,cvalue,exdays)
 
 function showSplash()
 {
+   stopDemo();
    currentstate = states.SplashScreen;
 
    //set the defaults (again)
@@ -80,6 +88,9 @@ function showSplash()
    position = Math.min(180, $("#flyarea").height() * 0.45);
    rotation = 0;
    score = 0;
+   towerElapsedMs = 0;
+   pipeheight = getDifficulty(0).gap;
+   $("#difficulty-label").text('');
 
    //update the player in preparation for the next game
    $("#player").css({ y: 0, x: 0 });
@@ -97,7 +108,10 @@ function showSplash()
    $("#player").css('visibility', 'hidden');
    $("#rider-name").text('');
    $("#splash").css('display', 'grid');
-   if(selectedCharacter) document.getElementById('start-flight').focus({ preventScroll: true });
+   if(selectedCharacter) {
+      selectCharacter(selectedCharacter);
+      document.getElementById('start-flight').focus({ preventScroll: true });
+   }
 }
 
 function selectCharacter(character)
@@ -110,15 +124,90 @@ function selectCharacter(character)
    $("#player img").attr('src', 'art/' + character + '.svg');
    $("#player").attr('aria-label', characters[character] + ' on a broomstick');
    $("#selection-status").text(characters[character] + ' is ready for takeoff!');
-   $("#start-flight").prop('disabled', false).text('Fly with ' + characters[character] + ' ✦');
+   $("#start-flight").prop('disabled', false).text((demoSeen ? 'Fly with ' : 'Learn & fly with ') + characters[character] + ' ✦');
+   $("#watch-demo").prop('disabled', false);
 }
 
 $(".character-option").on('click', function() { selectCharacter($(this).attr('data-character')); });
-$("#start-flight").on('click', startGame);
+$("#start-flight").on('click', function() { if(demoSeen) startGame(); else showDemo(); });
+$("#watch-demo").on('click', showDemo);
+$("#demo-start").on('click', function() {
+   if(currentstate !== states.DemoScreen) return;
+   demoSeen = true;
+   startGame();
+});
+$("#demo-back").on('click', function() {
+   if(currentstate === states.DemoScreen) showSplash();
+});
+
+function showDemo()
+{
+   if(currentstate !== states.SplashScreen || !selectedCharacter) return;
+   currentstate = states.DemoScreen;
+   $("#splash").hide();
+   document.getElementById('flight-demo').hidden = false;
+   $("#demo-rider").attr('src', 'art/' + selectedCharacter + '.svg');
+   $("#demo-start").text('Got it — fly with ' + characters[selectedCharacter] + ' ✦');
+   demoStartedAt = performance.now();
+   demoStep = -1;
+   renderDemo(demoStartedAt);
+   document.getElementById('demo-start').focus({ preventScroll: true });
+}
+
+function renderDemo(now)
+{
+   if(currentstate !== states.DemoScreen) return;
+   var scene = document.getElementById('demo-scene');
+   var elapsed = (now - demoStartedAt) % 6000;
+   var phase = elapsed / 6000;
+   var step = elapsed < 2000 ? 0 : elapsed < 4300 ? 1 : 2;
+   // Reduced-motion visitors see three still poses with the same instructions.
+   if(reducedMotion.matches) phase = [0.15, 0.55, 0.95][step];
+   var rider = document.getElementById('demo-rider');
+   var riderLeft = Math.min(42, scene.clientWidth * 0.18);
+   var centre = (scene.clientHeight - rider.clientHeight) / 2;
+   var y, angle;
+   if(reducedMotion.matches) {
+      y = centre + [-8, 5, 0][step];
+      angle = 0;
+   } else if(step === 0) {
+      y = centre + 8 - 16 * Math.sin(elapsed / 2000 * Math.PI / 2);
+      angle = -12 * Math.sin(elapsed / 2000 * Math.PI);
+   } else if(step === 1) {
+      var drift = (elapsed - 2000) / 2300;
+      y = centre - 8 + 16 * Math.pow(drift, 1.5);
+      angle = 15 * drift;
+   } else {
+      y = centre + 8 - 8 * Math.sin((elapsed - 4300) / 1700 * Math.PI / 2);
+      angle = -8;
+   }
+   rider.style.left = riderLeft + 'px';
+   rider.style.top = y + 'px';
+   rider.style.transform = 'rotate(' + angle + 'deg)';
+   var towerLeft = scene.clientWidth + 12 - phase * (scene.clientWidth + 75);
+   document.querySelector('.demo-tower').style.left = towerLeft + 'px';
+   $("#demo-tap").css('opacity', step === 0 ? 1 : 0.35);
+   $("#demo-point").css({ opacity: towerLeft + 42 < riderLeft ? 1 : 0, left: Math.min(scene.clientWidth - 42, riderLeft + rider.clientWidth + 3) });
+   if(step !== demoStep) {
+      demoStep = step;
+      $(".demo-steps li").removeClass('is-current').eq(step).addClass('is-current');
+      $("#demo-tip").text(['A tap lifts your broomstick.', 'Ease off to drift down; tap again to rise.', 'Clear a tower to earn one point.'][step]);
+   }
+   demoFrame = requestAnimationFrame(renderDemo);
+}
+
+function stopDemo()
+{
+   cancelAnimationFrame(demoFrame);
+   demoFrame = null;
+   document.getElementById('flight-demo').hidden = true;
+}
 
 function startGame()
 {
-   if(currentstate !== states.SplashScreen || !selectedCharacter) return;
+   if(!selectedCharacter || (currentstate !== states.SplashScreen && currentstate !== states.DemoScreen)) return;
+   if(!demoSeen) { showDemo(); return; }
+   stopDemo();
    currentstate = states.GameScreen;
 
    $("#splash").hide();
@@ -128,6 +217,7 @@ function startGame()
 
    //update the big score
    setBigScore();
+   updateDifficulty();
 
    //debug mode?
    if(debugmode)
@@ -139,7 +229,7 @@ function startGame()
    // Paint on display frames; keep flight speed consistent across refresh rates.
    previousFlightFrame = performance.now();
    loopGameloop = requestAnimationFrame(flightFrame);
-   loopPipeloop = setInterval(updatePipes, 1400);
+   towerElapsedMs = 0;
 
    //jump from the start!
    playerJump();
@@ -170,6 +260,25 @@ function updatePlayer(player, steps = 1)
 
 function gameloop(steps = 1) {
    var player = $("#player");
+   // Use the same elapsed flight time for every tower: score changes cannot
+   // make a new tower catch an earlier one or make movement depend on width.
+   var difficulty = getDifficulty(score);
+   $('.pipe').each(function() {
+      // Keep subpixel positions in numbers; repeatedly parsing CSS rounds the
+      // distance differently on 60 Hz and 120 Hz displays.
+      var left = this.flightLeft;
+      if(this.lastPaintedLeft !== this.style.left) left = parseFloat(this.style.left);
+      left -= difficulty.speed * steps * flightStepMs / 1000;
+      this.flightLeft = left;
+      this.style.left = left + 'px';
+      this.lastPaintedLeft = this.style.left;
+      if(left <= -100) $(this).remove();
+   });
+   towerElapsedMs += steps * flightStepMs;
+   if(towerElapsedMs >= 1600) {
+      towerElapsedMs -= 1600;
+      updatePipes();
+   }
 
    //update the player speed/position
    // Integrate the original 60 Hz flight curve over the elapsed frame time.
@@ -221,22 +330,24 @@ function gameloop(steps = 1) {
    var nextpipe = pipes[0];
    var nextpipeupper = nextpipe.children(".pipe_upper");
 
-   var pipetop = nextpipeupper.offset().top + nextpipeupper.height();
+   var pipetop = nextpipeupper.offset().top + nextpipeupper.outerHeight();
    var pipeleft = nextpipeupper.offset().left - 2; // for some reason it starts at the inner pipes offset, not the outer pipes.
    var piperight = pipeleft + pipewidth;
-   var pipebottom = pipetop + pipeheight;
+   // Keep each gap fixed after it appears, even when a point raises difficulty.
+   var nextGap = Number(nextpipe.attr('data-gap'));
+   var pipebottom = pipetop + nextGap;
 
    if(debugmode)
    {
       var boundingbox = $("#pipebox");
       boundingbox.css('left', pipeleft);
       boundingbox.css('top', pipetop);
-      boundingbox.css('height', pipeheight);
+      boundingbox.css('height', nextGap);
       boundingbox.css('width', pipewidth);
    }
 
    //have we gotten inside the pipe yet?
-   if(boxright > pipeleft)
+   if(boxright > pipeleft && boxleft < piperight)
    {
       //we're within the pipe, have we passed between upper and lower pipes?
       if(boxtop > pipetop && boxbottom < pipebottom)
@@ -366,12 +477,11 @@ function playerDead()
 
    //it's time to change states. as of now we're considered ScoreScreen to disable left click/flying
    currentstate = states.ScoreScreen;
+   $("#difficulty-label").text('');
 
    //destroy our gameloops
    cancelAnimationFrame(loopGameloop);
-   clearInterval(loopPipeloop);
    loopGameloop = null;
-   loopPipeloop = null;
    showScore();
 }
 
@@ -448,6 +558,21 @@ function playerScore()
    score += 1;
    //play score sound
    setBigScore();
+   updateDifficulty();
+}
+
+function getDifficulty(points)
+{
+   var progress = Math.min(40, Math.max(0, points)) / 40;
+   var minimumGap = Math.min(baseGap, Math.max(82, baseGap * 0.64));
+   return { gap: baseGap - (baseGap - minimumGap) * progress, speed: 110 + 60 * progress };
+}
+
+function updateDifficulty()
+{
+   pipeheight = getDifficulty(score).gap;
+   var label = score < 10 ? 'Gentle flight' : score < 20 ? 'Brisk flight' : score < 30 ? 'Swift flight' : 'Expert flight';
+   if($("#difficulty-label").text() !== label) $("#difficulty-label").text(label);
 }
 
 function updatePipes()
@@ -456,11 +581,19 @@ function updatePipes()
    $(".pipe").filter(function() { return $(this).position().left <= -100; }).remove()
 
    //add a new pipe (top height + bottom height  + pipeheight == flyArea) and put it in our tracker
-   var padding = Math.min(80, (flyArea - pipeheight) * 0.3);
-   var constraint = flyArea - pipeheight - (padding * 2); //double padding (for top and bottom)
+   var gap = getDifficulty(score).gap;
+   var padding = Math.min(80, (flyArea - gap) * 0.3);
+   var constraint = flyArea - gap - (padding * 2); //double padding (for top and bottom)
    var topheight = Math.floor((Math.random()*constraint) + padding); //add lower padding
-   var bottomheight = (flyArea - pipeheight) - topheight;
-   var newpipe = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + topheight + 'px;"></div><div class="pipe_lower" style="height: ' + bottomheight + 'px;"></div></div>');
+   // Adjacent gaps stay reachable; the maximum shift is smaller on short screens.
+   var previous = pipes[pipes.length - 1];
+   if(previous) {
+      var previousCenter = previous.children('.pipe_upper').outerHeight() + Number(previous.attr('data-gap')) / 2;
+      var shift = Math.min(65, flyArea * 0.2);
+      topheight = Math.max(padding, Math.min(flyArea - gap - padding, Math.max(previousCenter - shift - gap / 2, Math.min(previousCenter + shift - gap / 2, topheight))));
+   }
+   var bottomheight = (flyArea - gap) - topheight;
+   var newpipe = $('<div class="pipe animated" data-gap="' + gap + '" style="left: ' + ($("#flyarea").width() + 30) + 'px;"><div class="pipe_upper" style="height: ' + topheight + 'px;"></div><div class="pipe_lower" style="height: ' + bottomheight + 'px;"></div></div>');
    $("#flyarea").append(newpipe);
    pipes.push(newpipe);
 }
