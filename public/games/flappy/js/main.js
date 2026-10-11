@@ -30,6 +30,8 @@ var replayclickable = false;
 //loops
 var loopGameloop;
 var loopPipeloop;
+var previousFlightFrame = 0;
+var flightStepMs = 1000 / 60;
 
 $(document).ready(function() {
    if(window.location.search == "?debug")
@@ -111,33 +113,48 @@ function startGame()
       $(".boundingbox").show();
    }
 
-   //start up our loops
-   var updaterate = 1000.0 / 60.0 ; //60 times a second
-   loopGameloop = setInterval(gameloop, updaterate);
+   // Paint on display frames; keep flight speed consistent across refresh rates.
+   previousFlightFrame = performance.now();
+   loopGameloop = requestAnimationFrame(flightFrame);
    loopPipeloop = setInterval(updatePipes, 1400);
 
    //jump from the start!
    playerJump();
 }
 
-function updatePlayer(player)
+function flightFrame(now)
 {
-   //rotation
-   rotation = Math.min((velocity / 10) * 90, 90);
+   if(currentstate !== states.GameScreen) return;
+   // Avoid a large jump if the browser stalls or the tab was in the background.
+   var steps = Math.min(2, Math.max(0, (now - previousFlightFrame) / flightStepMs));
+   previousFlightFrame = now;
+   gameloop(steps);
+   if(currentstate === states.GameScreen)
+      loopGameloop = requestAnimationFrame(flightFrame);
+}
+
+function updatePlayer(player, steps = 1)
+{
+   // Lift responds immediately, while the nose eases through the turn. The
+   // exponential response takes the same time on 60 Hz and faster displays.
+   var targetRotation = Math.min((velocity / 10) * 90, 90);
+   var turnResponse = 1 - Math.exp(-steps * flightStepMs / 90);
+   rotation += (targetRotation - rotation) * turnResponse;
 
    //apply rotation and position
    $(player).css({ rotate: rotation, top: position });
 }
 
-function gameloop() {
+function gameloop(steps = 1) {
    var player = $("#player");
 
    //update the player speed/position
-   velocity += gravity;
-   position += velocity;
+   // Integrate the original 60 Hz flight curve over the elapsed frame time.
+   position += velocity * steps + gravity * steps * (steps + 1) / 2;
+   velocity += gravity * steps;
 
    //update the player
-   updatePlayer(player);
+   updatePlayer(player, steps);
 
    //create the bounding box
    var box = document.getElementById('player').getBoundingClientRect();
@@ -326,7 +343,7 @@ function playerDead()
    currentstate = states.ScoreScreen;
 
    //destroy our gameloops
-   clearInterval(loopGameloop);
+   cancelAnimationFrame(loopGameloop);
    clearInterval(loopPipeloop);
    loopGameloop = null;
    loopPipeloop = null;

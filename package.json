@@ -11,7 +11,8 @@
     "test:pages": "node scripts/pages-check.mjs",
     "test:navigation": "node scripts/navigation-check.mjs",
     "check:ready": "node scripts/check-ready.mjs",
-    "test:sharing": "node scripts/taptaptap-check.mjs && node scripts/result-sharing-check.mjs"
+    "test:sharing": "node scripts/taptaptap-check.mjs && node scripts/result-sharing-check.mjs",
+    "test:flappy": "node scripts/flappy-motion-check.mjs"
   },
   "devDependencies": {
     "playwright": "^1.58.0",
