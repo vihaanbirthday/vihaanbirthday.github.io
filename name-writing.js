@@ -18,11 +18,13 @@ export function setupNameWriting(welcome, isOpening) {
     animations = [];
     strokes.forEach(path => { path.style.strokeDasharray = 'none'; path.style.strokeDashoffset = '0'; path.style.opacity = '1'; });
     welcome.classList.remove('is-writing');
+    welcome.classList.add('has-written');
   }
   function play() {
     finish();
     if (document.body.classList.contains('motion-paused') || !isOpening()) return;
     welcome.classList.add('is-writing');
+    welcome.classList.remove('has-written');
     let delay = 100;
     const timeline = strokes.map(path => {
       const length = path.getTotalLength();
@@ -68,19 +70,22 @@ export function setupNameWriting(welcome, isOpening) {
           const life = 0.3 + Math.random() * 0.3;
           particles.push({ x: point.x, y: point.y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life, max: life });
         }
-        ctx.shadowColor = '#ffd265'; ctx.shadowBlur = 20;
-        ctx.fillStyle = '#fff3c0'; ctx.beginPath(); ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowColor = '#d5a057'; ctx.shadowBlur = 20;
+        ctx.fillStyle = '#b47838'; ctx.beginPath(); ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2); ctx.fill();
       }
       ctx.shadowBlur = 5;
       particles = particles.filter(p => p.life > 0);
       particles.forEach(p => {
         p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 70 * dt;
         ctx.globalAlpha = Math.max(0, p.life / p.max);
-        ctx.strokeStyle = '#ffdd83'; ctx.lineWidth = 1.1;
+        ctx.strokeStyle = '#bd8548'; ctx.lineWidth = 1.1;
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx * 0.025, p.y - p.vy * 0.025); ctx.stroke();
       });
       ctx.globalAlpha = 1;
-      if (timeline.some(s => s.animation.playState !== 'finished') || particles.length) frame = requestAnimationFrame(draw);
+      const writing = timeline.some(s => s.animation.playState !== 'finished');
+      // Reveal the birthday message only once the final ink stroke is complete.
+      if (!writing) welcome.classList.add('has-written');
+      if (writing || particles.length) frame = requestAnimationFrame(draw);
       else { clearSparks(); welcome.classList.remove('is-writing'); }
     }
     frame = requestAnimationFrame(draw);

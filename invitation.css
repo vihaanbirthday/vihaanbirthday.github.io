@@ -36,43 +36,55 @@ body.invitation-ready{height:100dvh;padding:0;overflow:hidden;--story-header:88p
 .invitation-ready .button{min-height:54px;font-size:17px;padding:14px 24px;border-radius:100px;gap:12px}
 .invitation-ready .text-link{min-height:48px;font-size:16px;padding:10px 0;gap:10px}
 
-/* Gold engraved lettering, traced by a spark on a deep forest cover. */
-.opening-page{position:relative;isolation:isolate;min-height:720px;background:#153e30;color:#f6edcc;overflow:hidden;display:grid;place-items:center;text-align:center}
+/* A nursery storybook cover, with blue handwriting and soft paper decorations. */
+.opening-page{position:relative;isolation:isolate;min-height:720px;background:#f8f4ec;color:#365f80;overflow:hidden;display:grid;place-items:center;text-align:center}
 .opening-decoration{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
-.opening-aura{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 45%,#71976128,transparent 65%)}
-.opening-orbit{position:absolute;z-index:-1;left:50%;top:46%;width:min(80vw,950px);aspect-ratio:1.5;border:1px solid #ead28618;border-radius:50%;transform:translate(-50%,-50%) rotate(-15deg);pointer-events:none}
-.orbit-two{width:min(70vw,840px);transform:translate(-50%,-50%) rotate(15deg)}
+.opening-aura{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,#fffdf8 10%,transparent 65%),linear-gradient(180deg,#e6eff7 0%,#f8f4ec 75%)}
+.opening-bunting{position:absolute;top:0;left:0;width:100%;height:clamp(48px,6vw,72px);stroke:none}
+.opening-cloud{position:absolute;width:150px;height:48px;border-radius:100px;background:#fffdf9;box-shadow:0 5px 18px #b5c8d91a;opacity:.85}
+.opening-cloud:before,.opening-cloud:after{content:'';position:absolute;bottom:15px;border-radius:50%;background:inherit}
+.opening-cloud:before{left:24px;width:65px;height:65px}.opening-cloud:after{right:20px;width:80px;height:80px}
+.cloud-one{left:5%;top:28%;transform:rotate(-6deg)}.cloud-two{right:4%;bottom:20%;transform:scale(.85) rotate(5deg)}
+.opening-star{position:absolute;color:#c59a48;line-height:1;font-size:36px}
+.star-one{left:19%;top:17%;transform:rotate(-12deg)}.star-two{right:17%;bottom:12%;font-size:27px;transform:rotate(10deg)}
+.star-three{right:10%;top:25%;color:#bc826e;font-size:43px}.star-four{left:10%;bottom:16%;color:#799fbe;font-size:30px}
 .invitation-ready .opening-page{display:flex;flex-direction:column;justify-content:safe center;align-items:center;padding:26px 24px;animation:none;overflow-y:auto}
 .opening-content{position:relative;width:min(900px,100%)}
-.invitation-ready .opening-kicker{font-size:14px;letter-spacing:2px;color:#e6d5a2;margin:0 0 8px}
+.invitation-ready .opening-kicker{font-size:14px;letter-spacing:2px;color:#526c82;margin:0 0 8px}
 .opening-title{position:relative;margin:0;line-height:1;letter-spacing:0}
 .name-writing{display:block;width:100%;height:auto;max-height:31dvh;margin:0 auto;overflow:visible;fill:none;stroke:none}
-.name-ink{fill:none;stroke:url(#engraved-gold);filter:url(#gold-depth);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.name-ink{fill:none;stroke:url(#storybook-ink);filter:url(#ink-depth);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
 .stroke-v{stroke-width:7}.stroke-flourish{stroke-width:1.8}
 .writing-fireworks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .opening-afterword{display:block}
-.invitation-ready .opening-afterword p{font:400 clamp(28px,3vw,40px)/1.3 var(--serif);color:#f6edcc}
-.opening-afterword em{color:#f2d27a}
+.invitation-ready .opening-afterword p{font:400 clamp(28px,3vw,40px)/1.3 var(--serif);color:#365f80}
+.opening-afterword em{color:#a35f49}
 .opening-rule{display:none}
-.invitation-ready .opening-note{font-size:20px;color:#dfdfc5;margin:12px 0 26px}
-.opening-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:56px;padding:14px 28px;border:1px solid #f2d27a;border-radius:100px;background:#f2d27a;color:#153e30;font-size:18px;font-weight:500;transition:background .2s,transform .2s}
-.opening-button:hover{background:#ffe7a0;transform:translateY(-2px)}
+.invitation-ready .opening-note{font-size:20px;color:#526c82;margin:12px 0 26px}
+.opening-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:56px;padding:14px 28px;border:1px solid #c7dced;border-radius:100px;background:#c7dced;color:#284e6d;box-shadow:0 4px 0 #a8c4d84d;font-size:18px;font-weight:500;transition:background .2s,transform .2s}
+.opening-button:hover{background:#b7d2e7;transform:translateY(-2px)}
 .opening-button span{font-size:24px}
-.replay-writing{display:block;margin:9px auto 0;min-height:44px;padding:10px 14px;font-size:15px;color:#dfdfc5;background:transparent;border:0}
+.replay-writing{display:block;margin:9px auto 0;min-height:44px;padding:10px 14px;font-size:15px;color:#526c82;background:transparent;border:0}
 .replay-writing span{margin-left:8px}.replay-writing:disabled{opacity:.55;cursor:default}
-.invitation-ready .opening-dedication{position:static;font-size:15px;color:#dfdfc5;margin:24px 0 0;letter-spacing:0}
-.is-writing .opening-afterword,.is-writing .opening-note{animation:opening-arrive .65s 2.6s both}
+.invitation-ready .opening-dedication{position:static;font-size:15px;color:#526c82;margin:24px 0 0;letter-spacing:0}
+.is-writing:not(.has-written) .opening-afterword,.is-writing:not(.has-written) .opening-note{opacity:0;visibility:hidden}
+.has-written .opening-afterword{animation:opening-arrive .65s both}
+.has-written .opening-note{animation:opening-arrive .65s .18s both}
+@media(prefers-reduced-motion:reduce){.has-written .opening-afterword,.has-written .opening-note{animation:none}}
 @keyframes opening-arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.invitation-ready[data-page="welcome"],.invitation-ready[data-page="welcome"] .site-header,.invitation-ready[data-page="welcome"] .invitation-controls{background:#153e30;color:#f6edcc}
-.invitation-ready[data-page="welcome"] .site-header{color:#f6edcc}
-.invitation-ready[data-page="welcome"] .brand{color:#f6edcc}
-.invitation-ready[data-page="welcome"] .brand-small{color:#dfdfc5}
-.invitation-ready[data-page="welcome"] .header-inner{border-color:#ead28630}
-.invitation-ready[data-page="welcome"] .gaming-shortcut{border-color:#e6d5a260;color:#f6edcc;background:#ffffff06}
-.invitation-ready[data-page="welcome"] .gaming-shortcut:hover{background:#f2d27a;color:#153e30}
-.invitation-ready[data-page="welcome"] .invitation-controls:before{background:#ead28630}
-.invitation-ready[data-page="welcome"] .page-progress-track{background:#ead28625}
-.invitation-ready[data-page="welcome"] .page-progress-track i{background:#e5bd58}
+.invitation-ready[data-page="welcome"]{--orange:#a35f49;--ink:#365f80;--green:#365f80;--line:#c9d8e2;background:#f8f4ec;color:#365f80}
+.invitation-ready[data-page="welcome"] .site-header{background:#e6eff7;color:#365f80}
+.invitation-ready[data-page="welcome"] .invitation-controls{background:#f8f4ec;color:#365f80}
+.invitation-ready[data-page="welcome"] .brand{color:#365f80}
+.invitation-ready[data-page="welcome"] .brand-small{color:#526c82}
+.invitation-ready[data-page="welcome"] .header-inner{border-color:#b5c8d966}
+.invitation-ready[data-page="welcome"] .gaming-shortcut{border-color:#b5c8d9;color:#365f80;background:#ffffff60}
+.invitation-ready[data-page="welcome"] .gaming-shortcut:hover{background:#c7dced;color:#284e6d}
+.invitation-ready[data-page="welcome"] .section-nav{border-color:#b5c8d9}
+.invitation-ready[data-page="welcome"] .section-nav a:hover,.invitation-ready[data-page="welcome"] .section-nav a[aria-current]{background:#e6eff7}
+.invitation-ready[data-page="welcome"] .invitation-controls:before{background:#b5c8d966}
+.invitation-ready[data-page="welcome"] .page-progress-track{background:#b5c8d94d}
+.invitation-ready[data-page="welcome"] .page-progress-track i{background:#799fbe}
 .page-next[hidden]{display:none!important}
 
 /* Large navigation stays within thumb's reach. */
@@ -191,7 +203,10 @@ body.invitation-ready{height:100dvh;padding:0;overflow:hidden;--story-header:88p
   .opening-button{font-size:17px;min-height:54px;padding:12px 26px;gap:22px}
   .replay-writing{font-size:14px;margin-top:8px}
   .invitation-ready .opening-dedication{font-size:14px;margin-top:24px}
-  .opening-orbit{width:130vw;aspect-ratio:1.1}.orbit-two{width:110vw}
+  .opening-cloud{width:100px;height:32px;opacity:.65}
+  .opening-cloud:before{left:15px;width:45px;height:45px}.opening-cloud:after{right:12px;width:55px;height:55px}
+  .cloud-one{left:-45px;top:25%}.cloud-two{right:-35px;bottom:14%}
+  .star-one{left:10%;top:13%;font-size:24px}.star-three{right:7%;top:22%;font-size:28px}
   .invitation-ready .hero{grid-template-columns:1fr;gap:22px;text-align:center}
   .invitation-ready .hero-copy{justify-self:center;text-align:center}
   .invitation-ready .hero-copy>.eyebrow{font-size:13px;justify-content:center}

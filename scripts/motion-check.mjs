@@ -22,6 +22,7 @@ try {
         active: parseFloat(getComputedStyle(path).opacity) === 1 && parseFloat(getComputedStyle(path).strokeDashoffset) > 0 && parseFloat(getComputedStyle(path).strokeDashoffset) < path.getTotalLength(),
         past: order.slice(0, index).every(({ path }) => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < 0.001),
         future: order.slice(index + 1).every(({ path }) => parseFloat(getComputedStyle(path).opacity) === 0),
+        messageHidden: [...document.querySelectorAll('.opening-afterword, .opening-note')].every(el => getComputedStyle(el).visibility === 'hidden'),
       };
     });
     animations.forEach(animation => animation.finish());
@@ -29,10 +30,16 @@ try {
   });
   assert(result.cleanStart, 'No dots or round caps are visible before writing begins');
   assert(result.samples.every(sample => sample.active && sample.past && sample.future), 'Each stroke draws smoothly while future strokes remain invisible');
+  assert(result.samples.every(sample => sample.messageHidden), 'The text below the name stays hidden through every stroke, including the last flourish');
   assert(result.completed, 'The completed name remains fully readable');
+  await page.waitForFunction(() => document.querySelector('#welcome').classList.contains('has-written'));
+  assert(await page.locator('.opening-afterword').isVisible(), 'The birthday text appears after the complete name');
+  assert(await page.locator('.opening-note').isVisible(), 'The invitation note appears after the complete name');
   assert.equal(await page.locator('.writing-fireworks').count(), 1, 'A single spark canvas follows the writing');
   assert.equal(await page.locator('#motion-toggle').count(), 0, 'No header pause option');
   await page.locator('#replay-writing').click();
+  assert(await page.locator('.opening-afterword').isHidden(), 'Replay hides the birthday text again');
+  assert(await page.locator('.opening-note').isHidden(), 'Replay hides the invitation note again');
   await page.waitForTimeout(650);
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.some((value, index) => index % 4 === 3 && value > 0)), 'Live fireworks follow the active stroke');
   await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-writing'));
@@ -45,6 +52,8 @@ try {
   assert(await page.locator('#replay-writing').isDisabled());
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.every((value, index) => index % 4 !== 3 || value === 0)), 'Reduced motion clears all spark particles immediately');
   assert(await page.locator('.opening-button').isVisible());
+  assert(await page.locator('.opening-afterword').isVisible(), 'Reduced motion shows the birthday text immediately');
+  assert(await page.locator('.opening-note').isVisible(), 'Reduced motion shows the invitation note immediately');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   await page.locator('.opening-button').click();
@@ -75,5 +84,5 @@ try {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   assert.deepEqual(errors, []);
-  console.log('Left-to-right handwriting, replay, complete paused lettering, stable reading text, keyboard greetings, reduced motion and dialog motion passed.');
+  console.log('Left-to-right handwriting, text after the final stroke, replay, complete paused lettering, stable reading text, keyboard greetings, reduced motion and dialog motion passed.');
 } finally { await browser.close(); }
