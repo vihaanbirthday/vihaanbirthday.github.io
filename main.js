@@ -2,6 +2,7 @@ import { event } from './event-config.js';
 import { getEventDate } from './event-details.js';
 import { setupSafariFriends } from './safari-friends.js';
 import { setupInvitationPages } from './invitation-pages.js';
+import { setupResultSharing } from './result-sharing.js';
 const $ = (s) => document.querySelector(s);
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 function syncMotionPreference() {
@@ -33,6 +34,7 @@ const games = {
 const gameDialog = $('#game-dialog');
 let activeGame, gameTrigger, loadingTimer;
 const gameContainer = $('#game-frame-container');
+const closeResultSharing = setupResultSharing({ gameDialog, gameContainer, whatsappNumber: event.whatsappNumber });
 function clearGameLoading() {
   clearTimeout(loadingTimer);
   gameContainer.removeAttribute('aria-busy');
@@ -47,6 +49,7 @@ window.addEventListener('message', event => {
   frame.classList.remove('is-loading');
 });
 function loadGame() {
+  closeResultSharing();
   clearGameLoading();
   gameContainer.setAttribute('aria-busy', 'true');
   const hero = document.createElement('div');
@@ -78,6 +81,7 @@ document.querySelectorAll('[data-game]').forEach(button => button.addEventListen
 $('#close-game').addEventListener('click', () => gameDialog.close());
 $('#restart-game').addEventListener('click', loadGame);
 gameDialog.addEventListener('close', () => {
+  closeResultSharing();
   clearGameLoading();
   gameContainer.replaceChildren();
   if (!gameDialog.dataset.navigationClose && gameTrigger?.closest('[data-page]')?.hidden === false) gameTrigger.focus({ preventScroll: true });

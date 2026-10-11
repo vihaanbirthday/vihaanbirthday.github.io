@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { chromium, devices } from 'playwright';
 import { mkdir } from 'node:fs/promises';
+import { event } from '../event-config.js';
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
 const base = process.env.TEST_URL || 'http://127.0.0.1:4173';
 await mkdir('test-results', { recursive: true });
@@ -23,6 +24,23 @@ try {
   await frame.locator('#pagePlayArea').waitFor({ state: 'visible' });
   async function state() { return frame.evaluate(() => ({ ...gameEngine })); }
   async function tapBlue() { await frame.locator('.good-circle').first().tap(); }
+  async function openResultShare(screen) {
+    await frame.locator(`${screen} [data-share-result]`).tap();
+    await page.locator('#download-result-file[href]').waitFor({ state: 'visible' });
+    const result = await state();
+    const label = await page.locator('#result-share-preview').getAttribute('aria-label');
+    assert(label.includes(`${result.score} points`), 'The result image carries the current score');
+    const url = new URL(await page.locator('#result-whatsapp').getAttribute('href'));
+    assert.equal(url.hostname, 'wa.me');
+    assert.equal(url.pathname, `/${event.whatsappNumber}`, 'Sharing uses the configured contact');
+    assert(url.searchParams.get('text').includes(`${result.score} points`));
+    const image = await page.locator('#result-share-preview').evaluate(canvas => ({
+      width: canvas.width, height: canvas.height, png: canvas.toDataURL('image/png').slice(0, 30),
+    }));
+    assert.equal(image.width, 720);
+    assert.equal(image.height, 800);
+    assert(image.png.startsWith('data:image/png;base64,iVBOR'));
+  }
   function assertBoard(boxes) {
     assert(boxes.every(box => box.width >= 44 && box.height >= 44 && box.x >= 0 && box.y >= 0 && box.right <= box.areaWidth + 1 && box.bottom <= box.areaHeight + 1), 'All targets fit and have accessible touch sizes');
     for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
@@ -67,6 +85,19 @@ try {
     assert.equal((await state()).tapNum, (await state()).tapsGoal);
     assert(await menuFits('#pageLevelPassed'), 'Completion and next/replay controls fit without scrolling');
     passedScores.push((await state()).score);
+    if (level === 1) {
+      await page.evaluate(() => window.postMessage({ type: 'invitation:share-taptaptap', result: {} }, '*'));
+      assert.equal(await page.locator('#result-share-dialog').evaluate(el => el.open), false, 'Ignore unrelated windows');
+      await page.evaluate(() => {
+        Object.defineProperty(navigator, 'canShare', { configurable: true, value: () => false });
+      });
+      await openResultShare('#pageLevelPassed');
+      assert(await page.locator('#share-result-file').isHidden(), 'Unsupported browsers offer an image download');
+      const downloaded = page.waitForEvent('download');
+      await page.locator('#download-result-file').tap();
+      assert.equal((await downloaded).suggestedFilename(), `tap-tap-tap-${(await state()).score}-points.png`);
+      await page.locator('#close-result-share').tap();
+    }
     if (level < 8) {
       await frame.locator('#lvlPssdContinueNextLvlBtn').tap();
       await page.clock.runFor(1250);
@@ -77,6 +108,9 @@ try {
         await frame.locator('.evil-circle').first().tap();
         assert(await menuFits('#pageYouLost'), 'Retry controls fit without scrolling');
         assert(await frame.locator('#pageYouLost').isVisible(), 'Running out of hearts ends the round');
+        await openResultShare('#pageYouLost');
+        assert((await page.locator('#result-share-preview').getAttribute('aria-label')).includes('1/8 levels cleared'), 'Lost result counts only completed levels');
+        await page.locator('#close-result-share').tap();
         await frame.locator('#retryLevelBtn').tap();
         await page.clock.runFor(1250);
         assert.equal((await state()).score, banked, 'Retry restores the score at the start of this level');
@@ -90,6 +124,33 @@ try {
   assert(await frame.locator('#playAgainBtn').isVisible(), 'Final celebration offers replay');
   assert.equal(await frame.locator('#completedJourney .done').count(), 8);
   await page.screenshot({ path: 'test-results/taptaptap-completed.png' });
+  await page.evaluate(() => {
+    window.shareBehavior = 'success';
+    Object.defineProperty(navigator, 'canShare', { configurable: true, value: data => data.files?.[0]?.type === 'image/png' });
+    Object.defineProperty(navigator, 'share', { configurable: true, value: async data => {
+      window.sharedResult = { name: data.files[0].name, type: data.files[0].type, size: data.files[0].size, text: data.text };
+      if (window.shareBehavior === 'cancel') throw new DOMException('Cancelled', 'AbortError');
+      if (window.shareBehavior === 'error') throw new DOMException('Unavailable', 'NotAllowedError');
+    } });
+  });
+  await openResultShare('#pageLevelPassed');
+  assert(await page.locator('#share-result-file').isEnabled());
+  await page.screenshot({ path: 'test-results/taptaptap-share-mobile.png' });
+  await page.locator('#share-result-file').tap();
+  const shared = await page.evaluate(() => window.sharedResult);
+  assert.equal(shared.type, 'image/png');
+  assert(shared.size > 10000, 'Share sheet receives a real image file');
+  assert(shared.text.includes('8/8 levels cleared'));
+  assert(shared.text.includes(`${(await state()).score} points`));
+  await page.evaluate(() => { window.shareBehavior = 'cancel'; });
+  await page.locator('#share-result-file').tap();
+  assert(await page.locator('#share-result-file').isEnabled(), 'Cancelling allows sharing again');
+  assert.equal(await page.locator('#result-share-status').textContent(), '');
+  await page.evaluate(() => { window.shareBehavior = 'error'; });
+  await page.locator('#share-result-file').tap();
+  assert(await page.locator('#share-result-file').isHidden(), 'Rejected sharing falls back to download and directed chat');
+  assert(await page.locator('#download-result-file').isVisible());
+  await page.locator('#close-result-share').tap();
   await frame.locator('#playAgainBtn').tap();
   await frame.locator('#tutPgStartGameBtn').tap();
   await page.clock.runFor(1250);
@@ -98,5 +159,5 @@ try {
   assert(await frame.locator('#pageYouLost').isVisible(), 'Time expiry ends the round');
   assert.equal(await frame.locator('#lvlLostTtl').textContent(), 'Time’s up.');
   assert.deepEqual(errors, []);
-  console.log('Tap Tap Tap: all eight levels, touch scoring, target placement, pause, combos, gold bonuses, heart loss, retry, time expiry and replay passed.');
+  console.log('Tap Tap Tap: gameplay through eight levels, PNG result sharing, configured WhatsApp contact, download fallback, cancellation and share failure passed.');
 } finally { await browser.close(); }

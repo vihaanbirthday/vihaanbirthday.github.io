@@ -5,3 +5,7 @@
 
 /* The surrounding invitation already supplies the game title on phones. */
 @media(max-height:550px){.menu{gap:10px;padding:12px 20px}.menu .game-mark{display:none}.menu h1{margin:0}.menu .small{font-size:14px;line-height:1.45}#pageTutorial>.eyebrow{display:none}}
+
+/* Keep sharing and replay within reach on compact result screens. */
+#pageLevelPassed,#pageYouLost{gap:12px}.share-result{border-color:#edc66c;color:#f6d777;font-size:15px}
+@media(max-height:550px){#pageLevelPassed,#pageYouLost{gap:8px}#pageLevelPassed .primary,#pageLevelPassed .secondary,#pageYouLost .primary,#pageYouLost .secondary{min-height:44px;padding:10px 16px;font-size:15px}.big-score{font-size:46px}}
