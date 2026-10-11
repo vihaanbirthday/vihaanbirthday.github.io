@@ -87,18 +87,12 @@ const rsvpDialog = $('#rsvp-dialog');
 const rsvpReady = /^[1-9]\d{7,14}$/.test(event.whatsappNumber);
 const guestAttendance = $('#guest-attendance');
 const guestCount = $('#guest-count');
-const guestTotal = $('#guest-total');
 function syncRSVPFields() {
   const attending = guestAttendance.value === 'yes';
-  const largeParty = attending && guestCount.value === '6+';
   $('#guest-party').hidden = !attending;
   guestCount.disabled = !attending;
-  $('#guest-large-party').hidden = !largeParty;
-  guestTotal.disabled = !largeParty;
-  guestTotal.required = largeParty;
 }
 guestAttendance.addEventListener('change', syncRSVPFields);
-guestCount.addEventListener('change', syncRSVPFields);
 syncRSVPFields();
 let rsvpTrigger;
 document.querySelectorAll('[data-rsvp]').forEach(button => button.addEventListener('click', () => {
@@ -120,11 +114,23 @@ $('#rsvp-form').addEventListener('submit', e => {
   if (!rsvpReady) return;
   const name = $('#guest-name').value.trim();
   if (!name) { $('#guest-name').setCustomValidity('Please enter your name.'); $('#guest-name').reportValidity(); return; }
-  const count = guestCount.value === '6+' ? guestTotal.value : guestCount.value;
-  const reply = guestAttendance.value === 'yes'
-    ? `We'd love to celebrate Vihaan's first birthday at Paps Restaurant. Total attending: ${count} ${count === '1' ? 'guest' : 'guests'}. Can’t wait for cake and birthday adventures!`
-    : `Sorry, we can't make it to Vihaan's first birthday. Sending Vihaan lots of love for his big day!`;
-  const message = `Hi Madhav & Urvashee! It's ${name}. ${reply}`;
+  const attending = guestAttendance.value === 'yes';
+  const count = guestCount.value;
+  if (attending && !/^[1-4]$/.test(count)) {
+    guestCount.setCustomValidity('Please choose between 1 and 4 guests, including you and children.');
+    guestCount.reportValidity();
+    return;
+  }
+  const message = [
+    'Hi Madhav & Urvashee!',
+    '',
+    "*Vihaan's 1st Birthday — RSVP*",
+    `*Name:* ${name}`,
+    `*Attendance:* ${attending ? (count === '1' ? "I'll be there" : "We'll be there") : "Sorry, we can't make it"}`,
+    ...(attending ? [`*Total guests:* ${count} ${count === '1' ? 'guest' : 'guests'} (including me and children)`] : []),
+    '',
+    attending ? 'Looking forward to celebrating with you! 🎉' : 'Sending Vihaan lots of love for his big day! 💛',
+  ].join('\n');
   $('#rsvp-message').value = message;
   $('#rsvp-status').textContent = 'Your reply is ready. Send your message in WhatsApp to finish your RSVP.';
   $('#copy-status').textContent = '';
@@ -133,6 +139,7 @@ $('#rsvp-form').addEventListener('submit', e => {
 });
 $('#rsvp-form').addEventListener('input', () => {
   $('#guest-name').setCustomValidity('');
+  guestCount.setCustomValidity('');
   $('#rsvp-fallback').hidden = true;
 });
 $('#copy-rsvp').addEventListener('click', async () => {

@@ -55,6 +55,8 @@ try {
    assert.match(await page.locator('#event-time').textContent(),new RegExp(test.event.time));
    assert(await page.locator('#rsvp-form').isVisible());
    assert.equal(await page.locator('#guest-party').isVisible(),false);
+   assert.deepEqual(await page.locator('#guest-count option').evaluateAll(options => options.map(option => option.value)), ['1', '2', '3', '4']);
+   assert.equal(await page.locator('#guest-total').count(), 0);
    await page.locator('#guest-name').fill('   ');
    await page.locator('#guest-attendance').selectOption('yes');
    await page.locator('#rsvp-form button[type=submit]').tap();
@@ -67,8 +69,13 @@ try {
    const url=new URL(await page.evaluate(()=>window.testOpenedURL));
    assert.equal(url.origin,'https://wa.me');
    assert.equal(url.pathname,`/${test.event.whatsappNumber}`);
-   assert(url.searchParams.get('text').includes(guest));
-   assert(url.searchParams.get('text').includes('3 guests'));
+   assert.equal(url.searchParams.get('text'), [
+    'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
+    `*Name:* ${guest}`, "*Attendance:* We'll be there",
+    '*Total guests:* 3 guests (including me and children)', '',
+    'Looking forward to celebrating with you! 🎉',
+   ].join('\n'));
+   if (test.actual) await page.screenshot({path:'test-results/rsvp-message.png'});
    assert((await page.locator('#rsvp-status').textContent()).includes('Send your message in WhatsApp'));
    assert(await page.locator('#rsvp-fallback').isVisible());
    assert.equal(await page.locator('#rsvp-message').inputValue(), url.searchParams.get('text'));
@@ -78,27 +85,40 @@ try {
    await page.locator('#copy-rsvp').tap();
    assert((await page.locator('#copy-status').textContent()).includes('Select and copy'));
    assert.equal(await page.evaluate(() => document.activeElement.id), 'rsvp-message');
-   await page.locator('#guest-count').selectOption('6+');
-   assert(await page.locator('#guest-total').isVisible());
-   await page.locator('#guest-total').fill('5');
+   for (const count of ['1', '2', '4']) {
+    await page.locator('#guest-count').selectOption(count);
+    await page.locator('#rsvp-form button[type=submit]').tap();
+    const reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
+    assert(reply.includes(`*Total guests:* ${count} ${count === '1' ? 'guest' : 'guests'} (including me and children)`));
+    assert(reply.includes(`*Attendance:* ${count === '1' ? "I'll be there" : "We'll be there"}`));
+   }
+   // Even a modified dropdown must not generate a reply above the limit.
+   await page.locator('#guest-count').evaluate(select => select.add(new Option('5 guests', '5')));
+   await page.locator('#guest-count').selectOption('5');
    await page.evaluate(()=>{window.testOpenedURL=undefined});
    await page.locator('#rsvp-form button[type=submit]').tap();
-   assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Reject an invalid larger-party count');
-   await page.locator('#guest-total').fill('8');
+   assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Reject more than four guests');
+   assert.equal(await page.locator('#rsvp-fallback').isVisible(),false);
+   await page.locator('#guest-count').selectOption('4');
+   await page.locator('#guest-count option[value="5"]').evaluate(option => option.remove());
    await page.locator('#rsvp-form button[type=submit]').tap();
-   assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('8 guests'),'Exact larger-party count reaches the message');
+   assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('4 guests'),'Four guests are accepted after correcting an invalid count');
    await page.locator('#guest-attendance').selectOption('no');
    assert.equal(await page.locator('#guest-party').isVisible(),false);
    assert.equal(await page.locator('#rsvp-fallback').isVisible(),false,'Changing the answer clears the stale prepared reply');
-   assert(await page.locator('#guest-total').isDisabled());
+   assert(await page.locator('#guest-count').isDisabled());
    if (test.actual) await page.screenshot({path:'test-results/rsvp-decline.png'});
    await page.locator('#rsvp-form button[type=submit]').tap();
    const decline = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
-   assert(decline.includes(guest));
-   assert(decline.includes("Sorry, we can't make it"));
-   assert(!decline.includes('guests') && !decline.includes("We'd love to celebrate"),'Decline has no headcount or acceptance language');
+   assert.equal(decline, [
+    'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
+    `*Name:* ${guest}`, "*Attendance:* Sorry, we can't make it", '',
+    'Sending Vihaan lots of love for his big day! 💛',
+   ].join('\n'));
+   assert(!decline.includes('guests'),'Decline has no headcount');
    await page.locator('#guest-attendance').selectOption('yes');
-   assert(await page.locator('#guest-total').isVisible(),'Switching back restores the exact count field');
+   assert(await page.locator('#guest-count').isVisible(),'Switching back restores the guest count');
+   assert.equal(await page.locator('#guest-count').inputValue(),'4');
    assert.equal(await page.evaluate(()=>localStorage.length),0);
   }
   await page.locator('#close-rsvp').tap();

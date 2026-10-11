@@ -187,14 +187,10 @@
         <option value="no">Sorry, we can't make it</option>
       </select>
       <div id="guest-party" hidden>
-        <label for="guest-count">Total guests, including you and children</label>
+        <label for="guest-count">Total guests, including you and children (max. 4)</label>
         <select id="guest-count" name="count" disabled>
-          <option value="1">Just me</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4">4 guests</option><option value="5">5 guests</option><option value="6+">6 or more guests</option>
+          <option value="1">Just me</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4">4 guests</option>
         </select>
-        <div id="guest-large-party" hidden>
-          <label for="guest-total">Exact number of guests</label>
-          <input id="guest-total" name="total" type="number" min="6" step="1" inputmode="numeric" disabled>
-        </div>
       </div>
       <button class="button" type="submit">Continue to WhatsApp ↗</button>
       <p class="form-note" id="rsvp-form-note">You’ll review and send your message in WhatsApp. Your details aren’t stored on this website.</p>
@@ -202,7 +198,7 @@
     <div id="rsvp-fallback" hidden>
       <p id="rsvp-status" role="status" aria-live="polite"></p>
       <label for="rsvp-message">WhatsApp didn’t open? Copy your message:</label>
-      <textarea id="rsvp-message" readonly rows="5"></textarea>
+      <textarea id="rsvp-message" readonly rows="9"></textarea>
       <button id="copy-rsvp" class="button button-outline" type="button">Copy message</button>
       <p id="copy-status" role="status" aria-live="polite"></p>
     </div>
