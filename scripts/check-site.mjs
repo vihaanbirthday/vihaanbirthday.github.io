@@ -13,13 +13,13 @@ assert(html.includes("connect-src 'none'"), 'The invitation cannot call a remote
 assert(!/leaderboard|workers\.dev|cloudflare/i.test(html), 'No remote score integration');
 const manifest = JSON.parse(await readFile('package.json', 'utf8'));
 assert(!manifest.devDependencies.wrangler && !manifest.devDependencies.miniflare);
-assert.equal((html.match(/data-game=/g) || []).length, 4, 'All four selected games are available');
+assert.equal((html.match(/data-game=/g) || []).length, 6, 'All six selected games are available');
 assert(!html.includes('data-game="2048"'), '2048 has been removed');
 const js = await readFile('main.js', 'utf8');
 assert(js.includes("setAttribute('sandbox', 'allow-scripts')"));
 assert(!js.includes('allow-same-origin'));
 assert(js.includes('encodeURIComponent(message)'));
-for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
+for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy', 'spiderman', 'toystory']) {
   const source = await readFile(`public/games/${game}/index.html`, 'utf8');
   assert(!source.includes('leaderboard-bridge'));
   assert(source.includes("connect-src 'none'"));
@@ -29,4 +29,4 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
 }
 for (const file of ['public/assets/safari.webp', 'public/assets/venue-garden.svg', 'public/assets/DM-Sans-OFL.txt', 'public/assets/Playfair-Display-OFL.txt', 'public/_headers', 'vercel.json']) await access(file);
 for (const animal of ['lion', 'elephant', 'giraffe', 'monkey', 'tiger', 'tiger-roll']) await access(`public/assets/animals/${animal}.webp`);
-console.log('Four-game source security and asset checks passed. Event validation checks passed.');
+console.log('Six-game source security and asset checks passed. Event validation checks passed.');

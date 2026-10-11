@@ -408,3 +408,6 @@ body{padding-top:var(--nav-offset,var(--header-height))}
 /* Illustrated covers share the Hogwarts tile's depth and colour. */
 .game-cover{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .preview-tap{background:#15324e}.preview-hextris{background:#393a60}.preview-ohhi{background:#4c526f}
+
+/* Themed artwork accompanies the five new / refreshed adventures. */
+.themed-loading img{width:180px;height:180px;mix-blend-mode:normal;border-radius:24px}.loading-taptaptap{background:#23143b;color:#f5eaff}.loading-hextris{background:#e0f4ff;color:#234563}.loading-ohhi{background:#084f66;color:#fff3dc}.loading-spiderman{background:#182747;color:#fff0d3}.loading-toystory{background:#d8eeff;color:#244364}.preview-spiderman{background:#182747}.preview-toystory{background:#79bce5}.game-card[data-game="taptaptap"] .game-type{color:#763b92}.game-card[data-game="hextris"] .game-type{color:#286d9c}.game-card[data-game="ohhi"] .game-type{color:#147d83}@media(min-width:761px){.games-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.game-content h3{font-size:25px}}@media(max-height:550px){.themed-loading img{width:90px;height:90px}}

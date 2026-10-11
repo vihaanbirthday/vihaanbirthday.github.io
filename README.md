@@ -1,6 +1,6 @@
 # Vihaan’s Little Explorer invitation
 
-A responsive, five-page storybook invitation with an optional games screen for Vihaan’s first birthday, with a handwritten animated opening, locally hosted safari artwork and fonts, five animated animal companions and four sandboxed games. No backend, database, analytics, guest accounts or remote API is required.
+A responsive, five-page storybook invitation with an optional games screen for Vihaan’s first birthday, with a handwritten animated opening, locally hosted safari artwork and fonts, five animated animal companions and six sandboxed games. No backend, database, analytics, guest accounts or remote API is required.
 
 ## Preview and build
 
@@ -33,7 +33,7 @@ Continuous in-between frames add head and neck movement, body bends, breathing, 
 
 Each chapter after the opening keeps its animated companion: lion in Invitation, elephant in Celebration, giraffe in Venue, tiger in RSVP and monkey in Gaming.
 
-Gaming contains Tap Tap Tap, Hextris, 0h h1 and Hogwarts Flyer. Hogwarts Flyer is a Harry Potter themed broomstick game: choose Harry, Ron or Hermione before takeoff, fly through gaps in enchanted towers above a moonlit castle, and choose again after each flight. Shared results include the selected character. Tap Tap Tap now has eight rounds (12–42 blue taps with 30–38 seconds each), three hearts, escalating red hazards, up to 3× streak points, gold stars for extra time, time bonuses, a clear Next level button and a final celebration. Players can retry a failed level with its starting score or restart the whole run. Targets never overlap; symbols distinguish the colours. In-game pause preserves the timer, and hiding the browser automatically pauses play. Phone cards use compact illustrated previews. Scores remain inside the isolated game session and disappear when it is closed. Games never report scores, ask for nicknames or contact a service.
+Gaming contains KPop Demon Hunters themed Tap Tap Tap, Frozen Hextris, Moana’s Ocean Logic (0h h1), Hogwarts Flyer, Spider-Man: Rooftop Rescue and Toy Story: Toy Match. All five refreshed/new games use original SVG fan illustrations on their cards, loading screens and in play. Frozen Hextris has an ice palette, snowflake centre and Elsa/Olaf scenery. Moana’s puzzle uses coral sails and turquoise ocean hearts. Tap Tap Tap has HUNTR/X stages and note, demon and Honmoon targets. Rooftop Rescue is a three-lane game: collect 12 webs in 45 seconds, dodge pumpkin bombs, pause/resume, and replay. Toy Match has six shuffled toy pairs, move counting, a points bonus and replay. Both new games support touch, keyboard controls and local result sharing. Hogwarts Flyer is a Harry Potter themed broomstick game: choose Harry, Ron or Hermione before takeoff, fly through gaps in enchanted towers above a moonlit castle, and choose again after each flight. Shared results include the selected character. Tap Tap Tap now has eight rounds (12–42 blue note taps with 30–38 seconds each), three hearts, escalating red demon hazards, up to 3× streak points, Honmoon stars for extra time, time bonuses, a clear Next level button and a final celebration. Players can retry a failed level with its starting score or restart the whole run. Targets never overlap; symbols distinguish the colours. In-game pause preserves the timer, and hiding the browser automatically pauses play. Phone cards use compact illustrated previews, and the six-game shelf scrolls within the Gaming screen. Scores remain inside the isolated game session and disappear when it is closed. Games never report scores, ask for nicknames or contact a service.
 
 ## Security and privacy
 
@@ -64,3 +64,5 @@ Browser checks require installed Chrome on macOS, or `CHROME_PATH` pointing to C
 - With the preview server running: `node scripts/taptaptap-check.mjs` plays all eight rounds and checks hearts, combos, bonus stars, target placement, pause, retries, time expiry and a fresh replay.
 
 These checks use browser-emulated devices, not physical-device certification.
+
+- With the preview server running: `node scripts/themed-games-check.mjs` checks the new games’ collisions, win/loss, pause, memory matching, reset and sharing, plus themed art at phone/desktop sizes.

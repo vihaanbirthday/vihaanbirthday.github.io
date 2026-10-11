@@ -4,14 +4,14 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const levels = [
-  { name: 'Find your rhythm', goal: 12, time: 30, reds: 1 },
-  { name: 'Double the fun', goal: 16, time: 30, reds: 2 },
-  { name: 'Follow the sparkle', goal: 20, time: 30, reds: 2 },
-  { name: 'On a roll', goal: 24, time: 32, reds: 3 },
-  { name: 'Quick fingers', goal: 28, time: 32, reds: 3 },
-  { name: 'Keep your cool', goal: 32, time: 34, reds: 4 },
-  { name: 'Almost there', goal: 36, time: 34, reds: 4 },
-  { name: 'The grand finale', goal: 42, time: 38, reds: 5 },
+  { name: 'HUNTR/X warm-up', goal: 12, time: 30, reds: 1 },
+  { name: 'Rumi’s rhythm', goal: 16, time: 30, reds: 2 },
+  { name: 'Mira’s spotlight', goal: 20, time: 30, reds: 2 },
+  { name: 'Zoey’s encore', goal: 24, time: 32, reds: 3 },
+  { name: 'Seoul skyline', goal: 28, time: 32, reds: 3 },
+  { name: 'Demon showdown', goal: 32, time: 34, reds: 4 },
+  { name: 'Golden Honmoon', goal: 36, time: 34, reds: 4 },
+  { name: 'HUNTR/X finale', goal: 42, time: 38, reds: 5 },
 ];
 const gameEngine = { score: 0, levelNum: 1, tapNum: 0, tapsGoal: 12, lives: 3, streak: 0, state: 'menu', timeLeft: 30 };
 let tick = 0, countdown = 0, previousTime = 0, roundScore = 0, pendingStar = false, best = 0, resumeState = 'playing';
@@ -131,7 +131,7 @@ function pass() {
   best = Math.max(best, gameEngine.score);
   const finished = gameEngine.levelNum === levels.length;
   $('lvlPssdTtl').textContent = `LEVEL ${gameEngine.levelNum} COMPLETE`;
-  $('passedHeading').textContent = finished ? 'You lit up the party!' : 'Beautifully done.';
+  $('passedHeading').textContent = finished ? 'The Honmoon is shining!' : 'Beautifully done.';
   $('levelSummary').textContent = finished ? `Eight levels cleared · Session best: ${best}` : `Next: ${levels[gameEngine.levelNum].name} · ${levels[gameEngine.levelNum].goal} taps`;
   $('lvlPssdScore').textContent = gameEngine.score;
   $('lvlPssdBonusScore').textContent = `Time bonus +${bonus} · ${gameEngine.lives} heart${gameEngine.lives === 1 ? '' : 's'} left`;

@@ -98,7 +98,7 @@ try {
       await missingArt.close();
     }
     await page.locator('.gaming-shortcut').click();
-    for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
+    for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy', 'spiderman', 'toystory']) {
       let releaseScript;
       const scriptGate = new Promise(resolve => { releaseScript = resolve; });
       const scriptPattern = `**/games/${game}/**/*.js`;

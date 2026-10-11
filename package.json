@@ -12,6 +12,7 @@
     "test:navigation": "node scripts/navigation-check.mjs",
     "check:ready": "node scripts/check-ready.mjs",
     "test:sharing": "node scripts/taptaptap-check.mjs && node scripts/result-sharing-check.mjs",
+    "test:themes": "node scripts/themed-games-check.mjs",
     "test:flappy": "node scripts/hogwarts-check.mjs && node scripts/flappy-motion-check.mjs"
   },
   "devDependencies": {

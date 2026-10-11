@@ -33,12 +33,12 @@ try {
         await frame.locator('#scoreboard').waitFor({ state: 'visible' });
         await page.waitForTimeout(1300);
       } else if (game === 'hextris') {
-        name = 'Hextris'; expectedScore = 842;
+        name = 'Frozen Hextris'; expectedScore = 842;
         await frame.locator('#startBtn').tap();
         await frame.evaluate(() => { gameState = 2; score = 842; highscores = [842]; gameOverDisplay(); });
         await page.waitForTimeout(600);
       } else {
-        name = '0h h1'; expectedScore = 16;
+        name = 'Moana’s Ocean Logic'; expectedScore = 16;
         // A valid solved 4×4 board exercises the real puzzle-completion path.
         await frame.evaluate(() => {
           const full = [1,1,2,2, 1,2,1,2, 2,1,2,1, 2,2,1,1];

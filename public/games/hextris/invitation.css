@@ -7,3 +7,5 @@
 #share-final-score{min-height:44px;padding:12px 18px;border:0;border-radius:8px;background:#3498db;color:white;font:15px Arial,sans-serif;cursor:pointer;touch-action:manipulation}
 #share-final-score:focus-visible{outline:3px solid #2c3e50;outline-offset:3px}
 @media(max-height:450px){#highScoresTitle,.score{display:none}#gameoverscreen{padding:12px 16px}.GOTitle{font-size:20px}#cScore{font-size:44px;margin:0}#bottomContainer{flex-direction:row;justify-content:center;margin-top:10px;gap:16px}}
+
+body{background:#bfe9f5 url('art/palace.svg') center/cover fixed}.frozen-companions{position:fixed;right:0;bottom:0;width:140px;opacity:.5;pointer-events:none;z-index:1;mask-image:linear-gradient(transparent,#000 50%)}#gameoverscreen{background:#e5f7ffed}#share-final-score{background:#38688d}#helpScreen{background:#eaf8ff;color:#23435a}@media(max-width:450px){.frozen-companions{width:90px}}
