@@ -59,12 +59,18 @@ try {
   await page.locator('.opening-button').click();
   await page.waitForFunction(() => document.querySelector('.hero .safari-home')?.dataset.painted === 'true');
   assert.equal(await page.locator('#hero-title em,.word-accent').evaluateAll(words => words.filter(word => getComputedStyle(word).animationName !== 'none').length), 0, 'Reading text stays still');
+  const toy = page.locator('#invitation .toy-one');
+  const toyPose = await toy.evaluate(el => getComputedStyle(el).transform);
+  await page.waitForTimeout(250);
+  assert.notEqual(await toy.evaluate(el => getComputedStyle(el).transform), toyPose, 'The nursery background toy gently moves');
+  assert(await page.locator('.invitation-page[hidden] .nursery-toy').evaluateAll(toys => toys.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Inactive page decorations stop moving');
   const friend = page.locator('.hero .safari-friend');
   await friend.focus();
   await page.keyboard.press('Enter');
   assert.equal(await friend.getAttribute('data-gesture'), 'hello', 'Animal greeting works by keyboard');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction(() => document.body.classList.contains('motion-paused'));
+  assert(await toy.evaluate(el => getComputedStyle(el).animationName === 'none'), 'Reduced motion disables nursery background animation');
   const pausedPose = await friend.locator('canvas').evaluate(canvas => canvas.toDataURL());
   await page.waitForTimeout(200);
   assert.equal(await friend.locator('canvas').evaluate(canvas => canvas.toDataURL()), pausedPose, 'Canvas movement stops while paused');
@@ -74,6 +80,7 @@ try {
   await page.locator('#rsvp-button').click();
   await page.waitForFunction(() => document.body.classList.contains('motion-dialog'));
   assert.equal(await page.locator('#rsvp .safari-stop').getAttribute('data-paused'), 'true', 'Dialog pauses animal movement');
+  assert(await page.locator('#rsvp .nursery-toy').evaluateAll(toys => toys.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Dialog pauses nursery background movement');
   await page.locator('#close-rsvp').click();
   await page.waitForFunction(() => !document.body.classList.contains('motion-dialog'));
   await page.emulateMedia({ reducedMotion: 'reduce' });

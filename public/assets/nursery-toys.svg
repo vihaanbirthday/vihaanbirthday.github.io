@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="teddy" viewBox="0 0 160 160">
+    <g stroke="#b88b70" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="80" cy="108" rx="36" ry="37" fill="#e8bc96"/>
+      <ellipse cx="41" cy="106" rx="15" ry="24" fill="#e8bc96" transform="rotate(25 41 106)"/>
+      <ellipse cx="119" cy="106" rx="15" ry="24" fill="#e8bc96" transform="rotate(-25 119 106)"/>
+      <ellipse cx="53" cy="139" rx="20" ry="14" fill="#edc9aa"/>
+      <ellipse cx="107" cy="139" rx="20" ry="14" fill="#edc9aa"/>
+      <circle cx="46" cy="34" r="18" fill="#e8bc96"/><circle cx="114" cy="34" r="18" fill="#e8bc96"/>
+      <circle cx="46" cy="34" r="10" fill="#f7dfcc" stroke="none"/><circle cx="114" cy="34" r="10" fill="#f7dfcc" stroke="none"/>
+      <ellipse cx="80" cy="58" rx="44" ry="36" fill="#edc9aa"/>
+      <ellipse cx="80" cy="72" rx="20" ry="15" fill="#f9e8d5" stroke="none"/>
+      <path d="M76 65 Q80 61 84 65 Q80 72 76 65Z" fill="#785c4d" stroke="#785c4d"/>
+      <path d="M80 70v5m-8 0q8 8 16 0" fill="none" stroke="#785c4d"/>
+      <circle cx="62" cy="56" r="3" fill="#785c4d" stroke="none"/><circle cx="98" cy="56" r="3" fill="#785c4d" stroke="none"/>
+      <ellipse cx="52" cy="68" rx="7" ry="4" fill="#e6a69d" stroke="none"/><ellipse cx="108" cy="68" rx="7" ry="4" fill="#e6a69d" stroke="none"/>
+      <path d="M80 123c-26-16-16-32 0-20 16-12 26 4 0 20Z" fill="#d88e91" stroke="none"/>
+    </g>
+  </symbol>
+  <symbol id="balloons" viewBox="0 0 160 160">
+    <g stroke="#b0a2a5" stroke-width="2" fill="none" stroke-linecap="round">
+      <path d="M42 71q-18 46 38 78M116 80q20 31-36 69M80 57v92"/>
+    </g>
+    <ellipse cx="42" cy="44" rx="28" ry="35" fill="#efb6b2"/><path d="m42 76-6 8h12Z" fill="#efb6b2"/>
+    <ellipse cx="116" cy="52" rx="27" ry="34" fill="#b7d7ed"/><path d="m116 83-6 8h12Z" fill="#b7d7ed"/>
+    <ellipse cx="80" cy="28" rx="25" ry="32" fill="#f3d994"/><path d="m80 57-6 8h12Z" fill="#f3d994"/>
+    <path d="M29 26q-7 9-6 18M104 34q-7 9-6 18M69 10q-7 9-6 18" stroke="#fffaf0" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/>
+    <path d="m80 145-12-6 3 13 9-7 12-6-3 13Z" fill="#c3b3d9"/>
+  </symbol>
+  <symbol id="rattle" viewBox="0 0 160 160">
+    <g transform="rotate(-25 80 80)">
+      <rect x="69" y="73" width="22" height="69" rx="11" fill="#edb0b3"/>
+      <rect x="63" y="114" width="34" height="15" rx="7" fill="#d98f9c"/>
+      <circle cx="80" cy="50" r="40" fill="#bad9eb" stroke="#8fb9cf" stroke-width="3"/>
+      <circle cx="80" cy="50" r="28" fill="#fff5dc"/>
+      <path d="m80 30 6 12 14 2-10 10 2 14-12-7-12 7 2-14-10-10 14-2Z" fill="#e8c46d"/>
+      <circle cx="80" cy="14" r="3" fill="#fffdf7"/><circle cx="44" cy="50" r="3" fill="#fffdf7"/><circle cx="116" cy="50" r="3" fill="#fffdf7"/>
+    </g>
+  </symbol>
+  <symbol id="blocks" viewBox="0 0 160 160">
+    <rect x="51" y="17" width="62" height="62" rx="12" fill="#f6da9f" stroke="#dcbd7c" stroke-width="3" transform="rotate(7 82 48)"/>
+    <rect x="12" y="85" width="62" height="62" rx="12" fill="#b8d7eb" stroke="#8fb7d0" stroke-width="3" transform="rotate(-8 43 116)"/>
+    <rect x="86" y="87" width="62" height="62" rx="12" fill="#edbec4" stroke="#d19ea9" stroke-width="3" transform="rotate(8 117 118)"/>
+    <g font-family="Arial, sans-serif" font-size="37" font-weight="bold" text-anchor="middle" fill="#fffdf7">
+      <text x="82" y="61" transform="rotate(7 82 48)">A</text><text x="43" y="130" transform="rotate(-8 43 116)">B</text><text x="117" y="132" transform="rotate(8 117 118)">C</text>
+    </g>
+  </symbol>
+  <symbol id="rainbow" viewBox="0 0 160 160">
+    <g fill="none" stroke-width="13">
+      <path d="M18 107a62 62 0 0 1 124 0" stroke="#edb9b4"/>
+      <path d="M31 107a49 49 0 0 1 98 0" stroke="#f3d99c"/>
+      <path d="M44 107a36 36 0 0 1 72 0" stroke="#b8d8e9"/>
+      <path d="M57 107a23 23 0 0 1 46 0" stroke="#c9b9df"/>
+    </g>
+    <g fill="#fffdf8" stroke="#dce5ed" stroke-width="2">
+      <path d="M8 123c-9-15 1-30 14-26 0-24 33-26 37-3 24-1 29 29 10 32H17q-6 0-9-3Z"/>
+      <path d="M92 123c-9-15 1-30 14-26 0-24 33-26 37-3 24-1 29 29 10 32h-52q-6 0-9-3Z"/>
+    </g>
+  </symbol>
+</svg>
