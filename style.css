@@ -393,18 +393,18 @@ body{padding-top:var(--nav-offset,var(--header-height))}
 
 #result-share-dialog{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:48px 22px 22px}#result-share-title{font-size:30px;margin:0 0 12px}#result-share-preview{display:block;width:min(100%,270px);height:auto;margin:16px auto;border-radius:14px}.result-share-actions{display:grid;gap:10px}.result-share-actions .text-link{justify-content:center;font-size:14px}#result-share-help,#result-share-status{font-size:13px;line-height:1.5}#result-share-status:not(:empty){margin-top:12px}.result-share-actions .button:disabled{opacity:.6}
 
-/* Hogwarts Flyer: a moonlit broomstick adventure within the birthday arcade. */
-.preview-hogwarts{background:linear-gradient(#202641,#5b537d 70%,#b48d9c);isolation:isolate}
-.preview-hogwarts .game-tag{color:#ffe7b4;opacity:1;font-size:7px;letter-spacing:1px;z-index:3;padding-inline:8px}
-.preview-castle{position:absolute;inset:30% 0 0;background:url('/games/flappy/art/hogwarts.svg') center bottom/auto 100% repeat-x;opacity:.9}
+/* Broomstick Flyer: a moonlit broomstick adventure within the birthday arcade. */
+.preview-broomstick{background:linear-gradient(#202641,#5b537d 70%,#b48d9c);isolation:isolate}
+.preview-broomstick .game-tag{color:#ffe7b4;opacity:1;font-size:7px;letter-spacing:1px;z-index:3;padding-inline:8px}
+.preview-castle{position:absolute;inset:30% 0 0;background:url('/games/flappy/art/sky-garden.svg') center bottom/auto 100% repeat-x;opacity:.9}
 .preview-wizard{position:absolute;width:115px;height:auto;right:31%;top:30%;z-index:2;filter:drop-shadow(0 5px 5px #11172b66)}
 .wizard-moon{position:absolute;right:26px;top:43px;width:25px;height:25px;border-radius:50%;background:#ffe8b3;box-shadow:0 0 20px #ffe8b350;z-index:-1}
 .wizard-spark{position:absolute;top:72px;left:22px;color:#ffdc8e;font-size:18px}
-.hogwarts-loading{background:linear-gradient(#252c48,#151d33);color:#ffe9bd}
-.hogwarts-loading .eyebrow,.hogwarts-loading p{color:#e5cc98}
-.hogwarts-loading img{max-height:160px;object-fit:contain;mix-blend-mode:normal}
+.broomstick-loading{background:linear-gradient(#252c48,#151d33);color:#ffe9bd}
+.broomstick-loading .eyebrow,.broomstick-loading p{color:#e5cc98}
+.broomstick-loading img{max-height:160px;object-fit:contain;mix-blend-mode:normal}
 @media(max-width:620px){.preview-wizard{width:95px;right:15%;top:27%}.wizard-moon{right:15px;top:20px;width:20px;height:20px}.wizard-spark{display:none}}
 
-/* Illustrated covers share the Hogwarts tile's depth and colour. */
+/* Illustrated covers share the Broomstick tile's depth and colour. */
 .game-cover{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .preview-tap{background:#15324e}.preview-hextris{background:#393a60}.preview-ohhi{background:#4c526f}

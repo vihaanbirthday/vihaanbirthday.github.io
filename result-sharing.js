@@ -110,7 +110,7 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
 
 function normalizeResult(game, data) {
   if (!data || !Number.isSafeInteger(data.score) || data.score < 0) return null;
-  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Hogwarts Flyer', hextris: 'Hextris', ohhi: '0h h1' };
+  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Broomstick Flyer', hextris: 'Hextris', ohhi: '0h h1' };
   if (!names[game]) return null;
   const result = { score: data.score, name: names[game], slug: game === 'taptaptap' ? 'tap-tap-tap' : game };
   if (game === 'taptaptap') {
@@ -138,7 +138,7 @@ function normalizeResult(game, data) {
     result.detail = `Best this visit: ${data.best}`;
     result.footer = 'Can you beat my score?';
     if (game === 'flappy') {
-      const characters = { harry: 'Harry', ron: 'Ron', hermione: 'Hermione' };
+      const characters = { nova: 'Nova', pip: 'Pip', lumi: 'Lumi' };
       if (!Object.hasOwn(characters, data.character)) return null;
       result.summary = `Flown with ${characters[data.character]}`;
       result.footer = 'A broomstick. A castle. A little magic.';

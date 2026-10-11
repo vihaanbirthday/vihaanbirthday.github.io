@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="80" viewBox="0 0 220 160" role="img" aria-labelledby="title">
+<title id="title">Nova on a handmade flying broomstick</title>
+<defs>
+ <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8be0cb"/><stop offset="1" stop-color="#277781"/></linearGradient>
+ <linearGradient id="straw" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe7a0"/><stop offset="1" stop-color="#c28b47"/></linearGradient>
+ <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b98660"/><stop offset="1" stop-color="#694539"/></linearGradient>
+</defs>
+<g stroke="#282c46" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M13 90q10 9 31 14l22 7-7 20-26 5q-17 3-27-4l12-6-10-6 13-6-9-9 15 3Z" fill="url(#straw)"/>
+ <path d="m20 111 31 7m-29 8 31-5m-21-14 20 9" fill="none" stroke="#a57543" stroke-width="2"/>
+ <path d="M48 119 191 99q13-2 17-9" fill="none" stroke="#282c46" stroke-width="11"/>
+ <path d="M48 119 191 99q13-2 17-9" fill="none" stroke="url(#wood)" stroke-width="7"/>
+ <path d="m55 113 2 14m5-15 2 14" stroke="#f8d07c" stroke-width="4"/>
+ 
+ <path d="M116 98 110 119 129 139 143 139 127 117 135 99" fill="#343d68"/>
+ <path d="m128 133 12-2 8 10q0 6-8 6h-17l-1-6Z" fill="#e9ae76"/>
+ <path d="M130 93 141 107 138 124 149 128 158 104 148 89" fill="#414b7b"/>
+ <path d="m140 121 12 2 7 10q1 6-6 6h-17l-3-7Z" fill="#d29364"/>
+ <path d="M125 66q-20 5-34 22L60 99l30 4-7 13 37-9 27-22Z" fill="url(#coat)"/>
+ <path d="M119 72q-13 11-12 30l29 8 20-19-11-23Z" fill="url(#coat)"/>
+ <path d="m114 75 24 29" stroke="#ffdf91" stroke-width="5"/>
+ <rect x="104" y="89" width="17" height="22" rx="5" fill="#e9a971" transform="rotate(-15 112 100)"/>
+ <path d="m110 96 3 2 4-4" fill="none" stroke="#fff0c4" stroke-width="2"/>
+ <path d="M137 77 154 96 174 96" fill="none" stroke="#282c46" stroke-width="16"/>
+ <path d="M137 77 154 96 174 96" fill="none" stroke="#57b9b6" stroke-width="11"/>
+ <path d="m173 92 6-1q7 1 7 5l-7 5-6-1Z" fill="#bc7858"/>
+ <path d="M119 65 116 74l25 8 7-9-22-11" fill="#f4cf79"/>
+ <path d="M117 49q-3 22 12 23 17 4 26-10l4-13-7-19-27 1Z" fill="#b97757"/>
+ <path d="m150 46 7 6 7 2-8 5" fill="#b97757"/>
+ <path d="M115 52q-12-7-7-19l9-11 20-3 17 14-4 9-12-7-3 13-9-7-5 15Z" fill="#eef5ed"/>
+ <path d="M108 32q14-18 47-6l10-8q-22 0-34-12l-18 12Z" fill="#358f9c"/>
+ <path d="M106 31q23 1 46-5l8 7q-25 9-52 6Z" fill="#72ccc0"/>
+ <path d="M134 13q-6 7 2 10-10 3-10-4t8-6" fill="#ffdf91" stroke="none"/>
+ <path d="m141 48 5-1" stroke-width="3"/><circle cx="148" cy="52" r="2.2" fill="#282c46" stroke="none"/>
+ <path d="m145 63 6-2" fill="none" stroke-width="2"/><ellipse cx="139" cy="59" rx="4" ry="2.5" fill="#e8a080" stroke="none"/>
+
+</g>
+<g fill="#8be0cb"><path d="m15 66 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><path d="m199 48 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/><circle cx="31" cy="83" r="2.5"/></g>
+</svg>

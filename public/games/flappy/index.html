@@ -1,11 +1,11 @@
-<!-- Original fan artwork; adapted Floppy Bird mechanics. See LICENSE and INVITATION-NOTICE.md. -->
+<!-- Original character artwork; adapted Floppy Bird mechanics. See LICENSE and INVITATION-NOTICE.md. -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
-  <title>Hogwarts Flyer · A Harry Potter broomstick adventure</title>
+  <title>Broomstick Flyer · A magical sky adventure</title>
   <link rel="stylesheet" href="css/main.css">
   <script src="../session.js"></script>
 </head>
@@ -14,18 +14,18 @@
     <div id="sky"><div id="flyarea">
       <div class="castle" aria-hidden="true"></div>
       <div id="ceiling"></div>
-      <div id="player" aria-label="Broomstick rider"><img src="art/harry.svg" alt="" draggable="false"></div>
+      <div id="player" aria-label="Broomstick rider"><img src="art/nova.svg" alt="" draggable="false"></div>
       <div id="rider-name"></div>
       <div id="bigscore" aria-label="Score" aria-live="off"></div>
       <div id="splash">
         <div class="start-card">
-          <div class="start-intro"><span class="eyebrow">A HARRY POTTER ADVENTURE</span><h1>Hogwarts <em>Flyer</em></h1><p>A broomstick. A castle. A little magic.</p></div>
+          <div class="start-intro"><span class="eyebrow">A SKY MAGIC ADVENTURE</span><h1>Broomstick <em>Flyer</em></h1><p>A broomstick. A castle. A little magic.</p></div>
           <div class="start-controls">
             <div id="character-label">Choose your character</div>
             <div class="character-options" role="group" aria-labelledby="character-label">
-              <button class="character-option" data-character="harry" type="button" aria-pressed="false"><img src="art/harry.svg" alt="" draggable="false"><strong>Harry</strong><small>The brave seeker</small></button>
-              <button class="character-option" data-character="ron" type="button" aria-pressed="false"><img src="art/ron.svg" alt="" draggable="false"><strong>Ron</strong><small>A loyal friend</small></button>
-              <button class="character-option" data-character="hermione" type="button" aria-pressed="false"><img src="art/hermione.svg" alt="" draggable="false"><strong>Hermione</strong><small>A brilliant witch</small></button>
+              <button class="character-option" data-character="nova" type="button" aria-pressed="false"><img src="art/nova.svg" alt="" draggable="false"><strong>Nova</strong><small>The star courier</small></button>
+              <button class="character-option" data-character="pip" type="button" aria-pressed="false"><img src="art/pip.svg" alt="" draggable="false"><strong>Pip</strong><small>The fox aviator</small></button>
+              <button class="character-option" data-character="lumi" type="button" aria-pressed="false"><img src="art/lumi.svg" alt="" draggable="false"><strong>Lumi</strong><small>The sky witch</small></button>
             </div>
             <p id="selection-status" role="status">Your adventure starts with you.</p>
             <button id="start-flight" type="button" disabled>Choose a character to fly</button>
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div id="scoreboard">
-        <span class="eyebrow">MISCHIEF MANAGED</span><h2>Magical flying!</h2>
+        <span class="eyebrow">STARS WELL TRAVELLED</span><h2>Magical flying!</h2>
         <p id="result-character"></p><div id="medal"></div>
         <p>Score <span id="currentscore"></span></p><p>Best this visit <span id="highscore"></span></p>
         <button id="share-final-score" type="button">Share final score ↗</button>

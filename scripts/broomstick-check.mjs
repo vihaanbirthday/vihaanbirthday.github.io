@@ -25,7 +25,7 @@ try {
     await frame.evaluate(() => { startGame(); selectCharacter('unknown'); });
     assert.equal(await frame.evaluate(() => currentstate), 0, 'No takeoff before an explicit choice');
     assert.equal(await frame.evaluate(() => selectedCharacter), null);
-    for (const [character, name] of [['harry', 'Harry'], ['ron', 'Ron'], ['hermione', 'Hermione']]) {
+    for (const [character, name] of [['nova', 'Nova'], ['pip', 'Pip'], ['lumi', 'Lumi']]) {
       const option = frame.locator(`[data-character="${character}"]`);
       if (desktop) {
         await option.focus();
@@ -45,7 +45,7 @@ try {
       assert.equal(await page.locator('#game-dialog').evaluate(dialog => dialog.scrollHeight > dialog.clientHeight), false, 'The game dialog fits the device screen');
       const layout = await frame.evaluate(() => ({ width: innerWidth, scroll: document.querySelector('#splash').scrollWidth, height: document.querySelector('#splash').clientHeight, content: document.querySelector('#splash').scrollHeight }));
       assert(layout.scroll <= layout.width && layout.content <= layout.height, `Selection fits at ${viewport.width}px: ${JSON.stringify(layout)}`);
-      await page.screenshot({ path: `test-results/hogwarts-${character}-${viewport.width}.png` });
+      await page.screenshot({ path: `test-results/sky-garden-${character}-${viewport.width}.png` });
       if (desktop) {
         await frame.locator('#start-flight').focus();
         await page.keyboard.press('Enter');
@@ -80,7 +80,7 @@ try {
       assert.equal(await frame.evaluate(() => currentstate), 2, 'Tower collision ends the flight');
       assert.equal(await frame.locator('#currentscore').textContent(), '1');
       assert.equal(await frame.locator('#result-character').textContent(), `Flown with ${name}`);
-      if (character === 'hermione') await page.screenshot({ path: `test-results/hogwarts-result-${viewport.width}.png` });
+      if (character === 'lumi') await page.screenshot({ path: `test-results/sky-garden-result-${viewport.width}.png` });
       await frame.locator('#replay').click();
       await page.clock.runFor(1200);
       assert.equal(await frame.evaluate(() => currentstate), 0);
@@ -98,5 +98,5 @@ try {
     assert.deepEqual(errors, []);
     await page.close();
   }
-  console.log('Hogwarts Flyer: all three riders, required selection, touch/keyboard flight, tower scoring/collision, replay, restart and responsive layouts passed.');
+  console.log('Broomstick Flyer: all three riders, required selection, touch/keyboard flight, tower scoring/collision, replay, restart and responsive layouts passed.');
 } finally { await browser.close(); }

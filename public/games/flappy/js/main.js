@@ -26,7 +26,7 @@ var pipes = new Array();
 
 var replayclickable = false;
 var selectedCharacter = null;
-var characters = Object.freeze({ harry: 'Harry', ron: 'Ron', hermione: 'Hermione' });
+var characters = Object.freeze({ nova: 'Nova', pip: 'Pip', lumi: 'Lumi' });
 
 // Silent invitation edition; original sound assets are not distributed.
 //loops

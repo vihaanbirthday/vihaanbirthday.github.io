@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="80" viewBox="0 0 220 160" role="img" aria-labelledby="title">
+<title id="title">Pip on a handmade flying broomstick</title>
+<defs>
+ <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe0a1"/><stop offset="1" stop-color="#b38137"/></linearGradient>
+ <linearGradient id="straw" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe7a0"/><stop offset="1" stop-color="#c28b47"/></linearGradient>
+ <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b98660"/><stop offset="1" stop-color="#694539"/></linearGradient>
+</defs>
+<g stroke="#282c46" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M13 90q10 9 31 14l22 7-7 20-26 5q-17 3-27-4l12-6-10-6 13-6-9-9 15 3Z" fill="url(#straw)"/>
+ <path d="m20 111 31 7m-29 8 31-5m-21-14 20 9" fill="none" stroke="#a57543" stroke-width="2"/>
+ <path d="M48 119 191 99q13-2 17-9" fill="none" stroke="#282c46" stroke-width="11"/>
+ <path d="M48 119 191 99q13-2 17-9" fill="none" stroke="url(#wood)" stroke-width="7"/>
+ <path d="m55 113 2 14m5-15 2 14" stroke="#f8d07c" stroke-width="4"/>
+ 
+ <path d="M111 94Q87 76 61 78 41 80 35 60q-14 35 19 45 21 7 46 2Z" fill="#ce7e47"/>
+ <path d="M35 60q-6 20 5 32l15-8q-15-8-20-24Z" fill="#fff0cb"/>
+ <path d="m115 96-5 24 22 21 15-3-19-23 7-21" fill="#455067"/>
+ <path d="m131 133 12-2 8 8q4 6-4 9h-20l-3-7Z" fill="#704a40"/>
+ <path d="m133 91 15 16-5 18 15 1 5-24-17-18" fill="#576179"/>
+ <path d="m144 122 14-1 8 10q3 7-6 7h-17l-4-7Z" fill="#885b45"/>
+ <path d="M121 70q-21 5-27 24l12 13 28 4 22-21-9-23Z" fill="url(#coat)"/>
+ <path d="m111 79 11 27m-12-11 26 4" fill="none" stroke="#ffe3a4" stroke-width="3"/>
+ <path d="M129 78 153 96h24" fill="none" stroke="#282c46" stroke-width="17"/>
+ <path d="M129 78 153 96h24" fill="none" stroke="#dfb054" stroke-width="12"/>
+ <path d="m173 92 8-2q6 1 7 5l-8 7-7-2" fill="#ce7e47"/>
+ <path d="M123 68 114 79l28 7 8-12Z" fill="#e77160"/>
+ <path d="M120 74Q91 65 74 69l15 9-13 9q24-11 42-5" fill="#e77160"/>
+ <path d="M115 42 113 13q13 4 23 17l14-12 3 23" fill="#d98b50"/>
+ <path d="m119 31-1-10 10 12m16 1 4-9 1 12" fill="#eeac8c" stroke-width="2"/>
+ <path d="M115 37q25-18 40 8l5 11 18 6-12 11-23 3q-28-3-31-24Z" fill="#db9052"/>
+ <path d="M126 52q4 16 15 18l22 3 14-10-20-6-11 5-9-12Z" fill="#fff0cb" stroke="none"/>
+ <path d="m173 60 6 2-6 5-4-3Z" fill="#282c46"/>
+ <path d="m151 68 9 1" fill="none" stroke-width="2"/>
+ <path d="m111 43 45-7" stroke="#68463c" stroke-width="6"/>
+ <rect x="116" y="32" width="17" height="14" rx="6" fill="#a8e1da" stroke="#f7d487" transform="rotate(-8 124 39)"/>
+ <rect x="139" y="29" width="17" height="14" rx="6" fill="#a8e1da" stroke="#f7d487" transform="rotate(-8 147 36)"/>
+ <path d="m122 35 5 6m18-9 5 6" stroke="#f8f9dd" stroke-width="2"/>
+ <path d="m150 50 4 1" stroke-width="3"/>
+
+</g>
+<g fill="#ffe0a1"><path d="m15 66 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><path d="m199 48 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/><circle cx="31" cy="83" r="2.5"/></g>
+</svg>

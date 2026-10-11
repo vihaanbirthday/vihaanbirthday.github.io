@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="80" viewBox="0 0 220 160" role="img" aria-labelledby="title">
+<title id="title">Lumi on a handmade flying broomstick</title>
+<defs>
+ <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dbb7ef"/><stop offset="1" stop-color="#77629d"/></linearGradient>
+ <linearGradient id="straw" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe7a0"/><stop offset="1" stop-color="#c28b47"/></linearGradient>
+ <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b98660"/><stop offset="1" stop-color="#694539"/></linearGradient>
+</defs>
+<g stroke="#282c46" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M13 90q10 9 31 14l22 7-7 20-26 5q-17 3-27-4l12-6-10-6 13-6-9-9 15 3Z" fill="url(#straw)"/>
+ <path d="m20 111 31 7m-29 8 31-5m-21-14 20 9" fill="none" stroke="#a57543" stroke-width="2"/>
+ <path d="M48 119 191 99q13-2 17-9" fill="none" stroke="#282c46" stroke-width="11"/>
+ <path d="M48 119 191 99q13-2 17-9" fill="none" stroke="url(#wood)" stroke-width="7"/>
+ <path d="m55 113 2 14m5-15 2 14" stroke="#f8d07c" stroke-width="4"/>
+ 
+ <circle cx="106" cy="98" r="12" fill="#fff1e4"/>
+ <path d="m120 96-6 24 19 21 14-3-16-22 9-20" fill="#766084"/>
+ <path d="m132 132 12-1 8 10q1 7-7 7h-18l-3-7Z" fill="#f1dce6"/>
+ <path d="m140 92 13 15-9 19 15 3 11-25-18-18" fill="#9475a0"/>
+ <path d="m146 122 14 2 7 10q0 6-7 6h-19l-1-7Z" fill="#fff1e4"/>
+ <path d="M127 66q-26 5-40 21L57 99l27 4-8 13q28 4 48-10l25-20Z" fill="url(#coat)"/>
+ <path d="M121 77q-15 16-12 24l28 10 18-22-11-20Z" fill="url(#coat)"/>
+ <path d="m82 99 9-3m-1 10 12-4" stroke="#eac9ee" stroke-width="3"/>
+ <path d="M137 77 157 94l19 2" fill="none" stroke="#282c46" stroke-width="17"/>
+ <path d="M137 77 157 94l19 2" fill="none" stroke="#b597ce" stroke-width="12"/>
+ <path d="m174 92 8-1q6 2 5 6l-8 5-6-3" fill="#fff1e4"/>
+ <path d="M120 68 118 78l24 8 11-12Z" fill="#95d6ce"/>
+ <path d="M120 45q-6 25 13 29l18-1 14-15-9-19-23-7Z" fill="#fff1e4"/>
+ <path d="m154 53 13 4-8 6" fill="#fff1e4"/>
+ <path d="M120 33q-10-25-3-29 9-3 17 26m10-3q-1-23 8-23 10 2 3 29" fill="#fff1e4"/>
+ <path d="m119 11 8 19m23-19-1 16" stroke="#dfabc2" stroke-width="4"/>
+ <path d="M111 39q11-19 29-17l24-9-6 20-2 9Z" fill="#8b6ca5"/>
+ <path d="M108 40q28-9 53-5l12 10q-31 7-63 3Z" fill="#b496cf"/>
+ <path d="m135 30 3-6 4 5 6 1-5 4 1 6-6-3-5 3 1-6-4-4Z" fill="#ffe5a0" stroke="none"/>
+ <path d="m150 52 4-1" stroke-width="3"/><path d="m161 57 5 1-4 3Z" fill="#dfabc2" stroke="none"/>
+ <path d="m149 65 5-1" fill="none" stroke-width="2"/><ellipse cx="142" cy="60" rx="4" ry="3" fill="#efc2d4" stroke="none"/>
+ <path d="m119 90 3-4 3 4 5 1-4 3v5l-4-3-4 2 1-5-4-3Z" fill="#fce3a8" stroke="none"/>
+
+</g>
+<g fill="#dbb7ef"><path d="m15 66 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><path d="m199 48 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/><circle cx="31" cy="83" r="2.5"/></g>
+</svg>
