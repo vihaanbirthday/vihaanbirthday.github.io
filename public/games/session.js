@@ -7,6 +7,9 @@
 })();
 
 // Each game calls this after its interactive start screen has initialized.
+// Sharing stays in the parent invitation; game frames keep their sandbox intact.
+window.invitationShareResult = result => window.parent.postMessage({ type: 'invitation:share-result', result }, '*');
+
 // Keep the parent hero visible until assets, fonts and the first paint are ready.
 window.invitationGameReady = (() => {
  let sent = false;

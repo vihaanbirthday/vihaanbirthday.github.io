@@ -150,7 +150,7 @@ function initialize(a) {
 		}
 
 		document.addEventListener('touchmove', function(e) {
-			e.preventDefault();
+			if (!e.target.closest('#gameoverscreen')) e.preventDefault();
 		}, {passive: false});
 		$(window).resize(scaleCanvas);
 		$(window).unload(function() {

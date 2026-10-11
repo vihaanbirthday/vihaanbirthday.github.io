@@ -160,15 +160,12 @@ function pause() {
 function shareResult() {
   if (!['between', 'lost'].includes(gameEngine.state)) return;
   const passed = gameEngine.state === 'between';
-  window.parent.postMessage({
-    type: 'invitation:share-taptaptap',
-    result: {
-      score: gameEngine.score, level: gameEngine.levelNum, taps: gameEngine.tapNum,
-      goal: gameEngine.tapsGoal, hearts: gameEngine.lives, passed,
-      heading: passed ? $('passedHeading').textContent : $('lvlLostTtl').textContent,
-      detail: passed ? $('lvlPssdBonusScore').textContent : `${gameEngine.tapNum}/${gameEngine.tapsGoal} taps`,
-    },
-  }, '*');
+  window.invitationShareResult({
+    score: gameEngine.score, level: gameEngine.levelNum, taps: gameEngine.tapNum,
+    goal: gameEngine.tapsGoal, hearts: gameEngine.lives, passed,
+    heading: passed ? $('passedHeading').textContent : $('lvlLostTtl').textContent,
+    detail: passed ? $('lvlPssdBonusScore').textContent : `${gameEngine.tapNum}/${gameEngine.tapsGoal} taps`,
+  });
 }
 document.querySelectorAll('[data-share-result]').forEach(button => button.addEventListener('click', shareResult));
 $('newGameBtn').addEventListener('click', newRun);

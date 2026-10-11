@@ -1,4 +1,9 @@
 #socialShare,#buttonCont{display:none!important}body{font-family:Arial,sans-serif}
-/* Keep the score and replay control inside even a short embedded phone screen. */
-#gameoverscreen #container{top:38%!important;margin-top:0!important;width:90%;max-width:360px}
-#restart{position:fixed;left:50%;bottom:32px;margin:0;transform:translateX(-50%);-webkit-transform:translateX(-50%);z-index:100}
+/* Keep results, sharing and replay accessible inside the embedded screen. */
+#gameoverscreen{display:none;position:fixed;inset:0;z-index:99;background:#ecf0f1f5;overflow:auto;padding:24px 16px;touch-action:pan-y}
+#gameoverscreen #container{position:static!important;transform:none!important;margin:0 auto!important;width:90%;max-width:360px}
+#bottomContainer{position:static;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:20px}
+#restart{position:static!important;transform:none!important;margin:0;z-index:100}
+#share-final-score{min-height:44px;padding:12px 18px;border:0;border-radius:8px;background:#3498db;color:white;font:15px Arial,sans-serif;cursor:pointer;touch-action:manipulation}
+#share-final-score:focus-visible{outline:3px solid #2c3e50;outline-offset:3px}
+@media(max-height:450px){#highScoresTitle,.score{display:none}#gameoverscreen{padding:12px 16px}.GOTitle{font-size:20px}#cScore{font-size:44px;margin:0}#bottomContainer{flex-direction:row;justify-content:center;margin-top:10px;gap:16px}}

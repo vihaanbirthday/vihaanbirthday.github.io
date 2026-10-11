@@ -394,6 +394,12 @@ $("#replay").click(function() {
    });
 });
 
+document.getElementById('share-final-score').addEventListener('click', function(event) {
+   event.stopPropagation();
+   if (currentstate !== states.ScoreScreen || !replayclickable) return;
+   window.invitationShareResult({ score: score, best: highscore });
+});
+
 function playerScore()
 {
    score += 1;

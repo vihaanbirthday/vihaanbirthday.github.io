@@ -86,7 +86,7 @@ try {
     assert(await menuFits('#pageLevelPassed'), 'Completion and next/replay controls fit without scrolling');
     passedScores.push((await state()).score);
     if (level === 1) {
-      await page.evaluate(() => window.postMessage({ type: 'invitation:share-taptaptap', result: {} }, '*'));
+      await page.evaluate(() => window.postMessage({ type: 'invitation:share-result', result: {} }, '*'));
       assert.equal(await page.locator('#result-share-dialog').evaluate(el => el.open), false, 'Ignore unrelated windows');
       await page.evaluate(() => {
         Object.defineProperty(navigator, 'canShare', { configurable: true, value: () => false });

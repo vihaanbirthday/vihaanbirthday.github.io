@@ -8,7 +8,7 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
   const whatsapp = document.querySelector('#result-whatsapp');
   const help = document.querySelector('#result-share-help');
   const status = document.querySelector('#result-share-status');
-  let file, imageURL, message, generation = 0;
+  let file, imageURL, message, shareTitle, generation = 0;
   const contactReady = /^[1-9]\d{7,14}$/.test(whatsappNumber || '');
 
   function release() {
@@ -43,7 +43,7 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
     status.textContent = '';
     try {
       // The file is prepared before this click, preserving browser user activation.
-      await navigator.share({ files: [file], title: 'Tap Tap Tap result', text: message });
+      await navigator.share({ files: [file], title: shareTitle, text: message });
       if (current === generation) status.textContent = 'Result handed to your chosen app. Finish sending it to Madhav in WhatsApp.';
     } catch (error) {
       if (current !== generation) return;
@@ -64,16 +64,10 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
   window.addEventListener('message', async event => {
     const frame = gameContainer.querySelector('iframe');
     if (!gameDialog.open || !frame || event.source !== frame.contentWindow ||
-        !new URL(frame.src).pathname.endsWith('/games/taptaptap/index.html') ||
-        event.data?.type !== 'invitation:share-taptaptap' || dialog.open) return;
-    const result = event.data.result;
-    if (!result || !Number.isSafeInteger(result.score) || result.score < 0 || result.score > 1000000 ||
-        !Number.isInteger(result.level) || result.level < 1 || result.level > 8 ||
-        !Number.isInteger(result.hearts) || result.hearts < 0 || result.hearts > 3 ||
-        !Number.isInteger(result.taps) || result.taps < 0 || result.taps > 42 ||
-        !Number.isInteger(result.goal) || result.goal < 12 || result.goal > 42 ||
-        typeof result.passed !== 'boolean' || typeof result.heading !== 'string' || result.heading.length > 60 ||
-        typeof result.detail !== 'string' || result.detail.length > 80) return;
+        event.data?.type !== 'invitation:share-result' || dialog.open) return;
+    const game = new URL(frame.src).pathname.match(/\/games\/(taptaptap|flappy|hextris|ohhi)\/index\.html$/)?.[1];
+    const result = normalizeResult(game, event.data.result);
+    if (!result) return;
     release();
     const current = generation;
     share.hidden = false;
@@ -85,14 +79,14 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
     try {
       await document.fonts.ready;
       if (current !== generation) return;
-      const cleared = result.passed ? result.level : result.level - 1;
-      message = `Hi Madhav! I scored ${result.score} points in Tap Tap Tap at Vihaan’s birthday challenge. ${cleared}/8 levels cleared${result.passed ? '.' : ` · ${result.taps}/${result.goal} taps on level ${result.level}.`}`;
-      drawResult(canvas, result, cleared);
+      message = `Hi Madhav! I scored ${result.score} points in ${result.name} at Vihaan’s birthday challenge. ${result.summary}.`;
+      shareTitle = `${result.name} result`;
+      drawResult(canvas, result);
       canvas.setAttribute('aria-label', `${result.heading} ${message} ${result.detail}`);
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
       if (current !== generation) return;
       if (!blob) throw new Error('Image unavailable');
-      file = new File([blob], `tap-tap-tap-${result.score}-points.png`, { type: 'image/png' });
+      file = new File([blob], `${result.slug}-${result.score}-points.png`, { type: 'image/png' });
       imageURL = URL.createObjectURL(file);
       download.href = imageURL;
       download.download = file.name;
@@ -114,7 +108,40 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
   return close;
 }
 
-function drawResult(canvas, result, cleared) {
+function normalizeResult(game, data) {
+  if (!data || !Number.isSafeInteger(data.score) || data.score < 0) return null;
+  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Safari Flyer', hextris: 'Hextris', ohhi: '0h h1' };
+  if (!names[game]) return null;
+  const result = { score: data.score, name: names[game], slug: game === 'taptaptap' ? 'tap-tap-tap' : game };
+  if (game === 'taptaptap') {
+    if (!Number.isInteger(data.level) || data.level < 1 || data.level > 8 ||
+        !Number.isInteger(data.hearts) || data.hearts < 0 || data.hearts > 3 ||
+        !Number.isInteger(data.taps) || data.taps < 0 || data.taps > 42 ||
+        !Number.isInteger(data.goal) || data.goal < 12 || data.goal > 42 ||
+        typeof data.passed !== 'boolean' || typeof data.heading !== 'string' || data.heading.length > 60 ||
+        typeof data.detail !== 'string' || data.detail.length > 80) return null;
+    result.cleared = data.passed ? data.level : data.level - 1;
+    result.heading = data.heading;
+    result.summary = `${result.cleared}/8 levels cleared`;
+    result.detail = data.detail;
+    result.footer = `${data.hearts} heart${data.hearts === 1 ? '' : 's'} left · Level ${data.level} of 8`;
+  } else if (game === 'ohhi') {
+    if (![4, 6, 8, 10].includes(data.size) || typeof data.tutorial !== 'boolean') return null;
+    result.heading = data.tutorial ? 'Tutorial complete!' : 'Puzzle complete!';
+    result.summary = `${data.size} × ${data.size} ${data.tutorial ? 'tutorial' : 'puzzle'} completed`;
+    result.detail = 'Total points this visit';
+    result.footer = 'A little logic. A lovely result.';
+  } else {
+    if (!Number.isSafeInteger(data.best) || data.best < data.score) return null;
+    result.heading = game === 'flappy' ? 'Lovely flying!' : 'A good run!';
+    result.summary = 'Final score';
+    result.detail = `Best this visit: ${data.best}`;
+    result.footer = 'Can you beat my score?';
+  }
+  return result;
+}
+
+function drawResult(canvas, result) {
   const ctx = canvas.getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 800);
   gradient.addColorStop(0, '#2b5251');
@@ -129,19 +156,19 @@ function drawResult(canvas, result, cleared) {
   }
   text('✦', 110, 72, '#edc66c');
   text('VIHAAN’S BIRTHDAY CHALLENGE', 165, 20, '#b7d5ce');
-  text('Tap Tap Tap', 236, 54, '#f7f2df', 'Playfair Display');
+  text(result.name, 236, 54, '#f7f2df', 'Playfair Display');
   text(result.heading, 318, 34, '#f7f2df', 'Playfair Display');
   text(String(result.score), 440, 100, '#f6d777');
   text('POINTS', 482, 20, '#b7d5ce');
-  text(`${cleared} / 8 levels cleared`, 553, 28);
+  text(result.summary, 553, 28);
   text(result.detail, 600, 23, '#f6d777');
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < (result.cleared === undefined ? 0 : 8); i++) {
     ctx.beginPath();
     ctx.arc(234 + i * 36, 656, 10, 0, Math.PI * 2);
-    ctx.fillStyle = i < cleared ? '#edc66c' : '#ffffff10';
+    ctx.fillStyle = i < result.cleared ? '#edc66c' : '#ffffff10';
     ctx.fill();
     ctx.strokeStyle = '#acc5b9';
     ctx.stroke();
   }
-  text(`${result.hearts} heart${result.hearts === 1 ? '' : 's'} left · Level ${result.level} of 8`, 732, 22, '#b7d5ce');
+  text(result.footer, 732, 22, '#b7d5ce');
 }
