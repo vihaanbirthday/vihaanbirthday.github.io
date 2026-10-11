@@ -394,7 +394,7 @@ body{padding-top:var(--nav-offset,var(--header-height))}
 #result-share-dialog{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:48px 22px 22px}#result-share-title{font-size:30px;margin:0 0 12px}#result-share-preview{display:block;width:min(100%,270px);height:auto;margin:16px auto;border-radius:14px}.result-share-actions{display:grid;gap:10px}.result-share-actions .text-link{justify-content:center;font-size:14px}#result-share-help,#result-share-status{font-size:13px;line-height:1.5}#result-share-status:not(:empty){margin-top:12px}.result-share-actions .button:disabled{opacity:.6}
 
 /* Broomstick Flyer: a moonlit broomstick adventure within the birthday arcade. */
-.preview-broomstick{background:linear-gradient(#202641,#5b537d 70%,#b48d9c);isolation:isolate}
+.preview-broomstick{background:linear-gradient(#16263b,#526778 70%,#94a0a6);isolation:isolate}
 .preview-broomstick .game-tag{color:#ffe7b4;opacity:1;font-size:7px;letter-spacing:1px;z-index:3;padding-inline:8px}
 .preview-castle{position:absolute;inset:30% 0 0;background:url('/games/flappy/art/sky-garden.svg') center bottom/auto 100% repeat-x;opacity:.9}
 .preview-wizard{position:absolute;width:115px;height:auto;right:31%;top:30%;z-index:2;filter:drop-shadow(0 5px 5px #11172b66)}
