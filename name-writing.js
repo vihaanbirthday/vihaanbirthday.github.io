@@ -4,7 +4,20 @@ export function setupNameWriting(welcome, isOpening) {
   const canvas = welcome.querySelector('.writing-fireworks');
   const svg = welcome.querySelector('.name-writing');
   const ctx = canvas.getContext('2d');
+  const sparkColors = ['#d69b36', '#e8b84f', '#b77d29', '#fff0b8'];
   let animations = [], frame = 0, particles = [], last = 0;
+  function drawStar(x, y, radius, rotation) {
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const angle = rotation + i * Math.PI / 4;
+      const size = i % 2 === 0 ? radius : radius * 0.24;
+      const px = x + Math.cos(angle) * size, py = y + Math.sin(angle) * size;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
   function clearSparks() {
     cancelAnimationFrame(frame);
     frame = 0;
@@ -62,24 +75,40 @@ export function setupNameWriting(welcome, isOpening) {
         const distance = Math.max(0, active.length - active.hiddenOffset * (1 - progress));
         const point = active.path.getPointAtLength(distance);
         // Emission follows elapsed time, so high refresh displays don't create more sparks.
-        emission += dt * 130;
+        emission += dt * 240;
         const count = Math.floor(emission);
         emission -= count;
         for (let i = 0; i < count; i++) {
-          const angle = Math.random() * Math.PI * 2, speed = 45 + Math.random() * 110;
-          const life = 0.3 + Math.random() * 0.3;
-          particles.push({ x: point.x, y: point.y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life, max: life });
+          const angle = Math.random() * Math.PI * 2, speed = 25 + Math.random() * 110;
+          const life = 0.45 + Math.random() * 0.4;
+          particles.push({
+            x: point.x, y: point.y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life, max: life, size: 1.2 + Math.random() * 2.6,
+            star: Math.random() < 0.3, rotation: angle,
+            color: sparkColors[Math.floor(Math.random() * sparkColors.length)],
+          });
         }
-        ctx.shadowColor = '#d5a057'; ctx.shadowBlur = 20;
-        ctx.fillStyle = '#b47838'; ctx.beginPath(); ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2); ctx.fill();
+        const halo = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 16);
+        halo.addColorStop(0, '#ffe6a3b3'); halo.addColorStop(1, '#ffe6a300');
+        ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(point.x, point.y, 16, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowColor = '#e8b84f'; ctx.shadowBlur = 16;
+        ctx.fillStyle = '#d69b36'; drawStar(point.x, point.y, 7 + Math.sin(now / 100) * 1.5, Math.PI / 4);
+        ctx.fillStyle = '#fff8df'; ctx.beginPath(); ctx.arc(point.x, point.y, 2, 0, Math.PI * 2); ctx.fill();
       }
       ctx.shadowBlur = 5;
       particles = particles.filter(p => p.life > 0);
       particles.forEach(p => {
         p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 70 * dt;
-        ctx.globalAlpha = Math.max(0, p.life / p.max);
-        ctx.strokeStyle = '#bd8548'; ctx.lineWidth = 1.1;
-        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx * 0.025, p.y - p.vy * 0.025); ctx.stroke();
+        const fade = Math.max(0, p.life / p.max);
+        const twinkle = 0.65 + 0.35 * Math.sin((p.max - p.life) * 24 + p.rotation);
+        ctx.globalAlpha = fade * twinkle;
+        ctx.shadowColor = p.color; ctx.fillStyle = p.color; ctx.strokeStyle = p.color;
+        if (p.star) {
+          drawStar(p.x, p.y, p.size * (0.7 + fade), p.rotation + (p.max - p.life) * 1.5);
+        } else {
+          ctx.lineWidth = p.size * fade;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx * 0.035, p.y - p.vy * 0.035); ctx.stroke();
+        }
       });
       ctx.globalAlpha = 1;
       const writing = timeline.some(s => s.animation.playState !== 'finished');
