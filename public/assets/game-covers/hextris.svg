@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <defs>
+    <linearGradient id="sky" x2="1" y2="1"><stop stop-color="#22223f"/><stop offset="1" stop-color="#595a89"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#b6a0ff" stop-opacity=".24"/><stop offset="1" stop-color="#b6a0ff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="core" x2="1" y2="1"><stop stop-color="#fbf0d9"/><stop offset="1" stop-color="#ddc9ec"/></linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dy="7" stdDeviation="5" flood-color="#181b38" flood-opacity=".5"/></filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h240v240H0z"/>
+  <circle cx="120" cy="116" r="114" fill="url(#halo)"/>
+  <g fill="none" stroke="#c7b9eb" stroke-width="1"><path d="m120 17 89 51v104l-89 51-89-51V68Z" opacity=".15"/><path d="m120 32 76 44v88l-76 44-76-44V76Z" opacity=".16"/></g>
+  <g transform="rotate(-12 120 119)" filter="url(#shadow)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m120 46 63 36v74l-63 36-63-36V82Z" fill="#303254"/>
+    <g fill="none" stroke-width="13">
+      <path d="m62 93 0-9 26-15" stroke="#ed7185"/><path d="m96 64 24-14 26 15" stroke="#ffcd70"/>
+      <path d="m155 70 24 14v30" stroke="#7ccde1"/><path d="m179 124 0 29-26 15" stroke="#b5a2ec"/>
+      <path d="m144 173-24 14-26-15" stroke="#ed7185"/><path d="m85 166-23-13v-29" stroke="#ffcd70"/>
+    </g>
+    <g fill="none" stroke-width="9">
+      <path d="m119 75 39 22v23" stroke="#ed7185"/><path d="m158 130 0 12-39 22-18-10" stroke="#7ccde1"/>
+      <path d="m93 149-12-7V97l28-16" stroke="#b5a2ec"/>
+    </g>
+    <path d="m120 95 21 12v24l-21 12-21-12v-24Z" fill="url(#core)" stroke="#fff5e4" stroke-width="2"/>
+    <path d="m120 108 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#77718f"/>
+  </g>
+  <g fill="#e6d5fa"><path d="m193 38 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z"/><circle cx="39" cy="194" r="2" opacity=".6"/></g>
+  <path d="M171 204a28 28 0 0 0 23-27m-6 3 7-6 3 9" fill="none" stroke="#d3c4ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".65"/>
+</svg>

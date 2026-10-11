@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <defs>
+    <linearGradient id="sky" x2=".8" y2="1"><stop stop-color="#2b3e62"/><stop offset="1" stop-color="#786682"/></linearGradient>
+    <linearGradient id="red" x2=".3" y2="1"><stop stop-color="#ff927e"/><stop offset="1" stop-color="#e55e69"/></linearGradient>
+    <linearGradient id="blue" x2=".3" y2="1"><stop stop-color="#83d5ef"/><stop offset="1" stop-color="#4299ce"/></linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dy="8" stdDeviation="6" flood-color="#1a2848" flood-opacity=".5"/></filter>
+    <g id="r"><rect width="37" height="40" rx="7" fill="#b94658"/><rect width="37" height="35" rx="7" fill="url(#red)"/><path d="M8 6h21" stroke="#ffc5b4" stroke-width="2" stroke-linecap="round" opacity=".65"/></g>
+    <g id="b"><rect width="37" height="40" rx="7" fill="#326c9c"/><rect width="37" height="35" rx="7" fill="url(#blue)"/><path d="M8 6h21" stroke="#c7f5ff" stroke-width="2" stroke-linecap="round" opacity=".65"/></g>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h240v240H0z"/>
+  <circle cx="26" cy="49" r="47" fill="#78c2df" opacity=".08"/><circle cx="226" cy="200" r="68" fill="#ffad98" opacity=".12"/>
+  <g stroke="#ecdfef" fill="none" opacity=".13"><circle cx="117" cy="122" r="103"/><circle cx="117" cy="122" r="88"/></g>
+  <g transform="rotate(10 120 120)" filter="url(#shadow)">
+    <rect x="44" y="45" width="153" height="159" rx="16" fill="#343752" stroke="#a7aac1" stroke-opacity=".35"/>
+    <g transform="translate(56 57)">
+      <use href="#r"/><use href="#b" x="46"/><use href="#r" x="92"/>
+      <use href="#b" y="47"/><use href="#r" x="46" y="47"/><use href="#b" x="92" y="47"/>
+      <use href="#b" y="94"/><use href="#b" x="46" y="94"/><use href="#r" x="92" y="94"/>
+    </g>
+    <path d="m157 164 5 5 10-11" fill="none" stroke="#ffe5d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="m203 34 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#f3d5ae"/>
+  <circle cx="31" cy="182" r="5" fill="#82cce6" opacity=".7"/><circle cx="205" cy="111" r="2" fill="#ffd1b8" opacity=".7"/>
+</svg>
