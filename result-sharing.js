@@ -110,7 +110,7 @@ export function setupResultSharing({ gameDialog, gameContainer, whatsappNumber }
 
 function normalizeResult(game, data) {
   if (!data || !Number.isSafeInteger(data.score) || data.score < 0) return null;
-  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Safari Flyer', hextris: 'Hextris', ohhi: '0h h1' };
+  const names = { taptaptap: 'Tap Tap Tap', flappy: 'Hogwarts Flyer', hextris: 'Hextris', ohhi: '0h h1' };
   if (!names[game]) return null;
   const result = { score: data.score, name: names[game], slug: game === 'taptaptap' ? 'tap-tap-tap' : game };
   if (game === 'taptaptap') {
@@ -133,10 +133,16 @@ function normalizeResult(game, data) {
     result.footer = 'A little logic. A lovely result.';
   } else {
     if (!Number.isSafeInteger(data.best) || data.best < data.score) return null;
-    result.heading = game === 'flappy' ? 'Lovely flying!' : 'A good run!';
+    result.heading = game === 'flappy' ? 'Magical flying!' : 'A good run!';
     result.summary = 'Final score';
     result.detail = `Best this visit: ${data.best}`;
     result.footer = 'Can you beat my score?';
+    if (game === 'flappy') {
+      const characters = { harry: 'Harry', ron: 'Ron', hermione: 'Hermione' };
+      if (!Object.hasOwn(characters, data.character)) return null;
+      result.summary = `Flown with ${characters[data.character]}`;
+      result.footer = 'A broomstick. A castle. A little magic.';
+    }
   }
   return result;
 }
@@ -144,8 +150,8 @@ function normalizeResult(game, data) {
 function drawResult(canvas, result) {
   const ctx = canvas.getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 800);
-  gradient.addColorStop(0, '#2b5251');
-  gradient.addColorStop(1, '#122d33');
+  gradient.addColorStop(0, result.slug === 'flappy' ? '#333755' : '#2b5251');
+  gradient.addColorStop(1, result.slug === 'flappy' ? '#111a31' : '#122d33');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 720, 800);
   ctx.textAlign = 'center';

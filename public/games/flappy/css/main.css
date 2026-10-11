@@ -1,5 +1,60 @@
-/* Original invitation artwork. September 2026. Floppy Bird gameplay is Apache-2.0; see LICENSE. */
-*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;touch-action:none;user-select:none;font-family:Arial,sans-serif;color:#304e3e}#gamecontainer{height:100%;width:100%;position:relative;background:#e9eddf}#gamescreen{position:absolute;width:100%;height:100%}#sky{position:absolute;top:0;height:84%;width:100%;background:radial-gradient(ellipse at 80% 20%,#fff9df 0 9%,transparent 9.2%),linear-gradient(#ecf1df,#d3e2bd)}#sky:before,#sky:after{content:'';position:absolute;width:160px;height:50px;border-radius:50%;background:#ffffff70;top:15%;left:-25px}#sky:after{top:40%;left:auto;right:-30px;width:130px;height:35px}#flyarea{position:absolute;bottom:0;height:100%;width:100%;overflow:hidden}#ceiling{position:absolute;top:-16px;height:16px;width:100%}#land{position:absolute;bottom:0;height:16%;width:100%;border-top:9px solid #839a66;background:repeating-linear-gradient(110deg,#ead9b5 0 12px,#e4d3ae 12px 14px)}#land span{display:block;text-align:center;font-size:11px;padding:20px 10px;color:#637650}#player{position:absolute;left:60px;top:180px;width:34px;height:24px;z-index:20;border-radius:60% 55% 48% 45%;background:#d69b47;box-shadow:inset 2px -4px #bf7e36}#player:before{content:'';position:absolute;right:4px;top:5px;width:6px;height:6px;border-radius:50%;background:#304e3e;border:2px solid #fff7e3}#player:after{content:'';position:absolute;right:-7px;top:12px;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:10px solid #b66343}#player i{position:absolute;left:-2px;top:9px;width:18px;height:11px;background:#f1c773;border-radius:60% 30% 70% 50%;animation:wing .25s alternate infinite}#bigscore{position:absolute;top:15px;width:100%;text-align:center;font:42px Georgia,serif;z-index:30}#splash{position:absolute;top:18%;left:20%;width:65%;text-align:center;z-index:25;pointer-events:none;opacity:0}h1{font:34px Georgia,serif;margin:0 0 12px}#splash p{font-size:12px}#splash strong{display:block;margin-top:25px;font-size:15px}#splash small{display:block;font-size:10px;margin-top:9px}#scoreboard{display:none;opacity:0;position:absolute;top:12%;left:50%;margin-left:-125px;width:250px;background:#faf7ef;border:1px solid #c4cfb8;border-radius:18px;padding:24px;text-align:center;z-index:100}#scoreboard h2{font:26px Georgia,serif;margin:0 0 22px}#scoreboard p{font-size:13px;display:flex;justify-content:space-between;align-items:center}#scoreboard p span{font-size:22px}#replay{background:#304e3e;color:#fff7e5;border:0;border-radius:7px;padding:13px 24px;margin-top:14px;font-size:14px;cursor:pointer;touch-action:manipulation}#replay:focus-visible{outline:3px solid #b7653e;outline-offset:3px}#medal{font-size:30px;color:#c79443}.pipe{position:absolute;left:-100px;width:52px;height:100%;z-index:10;animation:animPipe 7.5s linear}.pipe_upper,.pipe_lower{position:absolute;width:52px;background:linear-gradient(90deg,#668457,#94a876 65%,#768e5e);border-inline:2px solid #58734b}.pipe_upper{top:0;border-radius:0 0 12px 12px}.pipe_lower{bottom:0;border-radius:12px 12px 0 0}.pipe_upper:after,.pipe_lower:after{content:'';position:absolute;width:62px;left:-7px;height:20px;border-radius:8px;background:#56784d;border:2px solid #46663f}.pipe_upper:after{bottom:0}.pipe_lower:after{top:0}.boundingbox{position:absolute;display:none;border:1px solid red}@keyframes animPipe{from{left:900px}to{left:-100px}}@keyframes wing{to{transform:rotate(-25deg)}}@media(max-height:420px){h1{font-size:25px}#splash{top:10%}#scoreboard{top:3%;padding:15px}#scoreboard h2{margin-bottom:8px}#land span{padding:8px;font-size:10px}}@media(prefers-reduced-motion:reduce){#player i{animation:none}}
-
-#share-final-score{display:block;width:100%;min-height:44px;background:#304e3e;color:#fff7e5;border:0;border-radius:7px;padding:10px;margin-top:14px;font:14px Arial,sans-serif;cursor:pointer;touch-action:manipulation}#share-final-score:focus-visible{outline:3px solid #b7653e;outline-offset:3px}
-@media(max-height:420px){#scoreboard{max-height:94%;overflow:auto;touch-action:pan-y}#scoreboard p{margin:8px 0}#share-final-score,#replay{margin-top:8px}}
+/* Original Hogwarts fan artwork. Floppy Bird mechanics: Apache-2.0; see LICENSE. */
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;touch-action:none;user-select:none;font-family:Arial,sans-serif;color:#fbefd1}
+button{font:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible{outline:3px solid #ffdf86;outline-offset:4px}
+#gamecontainer,#gamescreen{height:100%;width:100%;position:relative;background:#111a31}
+#sky{position:absolute;top:0;height:89%;width:100%;background:radial-gradient(circle at 80% 15%,#fff2c9 0 22px,#f3daa335 23px,transparent 65px),radial-gradient(circle at 12% 12%,#ffe5a7 0 1px,transparent 2px),radial-gradient(circle at 43% 8%,#ffe5a7 0 1px,transparent 2px),radial-gradient(circle at 65% 38%,#ffe5a7 0 1px,transparent 2px),radial-gradient(circle at 24% 45%,#ffe5a7 0 1px,transparent 2px),linear-gradient(#151c37,#454369 65%,#b1828b)}
+#sky:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 10% 70%,#cfb6d626,transparent 50%);pointer-events:none}
+#flyarea{position:absolute;bottom:0;height:100%;width:100%;overflow:hidden}
+.castle{position:absolute;bottom:0;width:100%;height:70%;background:url('../art/hogwarts.svg') center bottom/auto 100% repeat-x;opacity:.85;pointer-events:none}
+#ceiling{position:absolute;top:-16px;height:16px;width:100%}
+#land{position:absolute;bottom:0;height:11%;width:100%;border-top:3px solid #b39456;background:linear-gradient(#253041,#101a2c)}
+#land span{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;letter-spacing:.4px;padding:8px 12px;color:#dec897}
+#player{position:absolute;left:52px;top:180px;width:60px;height:44px;z-index:20;visibility:hidden;transform-origin:center}
+#player img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 3px 3px #10132470)}
+#rider-name{position:absolute;top:21px;left:16px;font-size:11px;letter-spacing:1px;color:#f3d89b;z-index:30}
+#bigscore{position:absolute;top:12px;width:100%;text-align:center;font:42px Georgia,serif;z-index:30;text-shadow:0 2px 8px #101a2c}
+#splash{position:absolute;inset:0;display:grid;place-items:center;padding:16px;z-index:40;background:#11172b36;overflow:auto;touch-action:pan-y}
+.start-card{width:min(100%,390px);padding:25px 22px 20px;text-align:center;background:linear-gradient(145deg,#222a43f5,#141d33f5);border:1px solid #c4a36b;border-radius:20px;box-shadow:0 12px 60px #070d2690,inset 0 0 0 5px #dfbd7810}
+.eyebrow{font-size:9px;letter-spacing:2px;color:#e2c28c;line-height:1.5}
+h1{font:38px Georgia,serif;margin:12px 0 8px;letter-spacing:-1px}
+h1 em{color:#efcf8c;font-weight:normal}
+.start-intro p{font-size:11px;color:#cecad9;margin:0 0 22px;line-height:1.5}
+#character-label{font:18px Georgia,serif;margin-bottom:12px}
+.character-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.character-option{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:128px;padding:10px 3px;background:#ffffff06;border:1px solid #a6adc23d;border-radius:11px;color:#f9ebcc;transition:transform .2s}
+.character-option:hover{background:#ffffff10;transform:translateY(-2px)}
+.character-option[aria-pressed="true"]{background:#c59a3c26;border:2px solid #f1ce7e;padding:9px 2px;box-shadow:0 0 18px #efcb6b15}
+.character-option[aria-pressed="true"]:after{content:'✦';position:absolute;top:5px;right:5px;font-size:12px;color:#ffde85}
+.character-option img{display:block;width:100%;height:67px;object-fit:contain;margin-bottom:4px}
+.character-option strong{font:16px Georgia,serif}
+.character-option small{font-size:8px;margin-top:5px;color:#d2c9bb}
+#selection-status{font-size:10px;color:#e8cf98;margin:12px 0;min-height:12px}
+#start-flight,#share-final-score{display:block;width:100%;min-height:44px;border:1px solid #eccd8a;border-radius:8px;padding:12px;background:linear-gradient(#f1d797,#cda45e);color:#22263a;font-weight:700;font-size:13px;box-shadow:0 3px 0 #846635}
+#start-flight:disabled{background:#ffffff0a;color:#adaab6;border-color:#7b7c8a;box-shadow:none;cursor:default}
+.instructions{font-size:10px;line-height:1.7;color:#bfc5d5;margin:13px 0 0}
+#scoreboard{display:none;opacity:0;position:absolute;top:50%;left:50%;margin-left:-145px;margin-top:-180px;width:290px;max-height:94%;overflow:auto;touch-action:pan-y;background:linear-gradient(145deg,#29314b,#151e33);border:1px solid #c4a36b;border-radius:18px;padding:25px;text-align:center;z-index:100;box-shadow:0 12px 40px #080d2580}
+#scoreboard h2{font:28px Georgia,serif;margin:10px 0 8px;color:#f4d79c}
+#scoreboard p{font-size:13px;display:flex;justify-content:space-between;align-items:center}
+#scoreboard #result-character{display:block;font-size:11px;color:#cec9db;margin:8px 0 16px}
+#scoreboard p span{font:24px Georgia,serif;color:#f4d79c}
+#replay{width:100%;min-height:44px;background:#ffffff08;color:#f5dfb4;border:1px solid #a38c63;border-radius:8px;padding:10px 4px;margin-top:12px;font-size:12px}
+#medal{font-size:30px;color:#efcd77}
+.pipe{position:absolute;left:-100px;width:52px;height:100%;z-index:10;animation:animPipe 7.5s linear}
+.pipe_upper,.pipe_lower{position:absolute;width:52px;background:repeating-linear-gradient(0deg,transparent 0 21px,#171a3045 22px 24px),repeating-linear-gradient(90deg,transparent 0 23px,#171a3030 24px 26px),linear-gradient(90deg,#4a4864,#8c8193 65%,#54516b);border-inline:2px solid #c5b2a06b;box-shadow:inset 0 0 10px #11172b55}
+.pipe_upper{top:0;border-radius:0 0 3px 3px}
+.pipe_lower{bottom:0;border-radius:3px 3px 0 0}
+.pipe_upper:after,.pipe_lower:after{content:'✦';position:absolute;width:60px;left:-6px;height:21px;display:grid;place-items:center;font-size:15px;color:#fff0ad;background:linear-gradient(90deg,#7f6342,#baa078,#7f6342);border:1px solid #e0c38b;box-shadow:0 0 12px #ffe59a50}
+.pipe_upper:after{bottom:0;border-radius:0 0 6px 6px}
+.pipe_lower:after{top:0;border-radius:6px 6px 0 0}
+.pipe_upper:before,.pipe_lower:before{content:'';position:absolute;left:18px;width:12px;height:23px;border-radius:8px 8px 0 0;background:#ffe6a9;box-shadow:0 0 16px #ffe6a9aa;border:3px solid #3a354f}
+.pipe_upper:before{bottom:38px}.pipe_lower:before{top:38px}
+.boundingbox{position:absolute;display:none;border:1px solid red}
+@keyframes animPipe{from{left:900px}to{left:-100px}}
+@media(max-width:350px){#splash{padding:10px}.start-card{padding:20px 12px}h1{font-size:32px}.character-option small{font-size:7px}.character-option strong{font-size:14px}}
+@media(max-height:480px){#splash{padding:10px}.start-card{width:min(100%,650px);display:grid;grid-template-columns:1fr 1.45fr;gap:18px;padding:15px}.start-intro{align-self:center}h1{font-size:32px;line-height:1.1}.start-intro p{margin-bottom:0}#character-label{font-size:16px;margin-bottom:7px}.character-option{min-height:94px;padding:4px 2px}.character-option[aria-pressed="true"]{padding:3px 1px}.character-option img{height:43px}.character-option strong{font-size:14px}.character-option small{font-size:7px}#selection-status{margin:7px 0}.instructions{margin-top:7px;font-size:9px}.eyebrow{font-size:8px;letter-spacing:1px}#scoreboard{top:3%;margin-top:0;padding:12px 20px}#scoreboard h2{font-size:24px;margin:5px 0}#scoreboard p{margin:7px 0}#scoreboard #result-character{margin:5px 0}#share-final-score,#replay{margin-top:8px}#land span{font-size:9px}}
+@media(max-width:420px) and (max-height:480px){.start-card{grid-template-columns:1fr;gap:7px;padding:12px}.start-intro h1{font-size:24px;margin:4px 0}.start-intro p{display:none}.character-option{min-height:85px}.instructions{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.character-option{transition:none}}
+@media(max-height:300px){.instructions{display:none}.character-option{min-height:78px}.character-option img{height:35px}.start-card{padding:12px}#selection-status{margin:6px 0}}
+@media(max-width:420px) and (max-height:360px){.start-intro .eyebrow,.instructions{display:none}.start-intro h1{margin:0;font-size:23px}.start-card{padding:10px;gap:5px}#character-label{font-size:14px;margin-bottom:5px}.character-option{min-height:80px}.character-option small{font-size:7px}#selection-status{margin:6px 0}}

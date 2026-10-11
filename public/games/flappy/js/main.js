@@ -20,11 +20,13 @@ var flyArea = $("#flyarea").height();
 var score = 0;
 var highscore = 0;
 
-var pipeheight = Math.min(140, flyArea * 0.36);
+var pipeheight = Math.min(160, Math.max(90, flyArea * 0.4), flyArea * 0.65);
 var pipewidth = 52;
 var pipes = new Array();
 
 var replayclickable = false;
+var selectedCharacter = null;
+var characters = Object.freeze({ harry: 'Harry', ron: 'Ron', hermione: 'Hermione' });
 
 // Silent invitation edition; original sound assets are not distributed.
 //loops
@@ -91,17 +93,38 @@ function showSplash()
    $(".animated").css('animation-play-state', 'running');
    $(".animated").css('-webkit-animation-play-state', 'running');
 
-   //fade in the splash
-   $("#splash").transition({ opacity: 1 }, 2000, 'ease');
+   // Every replay returns to character selection, keeping the last choice.
+   $("#player").css('visibility', 'hidden');
+   $("#rider-name").text('');
+   $("#splash").css('display', 'grid');
+   if(selectedCharacter) document.getElementById('start-flight').focus({ preventScroll: true });
 }
+
+function selectCharacter(character)
+{
+   if(currentstate !== states.SplashScreen || !Object.prototype.hasOwnProperty.call(characters, character)) return;
+   selectedCharacter = character;
+   $(".character-option").each(function() {
+      $(this).attr('aria-pressed', String($(this).attr('data-character') === character));
+   });
+   $("#player img").attr('src', 'art/' + character + '.svg');
+   $("#player").attr('aria-label', characters[character] + ' on a broomstick');
+   $("#selection-status").text(characters[character] + ' is ready for takeoff!');
+   $("#start-flight").prop('disabled', false).text('Fly with ' + characters[character] + ' ✦');
+}
+
+$(".character-option").on('click', function() { selectCharacter($(this).attr('data-character')); });
+$("#start-flight").on('click', startGame);
 
 function startGame()
 {
+   if(currentstate !== states.SplashScreen || !selectedCharacter) return;
    currentstate = states.GameScreen;
 
-   //fade out the splash
-   $("#splash").stop();
-   $("#splash").transition({ opacity: 0 }, 500, 'ease');
+   $("#splash").hide();
+   $("#player").css('visibility', 'visible');
+   $("#rider-name").text(characters[selectedCharacter]);
+   document.activeElement.blur();
 
    //update the big score
    setBigScore();
@@ -158,8 +181,8 @@ function gameloop(steps = 1) {
 
    //create the bounding box
    var box = document.getElementById('player').getBoundingClientRect();
-   var origwidth = 34.0;
-   var origheight = 24.0;
+   var origwidth = player.width();
+   var origheight = player.height();
 
    var boxwidth = origwidth - (Math.sin(Math.abs(rotation) / 90) * 8);
    var boxheight = (origheight + box.height) / 2;
@@ -243,11 +266,13 @@ function gameloop(steps = 1) {
 
 //Handle space bar
 $(document).keydown(function(e){
+   // Let native buttons handle Space/Enter while choosing or sharing.
+   if($(e.target).closest('button').length) return;
    //space bar!
    if(e.keyCode == 32)
    {
       e.preventDefault();
-      //in ScoreScreen, hitting space should click the "replay" button. else it's just a regular spacebar hit
+      // Space returns to selection after a flight; takeoff uses its own button.
       if(currentstate == states.ScoreScreen)
          $("#replay").click();
       else
@@ -256,17 +281,17 @@ $(document).keydown(function(e){
 });
 
 // Unified touch/mouse input avoids synthetic double taps.
-$("#flyarea").on("pointerdown", function(event) { if (!$(event.target).closest("#replay").length) { event.preventDefault(); screenClick(); } });
+$("#flyarea").on("pointerdown", function(event) {
+   if(currentstate !== states.GameScreen || $(event.target).closest('button').length) return;
+   event.preventDefault();
+   screenClick();
+});
 
 function screenClick()
 {
    if(currentstate == states.GameScreen)
    {
       playerJump();
-   }
-   else if(currentstate == states.SplashScreen)
-   {
-      startGame();
    }
 }
 
@@ -333,7 +358,7 @@ function playerDead()
    $(".animated").css('animation-play-state', 'paused');
    $(".animated").css('-webkit-animation-play-state', 'paused');
 
-   //drop the bird to the floor
+   // Bring the broomstick rider down to the grounds.
    var playerbottom = $("#player").position().top + $("#player").width(); //we use width because he'll be rotated 90 deg
    var floor = flyArea;
    var movey = Math.max(0, floor - playerbottom);
@@ -368,6 +393,7 @@ function showScore()
    }
 
    //update the scoreboard
+   $("#result-character").text('Flown with ' + characters[selectedCharacter]);
    setSmallScore();
    setHighScore();
    var wonmedal = setMedal();
@@ -414,7 +440,7 @@ $("#replay").click(function() {
 document.getElementById('share-final-score').addEventListener('click', function(event) {
    event.stopPropagation();
    if (currentstate !== states.ScoreScreen || !replayclickable) return;
-   window.invitationShareResult({ score: score, best: highscore });
+   window.invitationShareResult({ score: score, best: highscore, character: selectedCharacter });
 });
 
 function playerScore()
@@ -430,7 +456,7 @@ function updatePipes()
    $(".pipe").filter(function() { return $(this).position().left <= -100; }).remove()
 
    //add a new pipe (top height + bottom height  + pipeheight == flyArea) and put it in our tracker
-   var padding = Math.min(80, flyArea * 0.18);
+   var padding = Math.min(80, (flyArea - pipeheight) * 0.3);
    var constraint = flyArea - pipeheight - (padding * 2); //double padding (for top and bottom)
    var topheight = Math.floor((Math.random()*constraint) + padding); //add lower padding
    var bottomheight = (flyArea - pipeheight) - topheight;

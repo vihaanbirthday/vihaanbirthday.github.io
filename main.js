@@ -27,7 +27,7 @@ function syncDialogMotion() {
 new MutationObserver(syncDialogMotion).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
 const games = {
   taptaptap: { name: 'Tap Tap Tap', help: 'Eight levels, gold bonus stars and a final challenge. Tap blue circles; avoid red ones.' },
-  flappy: { name: 'Safari Flyer', help: 'Tap to flap through the green branches. On a computer, click or press Space.' },
+  flappy: { name: 'Hogwarts Flyer', help: 'Choose your character, then tap, click or press Space to fly.' },
   hextris: { name: 'Hextris', help: 'Tap the left or right side to rotate. Match three colours. Keyboard: ← →.' },
   ohhi: { name: '0h h1', help: 'Tap tiles to change colour. Start with “How to play” for a friendly tutorial.' },
 };
@@ -55,6 +55,11 @@ function loadGame() {
   const hero = document.createElement('div');
   hero.className = 'game-loading';
   hero.innerHTML = `<img src="./assets/safari.webp" alt="" width="360" height="300"><span class="eyebrow">A LITTLE WILD ADVENTURE</span><h3></h3><p role="status">Getting your adventure ready…</p><span class="game-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span>`;
+  if (activeGame === 'flappy') {
+    hero.classList.add('hogwarts-loading');
+    hero.querySelector('img').src = './games/flappy/art/harry.svg';
+    hero.querySelector('.eyebrow').textContent = 'A LITTLE MAGIC AWAITS';
+  }
   hero.querySelector('h3').textContent = games[activeGame].name;
   const frame = document.createElement('iframe');
   frame.title = games[activeGame].name + ' browser game';
@@ -72,6 +77,7 @@ function loadGame() {
 }
 document.querySelectorAll('[data-game]').forEach(button => button.addEventListener('click', () => {
   activeGame = button.dataset.game;
+  gameDialog.dataset.game = activeGame;
   gameTrigger = button;
   $('#game-title').textContent = games[activeGame].name;
   $('#game-help').textContent = games[activeGame].help;

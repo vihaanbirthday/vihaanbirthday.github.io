@@ -48,16 +48,18 @@ for (const game of ['taptaptap', 'hextris', 'ohhi', 'flappy']) {
     console.log('Oh hi board tiles', await frame.locator('#board .tile').count());
     if (await tile.count()) { const before = await tile.getAttribute('class'); await tile.tap(); assert.notEqual(await tile.getAttribute('class'), before, 'Logic tile responds to touch'); }
   } else {
+    await frame.locator('[data-character="hermione"]').tap();
+    await frame.locator('#start-flight').tap();
     await frame.locator('#flyarea').tap({ position: { x: 100, y: 180 } });
-    assert.equal(await frame.evaluate(() => currentstate), 1, 'Bird starts with touch');
+    assert.equal(await frame.evaluate(() => currentstate), 1, 'Broomstick starts with touch');
     await page.waitForTimeout(250);
     await frame.locator('#flyarea').tap({ position: { x: 100, y: 180 } });
-    assert((await frame.evaluate(() => velocity)) < 0, 'Bird flaps on touch');
+    assert((await frame.evaluate(() => velocity)) < 0, 'Broomstick lifts on touch');
     await page.waitForTimeout(3000);
-    assert.equal(await frame.evaluate(() => currentstate), 2, 'Bird reaches game over');
+    assert.equal(await frame.evaluate(() => currentstate), 2, 'Broomstick reaches game over');
     await frame.locator('#replay').tap();
     await page.waitForTimeout(1200);
-    assert.equal(await frame.evaluate(() => currentstate), 0, 'Bird replay returns to ready screen');
+    assert.equal(await frame.evaluate(() => currentstate), 0, 'Broomstick replay returns to ready screen');
   }
   await page.waitForTimeout(650);
   await page.screenshot({ path: `test-results/${game}.png` });

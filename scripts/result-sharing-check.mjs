@@ -26,8 +26,10 @@ try {
       assert(await button.isHidden(), `${game}: no final score button before finishing`);
       let expectedScore, name;
       if (game === 'flappy') {
-        name = 'Safari Flyer'; expectedScore = 7;
-        await frame.evaluate(() => { startGame(); score = 7; playerDead(); });
+        name = 'Hogwarts Flyer'; expectedScore = 7;
+        await frame.locator('[data-character="ron"]').tap();
+        await frame.locator('#start-flight').tap();
+        await frame.evaluate(() => { score = 7; playerDead(); });
         await frame.locator('#scoreboard').waitFor({ state: 'visible' });
         await page.waitForTimeout(1300);
       } else if (game === 'hextris') {
@@ -64,6 +66,7 @@ try {
       assert.equal(url.pathname, `/${event.whatsappNumber}`);
       assert(url.searchParams.get('text').includes(name));
       if (game === 'ohhi') assert(label.includes('4 × 4 puzzle completed'));
+      if (game === 'flappy') assert(label.includes('Flown with Ron'), 'The shared result records the selected rider');
       await page.locator('#share-result-file').tap();
       const shared = await page.evaluate(() => window.sharedResult);
       assert.equal(shared.type, 'image/png');
@@ -90,5 +93,5 @@ try {
     assert.deepEqual(errors, []);
     await page.close();
   }
-  console.log('Safari Flyer, Hextris and 0h h1: final score buttons, PNG sharing, configured WhatsApp chat and replay passed in portrait and landscape.');
+  console.log('Hogwarts Flyer, Hextris and 0h h1: final score buttons, PNG sharing, configured WhatsApp chat and replay passed in portrait and landscape.');
 } finally { await browser.close(); }

@@ -15,7 +15,8 @@ try {
   const frame = page.frames().find(frame => frame.url().includes('/games/flappy/'));
   await page.clock.install();
   await page.clock.pauseAt(new Date());
-  await frame.locator('#flyarea').tap({ position: { x: 100, y: 180 } });
+  await frame.locator('[data-character="harry"]').tap();
+  await frame.locator('#start-flight').tap();
   const pose = () => frame.evaluate(() => {
     const matrix = new DOMMatrix(getComputedStyle(document.getElementById('player')).transform);
     return { rotation, rendered: Math.atan2(matrix.b, matrix.a) * 180 / Math.PI, position, velocity, state: currentstate };
@@ -64,5 +65,5 @@ try {
   assert.equal((await pose()).state, 0);
   assert(Math.abs((await pose()).rendered) < 0.001, 'Replay resets the bird to a level pose');
   assert.deepEqual(errors, []);
-  console.log('Safari Flyer: gradual rendered dive-to-climb turn, immediate lift, refresh-rate consistency, game over, sharing and replay passed.');
+  console.log('Hogwarts Flyer: gradual rendered dive-to-climb turn, immediate lift, refresh-rate consistency, game over, sharing and replay passed.');
 } finally { await browser.close(); }

@@ -3,7 +3,7 @@
 
 [hidden]{display:none!important}
 /* Four selected adventures. */
-.games-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.game-content{padding:21px}.game-content h3{font-size:25px}.game-tag{font-size:7px;letter-spacing:1.3px}.preview-tap{background:#e8dfc9}.tap-rings{width:140px;height:140px;border:1px solid #b8bea0;border-radius:50%;position:relative;display:grid;place-items:center;margin-top:23px}.tap-rings:before{content:'';position:absolute;inset:15px;border:1px solid #adb995;border-radius:50%}.tap-rings i{position:absolute;inset:30px;border-radius:50%;background:#7c956c;box-shadow:0 7px 0 #677f56}.tap-rings>span{z-index:1;color:#fff6e3;font:italic 24px var(--serif);transform:rotate(-12deg)}.tap-dot{position:absolute;left:25px;bottom:32px;width:25px;height:25px;background:#bf805d;border-radius:50%}.preview-flappy{background:#dce4cf}.preview-branch{position:absolute;width:42px;background:#859b71;border:2px solid #71895e;right:42px}.branch-top{top:48px;height:39px;border-radius:0 0 7px 7px}.branch-bottom{height:59px;bottom:0;border-radius:7px 7px 0 0}.preview-bird{width:61px;height:43px;position:relative;border-radius:60% 55% 48% 45%;background:#d7a04e;box-shadow:inset 3px -7px #c4883e;transform:rotate(-12deg);margin:20px 50px 0 0;z-index:2}.preview-bird:before{content:'';position:absolute;right:8px;top:8px;width:10px;height:10px;border:3px solid #fff7e4;border-radius:50%;background:#304e3e}.preview-bird:after{content:'';position:absolute;right:-13px;top:21px;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:17px solid #b96e47}.preview-bird i{position:absolute;left:-5px;top:18px;width:30px;height:18px;border-radius:60% 30% 70% 50%;background:#f0c975;transform:rotate(-10deg)}.bird-cloud{position:absolute;width:80px;height:25px;border-radius:50%;background:#ffffff70;left:20px;top:60px}
+.games-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.game-content{padding:21px}.game-content h3{font-size:25px}.game-tag{font-size:7px;letter-spacing:1.3px}.preview-tap{background:#e8dfc9}.tap-rings{width:140px;height:140px;border:1px solid #b8bea0;border-radius:50%;position:relative;display:grid;place-items:center;margin-top:23px}.tap-rings:before{content:'';position:absolute;inset:15px;border:1px solid #adb995;border-radius:50%}.tap-rings i{position:absolute;inset:30px;border-radius:50%;background:#7c956c;box-shadow:0 7px 0 #677f56}.tap-rings>span{z-index:1;color:#fff6e3;font:italic 24px var(--serif);transform:rotate(-12deg)}.tap-dot{position:absolute;left:25px;bottom:32px;width:25px;height:25px;background:#bf805d;border-radius:50%}
 @media(max-width:1100px) and (min-width:761px){.games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-content h3{font-size:29px}.game-tag{font-size:8px}}
 @media(max-width:760px){.games-grid{grid-template-columns:1fr}.game-content{padding:22px 25px}.game-content h3{font-size:29px}.game-tag{font-size:8px}}
 
@@ -20,8 +20,8 @@
 .round-stamp{animation:stamp-sway 7s ease-in-out infinite}
 .rsvp-spark{animation:gentle-turn 32s linear infinite}
 .heart-mark,.signature>span{animation:heart-drift 6s ease-in-out infinite}
-.preview-bird{animation:bird-bob 3s ease-in-out infinite}.preview-bird i{transform-origin:right center;animation:wing-flap 1.2s ease-in-out infinite}
-.bird-cloud{animation:cloud-drift 9s ease-in-out infinite}
+.preview-wizard{animation:wizard-bob 3s ease-in-out infinite}
+
 .tap-rings:before{animation:tap-ripple 3s ease-out infinite}
 .game-card:hover .hex-outer,.game-card:focus-visible .hex-outer{animation:hex-wiggle 3s ease-in-out infinite}
 .motion-paused *,.motion-paused *:before,.motion-paused *:after{animation-play-state:paused!important}
@@ -29,9 +29,7 @@
 @keyframes sparkle{0%,100%{transform:scale(.85) rotate(-8deg);opacity:.55}50%{transform:scale(1.08) rotate(12deg);opacity:1}}
 @keyframes stamp-sway{0%,100%{transform:rotate(9deg)}50%{transform:rotate(16deg) translateY(-4px)}}
 @keyframes heart-drift{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-10px) rotate(8deg)}}
-@keyframes bird-bob{0%,100%{transform:translateY(3px) rotate(-10deg)}50%{transform:translateY(-9px) rotate(-5deg)}}
-@keyframes wing-flap{50%{transform:rotate(18deg)}}
-@keyframes cloud-drift{50%{transform:translateX(28px)}}
+@keyframes wizard-bob{0%,100%{transform:translateY(3px) rotate(-10deg)}50%{transform:translateY(-9px) rotate(-5deg)}}
 @keyframes tap-ripple{0%{transform:scale(.8);opacity:.8}85%,100%{transform:scale(1.25);opacity:0}}
 @keyframes hex-wiggle{0%,100%{transform:rotate(-13deg)}50%{transform:rotate(17deg)}}
 @media(min-width:761px){.games-grid .game-card:nth-child(2){transition-delay:.08s}.games-grid .game-card:nth-child(3){transition-delay:.16s}.games-grid .game-card:nth-child(4){transition-delay:.24s}}
@@ -262,7 +260,7 @@ input,select,textarea{border-radius:8px}
   .games-grid{gap:12px}
   .game-card{display:grid;grid-template-columns:100px minmax(0,1fr);max-width:none;border-radius:12px}
   .game-preview{height:100%;min-height:162px}
-  .game-tag,.game-type,.game-preview .preview-doodle,.hex-dot,.tap-dot,.bird-cloud{display:none}
+  .game-tag,.game-type,.game-preview .preview-doodle,.hex-dot,.tap-dot{display:none}
   .game-content{padding:16px}
   .game-content h3{font-size:24px;margin:0 0 6px;gap:6px}
   .game-content h3 span{font-size:16px}
@@ -273,7 +271,7 @@ input,select,textarea{border-radius:8px}
   .hex-outer{width:82px;height:74px;margin:0}.hex-middle{width:66px;height:58px}.hex-inner{width:49px;height:43px;font-size:22px}
   .ohhi-grid{grid-template-columns:repeat(3,21px);gap:4px;transform:rotate(10deg)}
   .ohhi-grid i{height:21px;border-radius:4px;box-shadow:0 2px 0 #a06744}
-  .preview-bird{transform:scale(.7) rotate(-12deg);margin:0 16px 0 0}
+  .preview-wizard{width:95px;right:15%;top:27%}
   .preview-branch{width:20px;right:8px}.branch-top{top:0;height:28px}.branch-bottom{height:30px}
   .games-footnote{font-size:12px;line-height:1.6;text-align:center;margin-top:22px}
   .ticker{flex-direction:column;gap:0;padding:10px 0}
@@ -394,3 +392,15 @@ body{padding-top:var(--nav-offset,var(--header-height))}
 @keyframes elephant-sprinkle{0%{transform:translate(-10px,8px) scale(.5);opacity:0}25%{opacity:1}100%{transform:translate(4px,12px) scale(.8);opacity:0}}
 
 #result-share-dialog{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:48px 22px 22px}#result-share-title{font-size:30px;margin:0 0 12px}#result-share-preview{display:block;width:min(100%,270px);height:auto;margin:16px auto;border-radius:14px}.result-share-actions{display:grid;gap:10px}.result-share-actions .text-link{justify-content:center;font-size:14px}#result-share-help,#result-share-status{font-size:13px;line-height:1.5}#result-share-status:not(:empty){margin-top:12px}.result-share-actions .button:disabled{opacity:.6}
+
+/* Hogwarts Flyer: a moonlit broomstick adventure within the birthday arcade. */
+.preview-hogwarts{background:linear-gradient(#202641,#5b537d 70%,#b48d9c);isolation:isolate}
+.preview-hogwarts .game-tag{color:#ffe7b4;opacity:1;font-size:7px;letter-spacing:1px;z-index:3;padding-inline:8px}
+.preview-castle{position:absolute;inset:30% 0 0;background:url('/games/flappy/art/hogwarts.svg') center bottom/auto 100% repeat-x;opacity:.9}
+.preview-wizard{position:absolute;width:115px;height:auto;right:31%;top:30%;z-index:2;filter:drop-shadow(0 5px 5px #11172b66)}
+.wizard-moon{position:absolute;right:26px;top:43px;width:25px;height:25px;border-radius:50%;background:#ffe8b3;box-shadow:0 0 20px #ffe8b350;z-index:-1}
+.wizard-spark{position:absolute;top:72px;left:22px;color:#ffdc8e;font-size:18px}
+.hogwarts-loading{background:linear-gradient(#252c48,#151d33);color:#ffe9bd}
+.hogwarts-loading .eyebrow,.hogwarts-loading p{color:#e5cc98}
+.hogwarts-loading img{max-height:160px;object-fit:contain;mix-blend-mode:normal}
+@media(max-width:620px){.preview-wizard{width:95px;right:15%;top:27%}.wizard-moon{right:15px;top:20px;width:20px;height:20px}.wizard-spark{display:none}}
