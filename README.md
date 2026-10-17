@@ -2,6 +2,8 @@
 
 A responsive, five-page storybook invitation with an optional games screen for Vihaan’s first birthday, with a handwritten animated opening, locally hosted safari artwork and fonts, five animated animal companions and four sandboxed games. No backend, database, analytics, guest accounts or remote API is required.
 
+Project repository: [vihaanbirthday/vihaanbirthday](https://github.com/vihaanbirthday/vihaanbirthday). GitHub Pages deploys from `main`; see [HOSTING.md](HOSTING.md) for setup.
+
 ## Preview and build
 
 Requires Node.js 22.12+.

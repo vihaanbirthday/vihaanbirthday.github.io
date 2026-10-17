@@ -27,10 +27,10 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 let browser;
 try {
   browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
-  for (const prefix of ['/', '/Birthday/']) {
+  for (const prefix of ['/', '/vihaanbirthday/']) {
     mount = prefix;
     const base = `http://127.0.0.1:${server.address().port}${prefix}`;
-    const page = await browser.newPage(prefix === '/Birthday/' ? { viewport: { width: 390, height: 844 } } : {});
+    const page = await browser.newPage(prefix === '/vihaanbirthday/' ? { viewport: { width: 390, height: 844 } } : {});
     const failures = [];
     page.on('pageerror', error => failures.push(error.message));
     page.on('response', response => { if (response.status() >= 400) failures.push(`${response.status()} ${response.url()}`); });
@@ -111,7 +111,7 @@ try {
       // An unrelated window must not be able to dismiss the loading hero.
       await page.evaluate(() => window.postMessage({ type: 'invitation:game-ready' }, '*'));
       assert(await page.locator('.game-loading').isVisible());
-      if (game === 'taptaptap' && prefix === '/Birthday/') {
+      if (game === 'taptaptap' && prefix === '/vihaanbirthday/') {
         await page.screenshot({ path: 'test-results/game-loading-mobile.png' });
       }
       releaseScript();
