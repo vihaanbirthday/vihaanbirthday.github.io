@@ -38,7 +38,7 @@ try {
     }
     await checkChapter(0);
     assert.equal(await page.locator('#motion-toggle').count(), 0, 'No top pause control');
-    assert(await page.locator('.hero-description, .detail p, .venue-address, #rsvp > p, .game-content p').evaluateAll(elements => elements.every(el => parseFloat(getComputedStyle(el).fontSize) >= 15)), 'Invitation reading text remains comfortably sized');
+    assert(await page.locator('.hero-description, .detail .detail-note, .venue-address, #rsvp > p, .game-content p').evaluateAll(elements => elements.every(el => parseFloat(getComputedStyle(el).fontSize) >= 15)), 'Invitation reading text remains comfortably sized');
     assert(await page.locator('#page-next, .gaming-shortcut').evaluateAll(elements => elements.every(el => parseFloat(getComputedStyle(el).fontSize) >= 15)), 'Primary controls have readable labels');
     await page.locator('#page-menu summary').click();
     assert(await nav.isVisible());

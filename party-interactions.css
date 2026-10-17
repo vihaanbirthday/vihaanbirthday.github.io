@@ -1,0 +1,13 @@
+/* Tactile cards and confetti words keep their original reading layout. */
+[data-party-press],.confetti-word{touch-action:manipulation;transition:transform 80ms ease-out,background-color 120ms ease-out}
+[data-party-press]:active{transform:scale(.96)}
+[data-party-press]:focus-visible{outline-offset:-4px;border-radius:12px}
+@media(hover:hover){[data-party-press]:hover{background:#f9e6b74d}}
+.confetti-word{display:inline-block;padding:0;border:0;border-radius:.12em;background:transparent;color:inherit;font:inherit;letter-spacing:inherit;text-align:inherit;vertical-align:baseline}
+.confetti-word:active{transform:scale(.94)}
+.confetti-word:focus-visible{outline:2px dashed currentColor;outline-offset:4px}
+.party-confetti{position:fixed;inset:0;z-index:120;overflow:hidden;pointer-events:none;user-select:none}
+.party-confetti i{position:absolute;display:block;width:8px;height:12px;border-radius:2px;will-change:transform,opacity}
+.party-confetti i:nth-child(3n){width:8px;height:8px;border-radius:50%}
+.party-confetti i:nth-child(5n){width:6px;height:15px;border-radius:1px}
+@media(prefers-reduced-motion:reduce){[data-party-press]:active,.confetti-word:active{transform:none}}

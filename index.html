@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./invitation.css">
   <link rel="stylesheet" href="./nursery-backgrounds.css">
+  <link rel="stylesheet" href="./party-interactions.css">
   <script type="module" src="./main.js"></script>
 </head>
 <body>
@@ -111,9 +112,9 @@
       </div>
       <div class="section-heading reveal"><div class="eyebrow">THE CELEBRATION</div><h2>The <span class="safari-anchor" data-safari-anchor="elephant"><em>day.</em></span></h2></div>
       <div class="details-grid reveal">
-        <div class="detail"><span class="detail-icon" data-icon="calendar"></span><span class="eyebrow">SAVE THE DATE</span><h3 id="event-date">6 December 2026</h3><p id="event-day">Sunday</p></div>
-        <div class="detail"><span class="detail-icon" data-icon="clock"></span><span class="eyebrow">PARTY O'CLOCK</span><h3 id="event-time">11:00 am</h3><p>Mauritius time</p></div>
-        <div class="detail"><span class="detail-icon" data-icon="pin"></span><span class="eyebrow">MEET US HERE</span><h3>Paps Restaurant</h3><p>Vacoas-Phoenix, Mauritius</p></div>
+        <button class="detail" type="button" data-party-press><span class="detail-icon" data-icon="calendar"></span><span class="eyebrow">SAVE THE DATE</span><span class="detail-value" id="event-date">6 December 2026</span><span class="detail-note" id="event-day">Sunday</span></button>
+        <button class="detail" type="button" data-party-press><span class="detail-icon" data-icon="clock"></span><span class="eyebrow">PARTY O'CLOCK</span><span class="detail-value" id="event-time">11:00 am</span><span class="detail-note">Mauritius time</span></button>
+        <button class="detail" type="button" data-party-press><span class="detail-icon" data-icon="pin"></span><span class="eyebrow">MEET US HERE</span><span class="detail-value">Paps Restaurant</span><span class="detail-note">Vacoas-Phoenix, Mauritius</span></button>
       </div>
       <div class="countdown-bar reveal" id="countdown" hidden><span>See you in</span><div id="countdown-values" aria-label="Time until the party"></div><button class="text-link" id="calendar-button" data-calendar type="button">Add to calendar ↗</button></div>
     </section>

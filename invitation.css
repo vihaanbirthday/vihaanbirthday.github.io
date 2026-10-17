@@ -117,8 +117,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .invitation-ready .detail{padding:0 22px}
 .invitation-ready .detail-icon{width:48px;height:48px;margin-bottom:14px}
 .invitation-ready .detail .eyebrow{font-size:13px;letter-spacing:1px}
-.invitation-ready .detail h3{font-size:28px;line-height:1.3;margin:12px 0 7px}
-.invitation-ready .detail p{font-size:17px;line-height:1.5}
+.invitation-ready .detail .detail-value{font-size:28px;line-height:1.3;margin:12px 0 7px}
+.invitation-ready .detail .detail-note{font-size:17px;line-height:1.5}
 .invitation-ready .countdown-bar{width:min(850px,100%);margin:0;padding:18px 24px;gap:20px;flex-shrink:0;border-radius:18px;font-size:16px;background:#eaf0e2}
 .invitation-ready #countdown-values{gap:22px}.invitation-ready #countdown-values b{font-size:27px}.invitation-ready #countdown-values span{font-size:13px;letter-spacing:.6px}
 .invitation-ready .venue-section{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-content:safe center;align-items:center}
@@ -170,8 +170,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .game-preview>div:not(.preview-castle){transform:scale(.65);flex-shrink:0;margin-top:0}
   .invitation-ready .game-preview .preview-doodle,.invitation-ready .hex-dot,.invitation-ready .tap-dot{display:none}
   .invitation-ready .preview-wizard{width:85px;right:5%;top:20%;animation:none}
-  .invitation-ready .detail{padding-inline:12px}.invitation-ready .detail h3{font-size:24px}
-  .invitation-ready .detail p{font-size:16px}
+  .invitation-ready .detail{padding-inline:12px}.invitation-ready .detail .detail-value{font-size:24px}
+  .invitation-ready .detail .detail-note{font-size:16px}
   .invitation-ready .safari-anchor{--safari-size:70px}
 }
 @media(max-width:700px){
@@ -225,8 +225,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .detail:last-child{border:0}
   .invitation-ready .detail-icon{grid-column:1;grid-row:1/4;margin:0;align-self:center;width:44px;height:44px}
   .invitation-ready .detail .eyebrow{grid-column:2;justify-content:start;font-size:12px;letter-spacing:1px}
-  .invitation-ready .detail h3{grid-column:2;font-size:25px;line-height:1.25;margin:4px 0}
-  .invitation-ready .detail p{grid-column:2;font-size:16px;line-height:1.4}
+  .invitation-ready .detail .detail-value{grid-column:2;font-size:25px;line-height:1.25;margin:4px 0}
+  .invitation-ready .detail .detail-note{grid-column:2;font-size:16px;line-height:1.4}
   .invitation-ready .countdown-bar:not([hidden]){display:grid;grid-template-columns:1fr auto;gap:7px 14px;padding:16px 20px}
   .invitation-ready .countdown-bar>span{font-size:14px;grid-column:1}
   .invitation-ready #countdown-values{grid-column:1;gap:15px}
@@ -275,8 +275,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .hero-description{font-size:17px}
   .invitation-ready .detail{gap:0 12px;padding-block:14px}
   .invitation-ready .details-grid{padding-inline:14px}
-  .invitation-ready .detail h3{font-size:23px}
-  .invitation-ready .detail p{font-size:15px}
+  .invitation-ready .detail .detail-value{font-size:23px}
+  .invitation-ready .detail .detail-note{font-size:15px}
   .invitation-ready .countdown-bar:not([hidden]){padding-inline:14px;gap:6px 10px}
   .invitation-ready #countdown-values{gap:12px}
   .invitation-ready .venue-address{font-size:16px}
@@ -319,7 +319,7 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .games-section{align-items:start}
   .invitation-ready #hero-title{font-size:40px}
   .invitation-ready .hero-description{font-size:18px}
-  .invitation-ready .detail h3{font-size:23px}
+  .invitation-ready .detail .detail-value{font-size:23px}
   .invitation-ready .details-grid{padding-block:20px}
   .invitation-ready .opening-content{display:grid;grid-template-columns:1.15fr 1fr;gap:0 28px;align-items:center;max-width:960px}
   .opening-title{grid-column:1;grid-row:1/6}
