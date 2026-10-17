@@ -37,6 +37,11 @@ try {
   assert(await page.locator('.opening-note').isVisible(), 'The invitation note appears after the complete name');
   assert.equal(await page.locator('.writing-fireworks').count(), 1, 'A single spark canvas follows the writing');
   assert.equal(await page.locator('#motion-toggle').count(), 0, 'No header pause option');
+  const coverDecorations = page.locator('.opening-star, .bunting-flag');
+  assert.equal(await page.locator('.bunting-flag').count(), 8, 'Each paper flag can flutter independently');
+  const coverPoses = await coverDecorations.evaluateAll(elements => elements.map(el => getComputedStyle(el).transform));
+  await page.waitForTimeout(250);
+  assert(await coverDecorations.evaluateAll((elements, before) => elements.every((el, index) => getComputedStyle(el).transform !== before[index]), coverPoses), 'Every opening star floats and every flag flutters');
   assert.equal(await page.getByRole('button', { name: 'Replay the magic' }).count(), 0);
   assert(await page.locator('#replay-writing .name-writing').isVisible(), 'The name itself is the replay control');
   await page.locator('#replay-writing').tap();
@@ -53,6 +58,7 @@ try {
   await page.waitForFunction(() => document.body.classList.contains('motion-paused'));
   assert(await page.locator('.name-stroke').evaluateAll(paths => paths.every(path => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < 0.001)), 'Pausing shows the complete name');
   assert(await page.locator('#replay-writing').isDisabled());
+  assert(await coverDecorations.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationName === 'none')), 'Reduced motion keeps opening stars and flags still');
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.every((value, index) => index % 4 !== 3 || value === 0)), 'Reduced motion clears all spark particles immediately');
   assert(await page.locator('.opening-button').isVisible());
   assert(await page.locator('.opening-afterword').isVisible(), 'Reduced motion shows the birthday text immediately');
@@ -60,6 +66,7 @@ try {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   await page.locator('.opening-button').click();
+  assert(await coverDecorations.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Opening decorations pause offscreen');
   await page.waitForFunction(() => document.querySelector('.hero .safari-home')?.dataset.painted === 'true');
   assert.equal(await page.locator('#hero-title em,.word-accent').evaluateAll(words => words.filter(word => getComputedStyle(word).animationName !== 'none').length), 0, 'Reading text stays still');
   const toy = page.locator('#invitation .toy-one');

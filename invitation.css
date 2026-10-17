@@ -44,13 +44,21 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .opening-decoration{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
 .opening-aura{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,#fffdf8 10%,transparent 65%),linear-gradient(180deg,#e6eff7 0%,#f8f4ec 75%)}
 .opening-bunting{position:absolute;top:0;left:0;width:100%;height:clamp(48px,6vw,72px);stroke:none}
+/* Flags pivot from the string, with staggered ripples in a light breeze. */
+.bunting-flag{transform-box:fill-box;transform-origin:50% 0;animation:flag-breeze 4.8s ease-in-out infinite}
+.bunting-flag:nth-of-type(2n){animation-delay:-.6s;animation-duration:5.3s}
+.bunting-flag:nth-of-type(3n){animation-delay:-1.5s}
+.bunting-flag:nth-of-type(4n){animation-delay:-2.4s;animation-duration:5.8s}
+@keyframes flag-breeze{0%,100%{transform:rotate(-2deg) skewX(-3deg) scale(1,.98)}35%{transform:rotate(3deg) skewX(4deg) scale(.96,.94)}70%{transform:rotate(-1deg) skewX(-1deg) scale(.99,1)}}
 .opening-cloud{position:absolute;width:150px;height:48px;border-radius:100px;background:#fffdf9;box-shadow:0 5px 18px #b5c8d91a;opacity:.85}
 .opening-cloud:before,.opening-cloud:after{content:'';position:absolute;bottom:15px;border-radius:50%;background:inherit}
 .opening-cloud:before{left:24px;width:65px;height:65px}.opening-cloud:after{right:20px;width:80px;height:80px}
 .cloud-one{left:5%;top:28%;transform:rotate(-6deg)}.cloud-two{right:4%;bottom:20%;transform:scale(.85) rotate(5deg)}
-.opening-star{position:absolute;color:#c59a48;line-height:1;font-size:36px}
-.star-one{left:19%;top:17%;transform:rotate(-12deg)}.star-two{right:17%;bottom:12%;font-size:27px;transform:rotate(10deg)}
-.star-three{right:10%;top:25%;color:#bc826e;font-size:43px}.star-four{left:10%;bottom:16%;color:#799fbe;font-size:30px}
+.opening-star{position:absolute;color:#c59a48;line-height:1;font-size:36px;transform:rotate(var(--star-tilt,0deg));animation:opening-star-float 7s ease-in-out infinite}
+.star-one{left:19%;top:17%;--star-tilt:-12deg}.star-two{right:17%;bottom:12%;font-size:27px;--star-tilt:10deg;animation-delay:-2.8s;animation-duration:8s}
+.star-three{right:10%;top:25%;color:#bc826e;font-size:43px;animation-delay:-4.2s;animation-duration:8.5s}.star-four{left:10%;bottom:16%;color:#799fbe;font-size:30px;animation-delay:-1.5s;animation-duration:7.5s}
+@keyframes opening-star-float{0%,100%{transform:translate(-3px,4px) rotate(calc(var(--star-tilt,0deg) - 3deg))}50%{transform:translate(5px,-10px) rotate(calc(var(--star-tilt,0deg) + 5deg))}}
+.invitation-page[hidden] .opening-decoration *{animation-play-state:paused!important}
 .invitation-ready .opening-page{display:flex;flex-direction:column;justify-content:safe center;align-items:center;padding:26px 24px;animation:none;overflow-y:auto}
 .opening-content{position:relative;width:min(900px,100%)}
 .invitation-ready .opening-kicker{font-size:14px;letter-spacing:2px;color:#526c82;margin:0 0 8px}
