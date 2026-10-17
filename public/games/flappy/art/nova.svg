@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="110" height="80" viewBox="0 0 220 160" role="img" aria-labelledby="title">
-<title id="title">Nova, an original apprentice in flowing robes on a flying broom</title>
+<title id="title">Nova, a smiling apprentice in flowing robes on a flying broom</title>
 <defs>
  <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#596d80"/><stop offset=".5" stop-color="#243849"/><stop offset="1" stop-color="#171d30"/></linearGradient>
  <linearGradient id="bristles" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9bd80"/><stop offset="1" stop-color="#846039"/></linearGradient>
@@ -37,8 +37,8 @@
  <path d="M119 71q-18-7-28-5l-14 10 21-1 19 3" fill="#6eaaa4"/>
  <path d="m96 70 17 3" fill="none" stroke="#fff3d7" stroke-width="1" opacity=".4"/>
  <!-- Every apprentice has an original face, haircut and hat silhouette. -->
- <path d="M126 39q-11 4-8 21 1 11 14 15 11 2 22-10l4-14-10-16Z" fill="#f6dfcc"/>
- <path d="m151 51 7 6 7 1-7 5-3 3" fill="#f6dfcc"/>
+ <path d="M126 39q-11 4-8 21 1 11 14 15Q147 78 154 65q5-8 1-14l-7-16Z" fill="#f6dfcc"/>
+ <path d="M153 53q3 2 6 4 3 3-1 5l-4 1" fill="#f6dfcc"/>
  <ellipse cx="122" cy="57" rx="4" ry="5" fill="#f6dfcc"/>
  <path d="m122 56 2 3" fill="none" stroke="#e5b9a5" stroke-width="1.5"/>
  <path d="M119 56q-13-10-8-23l18-13 21 5 5 14-7 11-4-11-9 12-4-8-7 12Z" fill="#d1d7cb"/>
@@ -49,10 +49,13 @@
  <path d="M100 39q24-10 60-4l14 9q-38 10-75 2Z" fill="url(#hat)"/>
  <path d="m111 35 40-1" stroke="#719f9a" stroke-width="5"/>
  <path d="m134 29 3 5-3 5-3-5Z" fill="#d0bd84" stroke-width="1"/>
- <path d="m146 52 5-1" fill="none" stroke="#d1d7cb" stroke-width="2"/>
- <ellipse cx="151" cy="56" rx="1.8" ry="2.3" fill="#151e30" stroke="none"/>
- <path d="m146 66 7-1" fill="none" stroke="#573d40" stroke-width="1.6"/>
- <ellipse cx="140" cy="62" rx="4" ry="2" fill="#e5b9a5" opacity=".45" stroke="none"/>
+ <!-- A relaxed brow, bright eye and upturned smile stay clear at game size. -->
+ <path d="M145 50q3-2 6 0" fill="none" stroke="#8c9890" stroke-width="1.6"/>
+ <ellipse cx="149.5" cy="56" rx="3" ry="3.8" fill="#fffaf1" stroke="none"/>
+ <ellipse cx="150.2" cy="56.3" rx="2" ry="2.8" fill="#27344a" stroke="none"/>
+ <circle cx="150.8" cy="55.2" r=".8" fill="#fffaf1" stroke="none"/>
+ <ellipse cx="138.5" cy="62" rx="4.5" ry="2.8" fill="#e8a49c" opacity=".65" stroke="none"/>
+ <path d="M139 64q7 9 14 0" fill="none" stroke="#884f52" stroke-width="1.9"/>
  <path d="m136 97 4 3-4 3-4-3Z" fill="#c3ab79" stroke="none"/>
 </g>
 <g fill="#dfc78f" opacity=".8"><path d="m26 82 1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5Z"/><path d="m193 52 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"/></g>
