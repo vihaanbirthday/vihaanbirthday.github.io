@@ -7,10 +7,10 @@
 
 ## GitHub Pages
 
-1. Push this project to [vihaanbirthday/vihaanbirthday](https://github.com/vihaanbirthday/vihaanbirthday), including `.github/workflows/deploy.yml`, `package.json`, and `package-lock.json`. The workflow deploys from `main`.
+1. Push this project to [vihaanbirthday/vihaanbirthday.github.io](https://github.com/vihaanbirthday/vihaanbirthday.github.io), including `.github/workflows/deploy.yml`, `package.json`, and `package-lock.json`. The workflow deploys from `main`. GitHub requires this repository name to serve the account's root Pages URL.
 2. In **Settings → Pages → Build and deployment**, select **GitHub Actions** as the source.
 3. Open **Actions → Deploy to GitHub Pages → Run workflow**, or push a commit to `main`.
-4. Open the URL shown by the completed deployment: `https://vihaanbirthday.github.io/vihaanbirthday/` (unless a custom domain is configured).
+4. Open the URL shown by the completed deployment: `https://vihaanbirthday.github.io/` (unless a custom domain is configured).
 
 The workflow installs dependencies, runs source checks, builds, and uploads only `dist/`. Do not select branch-based publishing of the source directory. Relative URLs support repository sites, account sites, and custom domains without entering a repository name in the configuration.
 
