@@ -3,7 +3,7 @@ import { setupNameWriting } from './name-writing.js';
 export function setupInvitationPages() {
   const pages = [...document.querySelectorAll('#main > [data-page]')];
   const hashes = ['#main', '#invitation', '#celebration', '#venue', '#rsvp', '#games'];
-  const titles = ['The opening', 'One big adventure', 'The celebration', 'The place', 'With love, you’re invited', 'A little playtime'];
+  const titles = ['The opening', 'One big adventure', 'The celebration', 'The venue', 'Come celebrate with us', 'A little playtime'];
   const invitationCount = 5;
   const gamesIndex = invitationCount;
   let gamesReturnPage = 0;

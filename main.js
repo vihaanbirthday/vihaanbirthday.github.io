@@ -112,11 +112,9 @@ document.querySelectorAll('[data-rsvp]').forEach(button => button.addEventListen
   rsvpTrigger = button;
   $('#rsvp-form').hidden = !rsvpReady;
   $('#rsvp-unavailable').hidden = rsvpReady;
-  $('#rsvp-fallback').hidden = true;
   rsvpDialog.showModal();
   if (rsvpReady) $('#guest-name').focus();
 }));
-if (!rsvpReady) $('#rsvp-note').textContent = 'WhatsApp RSVP details coming soon';
 $('#close-rsvp').addEventListener('click', () => rsvpDialog.close());
 rsvpDialog.addEventListener('close', () => {
   if (!rsvpDialog.dataset.navigationClose) rsvpTrigger?.focus({ preventScroll: true });
@@ -144,42 +142,11 @@ $('#rsvp-form').addEventListener('submit', e => {
     '',
     attending ? 'Looking forward to celebrating with you! 🎉' : 'Sending Vihaan lots of love for his big day! 💛',
   ].join('\n');
-  $('#rsvp-message').value = message;
-  $('#rsvp-status').textContent = 'Your reply is ready. Send your message in WhatsApp to finish your RSVP.';
-  $('#copy-status').textContent = '';
-  $('#rsvp-form').hidden = true;
-  $('#rsvp-fallback').hidden = false;
-  rsvpDialog.scrollTop = 0;
-  $('#rsvp-status').focus({ preventScroll: true });
+  window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 });
-$('#open-rsvp-whatsapp').addEventListener('click', () => {
-  const message = $('#rsvp-message').value;
-  if (rsvpReady && message) window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
-});
-$('#edit-rsvp').addEventListener('click', () => {
-  $('#rsvp-fallback').hidden = true;
-  $('#rsvp-form').hidden = false;
-  rsvpDialog.scrollTop = 0;
-  $('#guest-name').focus({ preventScroll: true });
-});
-if (rsvpReady) {
-  $('#rsvp-contact').hidden = false;
-  $('#rsvp-contact').href = `tel:+${event.whatsappNumber}`;
-}
 $('#rsvp-form').addEventListener('input', () => {
   $('#guest-name').setCustomValidity('');
   guestCount.setCustomValidity('');
-  $('#rsvp-fallback').hidden = true;
-});
-$('#copy-rsvp').addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText($('#rsvp-message').value);
-    $('#copy-status').textContent = 'Message copied. Paste it into WhatsApp and send it to Madhav & Urvashee.';
-  } catch {
-    $('#rsvp-message').focus();
-    $('#rsvp-message').select();
-    $('#copy-status').textContent = 'Select and copy the message above, then paste it into WhatsApp.';
-  }
 });
 const eventDate = getEventDate(event);
 if (!eventDate) {
@@ -187,14 +154,14 @@ if (!eventDate) {
   $('#event-day').textContent = 'A lovely day together';
 }
 if (!eventDate || !event.time) $('#event-time').textContent = 'Time coming soon';
-$('#hero-date').textContent = eventDate
+const recapDate = eventDate
   ? new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Indian/Mauritius' }).format(eventDate)
   : 'Date coming soon';
-$('#hero-time').textContent = eventDate && event.time
+const recapTime = eventDate && event.time
   ? new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Indian/Mauritius' }).format(eventDate) + ' · Mauritius time'
   : 'Time coming soon';
 document.querySelectorAll('[data-event-recap]').forEach(el => {
-  el.replaceChildren(...[$('#hero-date').textContent, $('#hero-time').textContent, 'Paps Restaurant'].map(text => { const line = document.createElement('span'); line.textContent = text; return line; }));
+  el.replaceChildren(...[recapDate, recapTime, 'Paps Restaurant'].map(text => { const line = document.createElement('span'); line.textContent = text; return line; }));
 });
 if (event.date) {
   const date = getEventDate(event);

@@ -9,11 +9,11 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="description" content="One little boy. One big adventure. Join Madhav and Urvashee to celebrate Vihaan’s first birthday at Paps Restaurant.">
   <meta property="og:title" content="Our little explorer Vihaan is turning ONE!">
-  <meta property="og:description" content="You're invited to a little safari and a whole lot of love. Celebrate Vihaan's first birthday with us.">
+  <meta property="og:description" content="You're invited to a little adventure and a whole lot of love. Celebrate Vihaan's first birthday with us.">
   <meta property="og:image" content="/assets/safari.webp">
   <title>Our little explorer Vihaan is turning ONE!!! · You're invited</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-  <link rel="preload" as="image" href="./assets/safari.webp">
+  <link rel="preload" as="image" href="./assets/safari-transparent.webp">
   <link rel="preload" as="image" href="/assets/animals/lion.webp">
   <link rel="preload" as="image" href="/assets/animals/elephant.webp">
   <link rel="preload" as="image" href="/assets/animals/giraffe.webp">
@@ -97,10 +97,9 @@
       <div class="hero-copy">
         <div class="eyebrow">YOU'RE INVITED</div>
         <h2 id="hero-title">Our little<br><span class="safari-anchor" data-safari-anchor="lion"><em>explorer</em></span><br>is turning one.</h2>
-        <div class="hero-details"><span id="hero-date"></span><span id="hero-time"></span><span>Paps Restaurant</span></div>
-        <p class="hero-description">Join us for Vihaan’s first birthday.<br>A little safari. A whole lot of love.</p>
+        <p class="hero-description">Join us for Vihaan’s first birthday.<br>A little adventure. A whole lot of love.</p>
       </div>
-      <div class="hero-art"><div class="safari-frame"><img src="./assets/safari.webp" width="1254" height="1254" alt="A lion, giraffe and tiger celebrate beside balloons and a giant number one" fetchpriority="high"></div></div>
+      <div class="hero-art"><div class="safari-frame"><img src="./assets/safari-transparent.webp" width="1200" height="1200" alt="A lion, giraffe and tiger celebrate beside balloons and a giant number one" fetchpriority="high"></div></div>
     </section>
     <section data-page="celebration" id="celebration" tabindex="-1" class="celebration wrap section-space invitation-page">
       <div class="nursery-decoration" aria-hidden="true">
@@ -127,7 +126,7 @@
         <span class="nursery-confetti confetti-one"></span><span class="nursery-confetti confetti-two"></span><span class="nursery-confetti confetti-three"></span>
       </div>
       <div class="venue-visual reveal"><img id="venue-photo" src="./assets/venue-garden.svg" alt="Illustration of Paps Restaurant, with a striped awning and outdoor tables" width="1000" height="940" loading="lazy"><div class="photo-caption">An illustration of our party spot</div></div>
-      <div class="venue-copy reveal"><div class="eyebrow">A LITTLE SAFARI AT PAPS</div><h2>The <span class="safari-anchor" data-safari-anchor="giraffe"><em>place.</em></span></h2><div class="venue-address"><strong>Paps Bar, Lounge & Restaurant</strong><span>Caleechurn Lane, Carreau Laliane<br>Vacoas-Phoenix, Mauritius</span></div><a class="button button-outline" href="https://maps.app.goo.gl/bnpBMfxSez6iZjbZA" target="_blank" rel="noopener noreferrer"><span data-icon="pin"></span> Directions & photos <span aria-hidden="true">↗</span></a></div>
+      <div class="venue-copy reveal"><div class="eyebrow">A LITTLE ADVENTURE AT PAPS</div><h2>The <span class="safari-anchor" data-safari-anchor="giraffe"><em>venue.</em></span></h2><div class="venue-address"><strong>Paps Bar, Lounge & Restaurant</strong><span>Caleechurn Lane, Carreau Laliane<br>Vacoas-Phoenix, Mauritius</span></div><a class="button button-outline" href="https://maps.app.goo.gl/bnpBMfxSez6iZjbZA" target="_blank" rel="noopener noreferrer"><span data-icon="pin"></span> Directions & photos <span aria-hidden="true">↗</span></a></div>
     </section>
     <section data-page="rsvp" id="rsvp" tabindex="-1" class="rsvp-section wrap section-space invitation-page">
       <div class="nursery-decoration" aria-hidden="true">
@@ -142,8 +141,6 @@
       <p>We’d love to share<br>his big day with you.</p>
       <p class="event-recap" data-event-recap></p>
       <button class="button" id="rsvp-button" data-rsvp type="button"><span data-icon="message"></span> RSVP on WhatsApp <span aria-hidden="true">↗</span></button>
-      <span class="rsvp-note" id="rsvp-note">Message Madhav & Urvashee</span>
-      <div class="signature">With love, <strong>Madhav & Urvashee</strong></div>
       <div class="ending-games"><p>Stay for a little fun?</p><a class="text-link" href="#games">Play games <span aria-hidden="true">→</span></a></div>
     </section>
     <section data-page="games" id="games" class="games-section section-space invitation-page" aria-labelledby="gaming-title" tabindex="-1">
@@ -196,7 +193,7 @@
     <h2 id="rsvp-title">Your <em>reply.</em></h2>
     <p id="rsvp-unavailable" hidden>Our WhatsApp RSVP details are coming soon. Please check back or message Madhav & Urvashee directly.</p>
     <form id="rsvp-form">
-      <p class="form-intro">Prepare your reply, then send it in WhatsApp to finish your RSVP.</p>
+      <p class="form-intro">Enter your details to open your reply in WhatsApp.</p>
       <label for="guest-name">Your name</label>
       <input aria-describedby="rsvp-form-note" id="guest-name" name="name" required maxlength="80" autocomplete="name" placeholder="Your name">
       <label for="guest-attendance">Can you join us?</label>
@@ -211,17 +208,9 @@
           <option value="1">Just me</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4">4 guests</option>
         </select>
       </div>
-      <button class="button" type="submit">Review reply →</button>
-      <p class="form-note" id="rsvp-form-note">You’ll review and send your message in WhatsApp. Your details aren’t stored on this website.</p>
+      <button class="button" type="submit">Open WhatsApp ↗</button>
+      <p class="form-note" id="rsvp-form-note">Send your message in WhatsApp to finish your RSVP. Your details aren’t stored on this website.</p>
     </form>
-    <div id="rsvp-fallback" hidden>
-      <p id="rsvp-status" role="status" aria-live="polite" tabindex="-1"></p>
-      <div class="reply-actions"><button id="open-rsvp-whatsapp" class="button" type="button">Open WhatsApp ↗</button><button id="copy-rsvp" class="button button-outline" type="button">Copy message</button><button id="edit-rsvp" class="text-link" type="button">Edit reply</button></div>
-      <p id="copy-status" role="status" aria-live="polite"></p>
-      <label for="rsvp-message">Your prepared message</label>
-      <textarea id="rsvp-message" readonly rows="8"></textarea>
-      <a id="rsvp-contact" class="text-link" hidden>Prefer to call Madhav?</a>
-    </div>
   </dialog>
 </body>
 </html>

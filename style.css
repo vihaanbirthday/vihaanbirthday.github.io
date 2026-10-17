@@ -197,11 +197,6 @@ h1{font-size:clamp(56px,6vw,86px);margin:20px 0 25px}
 #rsvp-form label{font-size:14px;font-weight:500}
 input,select,textarea{border-radius:8px}
 .form-note{font-size:13px;line-height:1.65}
-#rsvp-fallback{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
-#rsvp-fallback label{display:block;font-size:13px;margin:16px 0 8px}
-#rsvp-message{display:block;width:100%;resize:vertical;padding:12px;border:1px solid #a6b396;background:#fffdf7;color:var(--green);font-size:14px;line-height:1.6}
-#copy-rsvp{margin-top:12px;width:100%}
-#rsvp-status,#copy-status{font-size:13px;line-height:1.65}
 #copy-status{margin-top:10px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .motion-dialog *,.motion-dialog *:before,.motion-dialog *:after{animation-play-state:paused!important}

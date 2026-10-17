@@ -11,3 +11,11 @@ Use case: illustration-story. Asset type: birthday invitation website hero artwo
 `public/assets/venue-garden.svg` is an original code-native illustration of a tropical location card, not a representation of the restaurant exterior. Real venue photos are available via the user's Google Maps link.
 
 The previously sourced food photograph has been removed from the website and distribution because an open reuse license was not established.
+
+## Transparent invitation illustration
+
+Website asset: `public/assets/safari-transparent.webp` (1200 × 1200, WebP with alpha), edited from the original using the built-in imagegen tool. The original remains available for the social preview and loading artwork. The invitation uses the transparent version at a larger size.
+
+Final edit prompt:
+
+Edit target: the provided safari birthday illustration. Remove ONLY the flat cream background and floor outside the illustrated arrangement, replacing them with genuine alpha transparency. Preserve the lion, giraffe, tiger, giant cream numeral 1, all balloons, leaves, rocks and green oval base exactly in the same composition and soft tactile clay style, colors, proportions, and facial expressions. Keep all subjects complete with clean soft antialiased edges. Preserve the cream numeral and cream balloons as opaque foreground objects. No added text, no other changes. Output square transparent cutout.

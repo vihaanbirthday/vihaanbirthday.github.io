@@ -30,17 +30,17 @@
  <circle cx="131" cy="89" r="1.3" fill="#d6b77c" stroke="none"/>
  <path d="M141 78q5 3 14 17l19 1 2 10-28-2-19-19Z" fill="url(#robe)"/>
  <path d="m172 94 4 13" stroke="#91b2a2" stroke-width="4"/>
- <path d="m177 94 6-1q7 1 6 6l-8 5-5-2Z" fill="#95674e"/>
- <path d="m179 97 6 1" stroke="#d39180" stroke-width="1.4"/>
+ <path d="m177 94 6-1q7 1 6 6l-8 5-5-2Z" fill="#f6dfcc"/>
+ <path d="m179 97 6 1" stroke="#e5b9a5" stroke-width="1.4"/>
  <!-- A simple, unstriped neck wrap. -->
  <path d="M124 66 115 73q10 7 25 7l10-8-20-9Z" fill="#91b2a2"/>
  <path d="M119 71q-18-7-28-5l-14 10 21-1 19 3" fill="#91b2a2"/>
  <path d="m96 70 17 3" fill="none" stroke="#fff3d7" stroke-width="1" opacity=".4"/>
  <!-- Every apprentice has an original face, haircut and hat silhouette. -->
- <path d="M126 39q-11 4-8 21 1 11 14 15 11 2 22-10l4-14-10-16Z" fill="#95674e"/>
- <path d="m151 51 7 6 7 1-7 5-3 3" fill="#95674e"/>
- <ellipse cx="122" cy="57" rx="4" ry="5" fill="#95674e"/>
- <path d="m122 56 2 3" fill="none" stroke="#d39180" stroke-width="1.5"/>
+ <path d="M126 39q-11 4-8 21 1 11 14 15 11 2 22-10l4-14-10-16Z" fill="#f6dfcc"/>
+ <path d="m151 51 7 6 7 1-7 5-3 3" fill="#f6dfcc"/>
+ <ellipse cx="122" cy="57" rx="4" ry="5" fill="#f6dfcc"/>
+ <path d="m122 56 2 3" fill="none" stroke="#e5b9a5" stroke-width="1.5"/>
  <path d="M117 55q-12-13-3-27l19-11 19 13 3 15-10 6-1-13-7 7-9-8q-6 14-4 29l-11-5Z" fill="#a97883"/>
  <path d="M113 46q-3 15 1 24l12 3-1-13Z" fill="#a97883"/>
  <path d="m117 45-1 16m17-28 10 4" fill="none" stroke="#d5a6a6" stroke-width="1.4"/>
@@ -52,7 +52,7 @@
  <path d="m146 52 5-1" fill="none" stroke="#a97883" stroke-width="2"/>
  <ellipse cx="151" cy="56" rx="1.8" ry="2.3" fill="#151e30" stroke="none"/>
  <path d="m146 66 7-1" fill="none" stroke="#573d40" stroke-width="1.6"/>
- <ellipse cx="140" cy="62" rx="4" ry="2" fill="#d39180" opacity=".45" stroke="none"/>
+ <ellipse cx="140" cy="62" rx="4" ry="2" fill="#e5b9a5" opacity=".45" stroke="none"/>
  <path d="m119 91-4 8 2 9 7 1 3-9-3-7Z" fill="#d7b377"/><path d="m118 101 5 1" stroke="#fae5ae" stroke-width="2"/>
 </g>
 <g fill="#dfc78f" opacity=".8"><path d="m26 82 1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5Z"/><path d="m193 52 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"/></g>

@@ -103,13 +103,13 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .page-progress-track i{display:block;height:100%;background:#718765;transition:width .35s ease}
 #page-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
-.invitation-ready .hero{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-content:safe center;align-items:center}
+.invitation-ready .hero{display:grid;grid-template-columns:1fr 1.2fr;gap:3vw;align-content:safe center;align-items:center}
 .invitation-ready .hero-copy{max-width:600px;justify-self:end;text-align:left}
 .invitation-ready #hero-title{font-size:clamp(44px,5vw,74px);line-height:1.08;margin:16px 0 24px;letter-spacing:-2px}
 .invitation-ready .hero-description{font-size:21px;line-height:1.6;max-width:510px}
-.invitation-ready .hero-art{width:100%;max-width:540px;padding:0;margin:0;justify-self:start}
-.invitation-ready .safari-frame{padding:0;border-radius:24px;background:transparent;box-shadow:none;animation:none;overflow:hidden}
-.invitation-ready .hero-art .safari-frame img{display:block;width:100%;height:auto;max-height:57dvh;object-fit:contain;border-radius:0;margin:0;animation:none}
+.invitation-ready .hero-art{width:100%;max-width:640px;padding:0;margin:0;justify-self:start}
+.invitation-ready .safari-frame{padding:0;border-radius:0;background:transparent;box-shadow:none;animation:none;overflow:visible}
+.invitation-ready .hero-art .safari-frame img{display:block;width:100%;height:auto;max-height:65dvh;object-fit:contain;border-radius:0;margin:0;animation:none}
 .invitation-ready .hero .safari-anchor{--safari-size:100px}
 .invitation-ready .celebration{display:flex;flex-direction:column;justify-content:safe center;align-items:center;gap:28px}
 .invitation-ready .section-heading h2{margin-bottom:0}
@@ -216,8 +216,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready #hero-title{font-size:42px;line-height:1.08;letter-spacing:-1.2px;margin:10px 0 16px}
   .invitation-ready .hero .safari-anchor{--safari-size:65px}
   .invitation-ready .hero-description{font-size:18px;line-height:1.5}
-  .invitation-ready .hero-art{justify-self:center;width:min(100%,290px)}
-  .invitation-ready .hero-art .safari-frame img{max-height:30dvh;object-fit:contain}
+  .invitation-ready .hero-art{justify-self:center;width:min(100%,380px)}
+  .invitation-ready .hero-art .safari-frame img{max-height:38dvh;object-fit:contain}
   .invitation-ready .celebration{gap:22px}
   .invitation-ready .section-heading h2{font-size:40px;margin:8px 0 0}
   .invitation-ready .details-grid{grid-template-columns:1fr;padding:4px 20px;border-radius:22px;gap:0}
@@ -297,7 +297,7 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .invitation-page{padding-block:16px}
   .invitation-ready .hero{gap:16px}
   .invitation-ready #hero-title{font-size:38px;margin:8px 0 12px}
-  .invitation-ready .hero-art .safari-frame img{max-height:26dvh}
+  .invitation-ready .hero-art .safari-frame img{max-height:32dvh}
   .invitation-ready .celebration{gap:16px}
   .invitation-ready .detail{padding-block:12px}
   .invitation-ready .venue-section{gap:14px}
@@ -347,14 +347,7 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 }
 
 /* Keep event context close to the actions without crowding the artwork. */
-.invitation-ready .hero-details{display:flex;flex-direction:column;gap:3px;font-size:15px;line-height:1.4;margin:0 0 14px;color:var(--body-text)}
-.invitation-ready .hero-details>*+*{border:0;padding:0;margin:0}
 .invitation-ready .rsvp-section>.event-recap{max-width:440px;font-size:16px;line-height:1.5;margin:12px 0 0}
-#rsvp-fallback{margin:0;padding:0;border:0}
-.reply-actions{display:grid;gap:10px;margin:18px 0 8px}
-.reply-actions .text-link{justify-content:center}
-.reply-actions .button{width:100%}
-#rsvp-status:focus{outline:none}
 #game-exit-dialog{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:28px}
 .invitation-ready #game-exit-dialog h2{font-size:32px;margin:0 0 16px}
 .invitation-ready #game-exit-dialog p{font-size:17px}
@@ -362,12 +355,10 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 @media(max-width:700px){
   .invitation-ready .hero{gap:14px}
   .invitation-ready #hero-title{font-size:38px;margin:8px 0 12px}
-  .invitation-ready .hero-art .safari-frame img{max-height:23dvh}
-  .invitation-ready .hero-details{font-size:15px;margin-bottom:12px}
+  .invitation-ready .hero-art .safari-frame img{max-height:34dvh}
   .invitation-ready .rsvp-section h2{margin:10px 0 12px}
   .invitation-ready .rsvp-section>.event-recap{font-size:15px;max-width:330px}
   .invitation-ready .rsvp-section .button{margin-top:16px}
-  .invitation-ready .rsvp-section .signature{margin-top:16px}
   .invitation-ready .rsvp-section .ending-games{margin-top:16px}
 }
 @media(max-width:360px){
@@ -382,8 +373,7 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .game-content h3{font-size:21px}
   .invitation-ready .game-content{padding:10px 12px}
   .invitation-ready .game-content p{font-size:15px}
-  .invitation-ready .hero-art .safari-frame img{max-height:20dvh}
-  .invitation-ready .rsvp-section .signature{margin-top:12px}
+  .invitation-ready .hero-art .safari-frame img{max-height:28dvh}
   .invitation-ready .rsvp-section .ending-games{margin-top:12px}
 }
 

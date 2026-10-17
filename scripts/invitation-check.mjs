@@ -27,10 +27,11 @@ try {
   await page.addInitScript(()=>{
    window.open=(url)=>{window.testOpenedURL=url;return null};
    Object.defineProperty(navigator,'share',{value:undefined,configurable:true});
-   Object.defineProperty(navigator,'clipboard',{value:{writeText:async text=>{window.testCopiedText=text}},configurable:true});
   });
   await page.goto(base);
   assert.deepEqual(await page.locator('#main > section').evaluateAll(sections => sections.map(s => s.id || 'hero')), ['welcome', 'invitation', 'celebration', 'venue', 'rsvp', 'games']);
+  assert.equal(await page.locator('#rsvp-fallback, #rsvp-contact, a[href^="tel:"]').count(), 0, 'No review page or call option');
+  assert.equal(await page.locator('#invitation .hero-details').count(), 0, 'Invitation omits repeated event details');
   for (const trigger of await page.locator('#main [data-rsvp]').all()) {
    await openChapter(page, `#${await trigger.evaluate(el => el.closest('[data-page]').id)}`);
    if (!(await trigger.isVisible())) continue;
@@ -50,7 +51,7 @@ try {
    assert(await page.locator('#rsvp-unavailable').isVisible());
    assert.equal(await page.locator('#rsvp-form').isVisible(),false);
    assert.equal(await page.locator('#countdown').isVisible(),false);
-   assert.equal(await page.locator('#hero-date').textContent(), 'Date coming soon');
+   assert((await page.locator('[data-event-recap]').textContent()).includes('Date coming soon'));
    assert.equal(await page.locator('#event-date').textContent(), 'Date coming soon');
    assert.equal(await page.locator('#event-time').textContent(), 'Time coming soon');
   } else {
@@ -70,10 +71,7 @@ try {
    await page.locator('#guest-count').selectOption('3');
    if (test.actual) await page.screenshot({path:'test-results/rsvp-accept.png'});
    await page.locator('#rsvp-form button[type=submit]').tap();
-   assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Review does not open WhatsApp before the guest chooses it');
-   assert.equal(await page.evaluate(()=>document.activeElement.id),'rsvp-status','Focus moves to the prepared reply');
-   assert(await page.locator('#copy-rsvp').evaluate(el => el.getBoundingClientRect().bottom <= innerHeight),'Copy is visible without scrolling');
-   await page.locator('#open-rsvp-whatsapp').tap();
+   assert(await page.locator('#rsvp-form').isVisible(), 'Submitting keeps the form available without a review screen');
    const url=new URL(await page.evaluate(()=>window.testOpenedURL));
    assert.equal(url.origin,'https://wa.me');
    assert.equal(url.pathname,`/${test.event.whatsappNumber}`);
@@ -83,46 +81,28 @@ try {
     '*Total guests:* 3 guests (including me and children)', '',
     'Looking forward to celebrating with you! 🎉',
    ].join('\n'));
-   if (test.actual) await page.screenshot({path:'test-results/rsvp-message.png'});
-   assert((await page.locator('#rsvp-status').textContent()).includes('Send your message in WhatsApp'));
-   assert(await page.locator('#rsvp-fallback').isVisible());
-   assert.equal(await page.locator('#rsvp-message').inputValue(), url.searchParams.get('text'));
-   await page.locator('#copy-rsvp').tap();
-   assert.equal(await page.evaluate(() => window.testCopiedText), url.searchParams.get('text'));
-   await page.evaluate(() => { navigator.clipboard.writeText = async () => { throw new Error('Clipboard denied'); }; });
-   await page.locator('#copy-rsvp').tap();
-   assert((await page.locator('#copy-status').textContent()).includes('Select and copy'));
-   assert.equal(await page.evaluate(() => document.activeElement.id), 'rsvp-message');
    for (const count of ['1', '2', '4']) {
-    await page.locator('#edit-rsvp').tap();
     await page.locator('#guest-count').selectOption(count);
     await page.locator('#rsvp-form button[type=submit]').tap();
-    await page.locator('#open-rsvp-whatsapp').tap();
     const reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
     assert(reply.includes(`*Total guests:* ${count} ${count === '1' ? 'guest' : 'guests'} (including me and children)`));
     assert(reply.includes(`*Attendance:* ${count === '1' ? "I'll be there" : "We'll be there"}`));
    }
-   await page.locator('#edit-rsvp').tap();
    // Even a modified dropdown must not generate a reply above the limit.
    await page.locator('#guest-count').evaluate(select => select.add(new Option('5 guests', '5')));
    await page.locator('#guest-count').selectOption('5');
    await page.evaluate(()=>{window.testOpenedURL=undefined});
    await page.locator('#rsvp-form button[type=submit]').tap();
    assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Reject more than four guests');
-   assert.equal(await page.locator('#rsvp-fallback').isVisible(),false);
    await page.locator('#guest-count').selectOption('4');
    await page.locator('#guest-count option[value="5"]').evaluate(option => option.remove());
    await page.locator('#rsvp-form button[type=submit]').tap();
-   await page.locator('#open-rsvp-whatsapp').tap();
    assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('4 guests'),'Four guests are accepted after correcting an invalid count');
-   await page.locator('#edit-rsvp').tap();
    await page.locator('#guest-attendance').selectOption('no');
    assert.equal(await page.locator('#guest-party').isVisible(),false);
-   assert.equal(await page.locator('#rsvp-fallback').isVisible(),false,'Changing the answer clears the stale prepared reply');
    assert(await page.locator('#guest-count').isDisabled());
    if (test.actual) await page.screenshot({path:'test-results/rsvp-decline.png'});
    await page.locator('#rsvp-form button[type=submit]').tap();
-   await page.locator('#open-rsvp-whatsapp').tap();
    const decline = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert.equal(decline, [
     'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
@@ -130,7 +110,6 @@ try {
     'Sending Vihaan lots of love for his big day! 💛',
    ].join('\n'));
    assert(!decline.includes('guests'),'Decline has no headcount');
-   await page.locator('#edit-rsvp').tap();
    await page.locator('#guest-attendance').selectOption('yes');
    assert(await page.locator('#guest-count').isVisible(),'Switching back restores the guest count');
    assert.equal(await page.locator('#guest-count').inputValue(),'4');
