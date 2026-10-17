@@ -55,6 +55,8 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .opening-content{position:relative;width:min(900px,100%)}
 .invitation-ready .opening-kicker{font-size:14px;letter-spacing:2px;color:#526c82;margin:0 0 8px}
 .opening-title{position:relative;margin:0;line-height:1;letter-spacing:0}
+.name-replay{position:relative;display:block;width:100%;padding:0;border:0;border-radius:12px;background:transparent;color:inherit;line-height:1;touch-action:manipulation}
+.name-replay:focus-visible{outline:2px dashed #507a9b;outline-offset:4px}
 .name-writing{display:block;width:100%;height:auto;max-height:31dvh;margin:0 auto;overflow:visible;fill:none;stroke:none}
 .name-ink{fill:none;stroke:url(#storybook-ink);filter:url(#ink-depth);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
 .stroke-v{stroke-width:7}.stroke-flourish{stroke-width:1.8}
@@ -67,8 +69,6 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .opening-button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:56px;padding:14px 28px;border:1px solid #c7dced;border-radius:100px;background:#c7dced;color:#284e6d;box-shadow:0 4px 0 #a8c4d84d;font-size:18px;font-weight:500;transition:background .2s,transform .2s}
 .opening-button:hover{background:#b7d2e7;transform:translateY(-2px)}
 .opening-button span{font-size:24px}
-.replay-writing{display:block;margin:9px auto 0;min-height:44px;padding:10px 14px;font-size:15px;color:#526c82;background:transparent;border:0}
-.replay-writing span{margin-left:8px}.replay-writing:disabled{opacity:.55;cursor:default}
 .invitation-ready .opening-dedication{position:static;font-size:15px;color:#526c82;margin:24px 0 0;letter-spacing:0}
 .is-writing:not(.has-written) .opening-afterword,.is-writing:not(.has-written) .opening-note{opacity:0;visibility:hidden}
 .has-written .opening-afterword{animation:opening-arrive .65s both}
@@ -204,7 +204,6 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .opening-afterword p{font-size:32px}
   .invitation-ready .opening-note{font-size:18px;margin:12px 0 24px}
   .opening-button{font-size:17px;min-height:54px;padding:12px 26px;gap:22px}
-  .replay-writing{font-size:14px;margin-top:8px}
   .invitation-ready .opening-dedication{font-size:14px;margin-top:24px}
   .opening-cloud{width:100px;height:32px;opacity:.65}
   .opening-cloud:before{left:15px;width:45px;height:45px}.opening-cloud:after{right:12px;width:55px;height:55px}
@@ -325,11 +324,10 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .opening-title{grid-column:1;grid-row:1/6}
   .name-writing{max-height:46dvh}
   .invitation-ready .opening-kicker{grid-column:2;font-size:12px;letter-spacing:1px}
-  .opening-afterword,.opening-note,.opening-button,.replay-writing{grid-column:2}
+  .opening-afterword,.opening-note,.opening-button{grid-column:2}
   .invitation-ready .opening-afterword p{font-size:28px}
   .invitation-ready .opening-note{font-size:17px;margin:8px 0 12px}
   .opening-button{font-size:16px;min-height:48px;padding:10px 20px}
-  .replay-writing{font-size:14px;margin-top:0}
   .invitation-ready .opening-dedication{display:none}
 }
 

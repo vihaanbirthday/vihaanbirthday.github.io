@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
 const base = process.env.TEST_URL || 'http://127.0.0.1:5173';
 try {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base);
@@ -37,14 +37,17 @@ try {
   assert(await page.locator('.opening-note').isVisible(), 'The invitation note appears after the complete name');
   assert.equal(await page.locator('.writing-fireworks').count(), 1, 'A single spark canvas follows the writing');
   assert.equal(await page.locator('#motion-toggle').count(), 0, 'No header pause option');
-  await page.locator('#replay-writing').click();
+  assert.equal(await page.getByRole('button', { name: 'Replay the magic' }).count(), 0);
+  assert(await page.locator('#replay-writing .name-writing').isVisible(), 'The name itself is the replay control');
+  await page.locator('#replay-writing').tap();
   assert(await page.locator('.opening-afterword').isHidden(), 'Replay hides the birthday text again');
   assert(await page.locator('.opening-note').isHidden(), 'Replay hides the invitation note again');
   await page.waitForTimeout(650);
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.some((value, index) => index % 4 === 3 && value > 0)), 'Live fireworks follow the active stroke');
   await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-writing'));
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.every((value, index) => index % 4 !== 3 || value === 0)), 'Sparks stop and clear after the writing finishes');
-  await page.locator('#replay-writing').click();
+  await page.locator('#replay-writing').focus();
+  await page.keyboard.press('Space');
   assert.equal(await page.locator('.stroke-script').evaluate(el => parseFloat(getComputedStyle(el).opacity)), 0, 'Replay hides strokes until their turn');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction(() => document.body.classList.contains('motion-paused'));
