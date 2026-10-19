@@ -182,7 +182,8 @@ rsvpDialog.addEventListener('close', () => {
 $('#rsvp-form').addEventListener('submit', e => {
   e.preventDefault();
   if (!rsvpReady) return;
-  const name = $('#guest-name').value.trim();
+  const cleanName = value => value.trim().replace(/\s+/g, ' ');
+  const name = cleanName($('#guest-name').value);
   if (!name) { $('#guest-name').setCustomValidity('Please enter your name.'); $('#guest-name').reportValidity(); return; }
   const attending = guestAttendance.value === 'yes';
   const inputs = guestInputs();
@@ -201,20 +202,15 @@ $('#rsvp-form').addEventListener('submit', e => {
       }
     }
   }
-  const message = [
-    'Hi Madhav & Urvashee!',
-    '',
-    "*Vihaan's 1st Birthday — RSVP*",
-    `*Name:* ${name}`,
-    `*Attendance:* ${attending ? (count === 1 ? "I'll be there" : "We'll be there") : "Sorry, we can't make it"}`,
-    ...(attending ? [
-      `*Total guests:* ${count} ${count === 1 ? 'guest' : 'guests'} (including me and children)`,
-      '*Guest names:*',
-      ...[name, ...inputs.map(input => input.value.trim())].map((guest, index) => `${index + 1}. ${guest}`),
-    ] : []),
-    '',
-    attending ? 'Looking forward to celebrating with you! 🎉' : 'Sending Vihaan lots of love for his big day! 💛',
-  ].join('\n');
+  const guests = inputs.map(input => cleanName(input.value));
+  const greeting = `Hi Madhav and Urvashee, it’s ${name}! Thank you for inviting ${attending && count > 1 ? 'us' : 'me'} to Vihaan’s first birthday.`;
+  let reply = 'I’m sorry I won’t be able to make it. Sending Vihaan lots of love for his big day! 💛';
+  if (attending) {
+    reply = count === 1
+      ? 'I’ll be there and can’t wait to celebrate with you! 🎉'
+      : `I’ll be coming with ${new Intl.ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(guests)}. There will be ${count} of us altogether. We’re looking forward to celebrating with you! 🎉`;
+  }
+  const message = `${greeting}\n\n${reply}`;
   window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
   rsvpDialog.close();
 });

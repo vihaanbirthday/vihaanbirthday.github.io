@@ -80,17 +80,15 @@ try {
    assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined);
    assert(await page.locator('#rsvp-dialog').isVisible(), 'Invalid responses keep the modal open');
    const guest = 'A & B <script>alert(1)</script> 🦁';
-   await page.locator('#guest-name').fill(guest);
+   await page.locator('#guest-name').fill(`  ${guest.replace(' & ', '   &   ')}  `);
    assert.equal(await page.locator('#guest-total').textContent(), '1 / 10 guests');
    await sendResponse();
    let reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
-   assert(reply.includes("*Attendance:* I'll be there"));
-   assert(reply.includes('*Total guests:* 1 guest (including me and children)'));
-   assert(reply.includes(`*Guest names:*\n1. ${guest}`));
+   assert.equal(reply, `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting me to Vihaan’s first birthday.\n\nI’ll be there and can’t wait to celebrate with you! 🎉`, 'A solo reply is conversational and collapses extra spaces in the name');
    await add.focus();
    await add.press('Enter');
    assert(await inputs.nth(0).evaluate(el => el === document.activeElement), 'Adding by keyboard focuses the new name');
-   await inputs.nth(0).fill('  Léa & Zoë 🐯  ');
+   await inputs.nth(0).fill('  Léa   &   Zoë 🐯  ');
    await add.tap();
    assert.equal(await inputs.count(), 2);
    assert(await inputs.nth(1).evaluate(el => el === document.activeElement));
@@ -108,18 +106,18 @@ try {
    assert.equal(url.origin,'https://wa.me');
    assert.equal(url.pathname,`/${test.event.whatsappNumber}`);
    assert.equal(url.searchParams.get('text'), [
-    'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
-    `*Name:* ${guest}`, "*Attendance:* We'll be there",
-    '*Total guests:* 3 guests (including me and children)',
-    '*Guest names:*', `1. ${guest}`, '2. Léa & Zoë 🐯', '3. Baby Sam', '',
-    'Looking forward to celebrating with you! 🎉',
-   ].join('\n'));
+    `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting us to Vihaan’s first birthday.`,
+    'I’ll be coming with Léa & Zoë 🐯 and Baby Sam. There will be 3 of us altogether. We’re looking forward to celebrating with you! 🎉',
+   ].join('\n\n'), 'A group reply names the accompanying guests naturally, with clean spaces and one paragraph break');
    await page.locator('.remove-guest').first().focus();
    await page.locator('.remove-guest').first().press('Enter');
    assert.equal(await inputs.count(), 1);
    assert.equal(await inputs.first().inputValue(), 'Baby Sam', 'Removing one guest preserves the others');
    assert.equal(await page.locator('.guest-card label').first().textContent(), 'Guest 2');
    assert(await inputs.first().evaluate(el => el === document.activeElement), 'Removal restores focus to a nearby guest');
+   await sendResponse();
+   reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
+   assert(reply.includes('I’ll be coming with Baby Sam. There will be 2 of us altogether.'), 'One accompanying guest does not introduce an extra comma or conjunction');
    for (let count = 3; count <= 10; count++) {
     await add.tap();
     await inputs.last().fill(`Friend ${count}`);
@@ -131,8 +129,8 @@ try {
    assert.equal(await inputs.evaluateAll(fields => new Set(fields.map(el => el.id)).size), 9, 'Labels retain unique IDs after removal and adding');
    await sendResponse();
    reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
-   assert(reply.includes('*Total guests:* 10 guests'));
-   assert(reply.includes('10. Friend 10'));
+   assert(reply.includes('There will be 10 of us altogether.'));
+   assert(reply.includes('Baby Sam, Friend 3, Friend 4, Friend 5, Friend 6, Friend 7, Friend 8, Friend 9 and Friend 10.'), 'Larger groups use a readable sentence with every guest name');
    // Submission also enforces the limit if the DOM is modified.
    await page.locator('#guest-list').evaluate(list => {
     const extra = list.lastElementChild.cloneNode(true);
@@ -156,10 +154,9 @@ try {
    await sendResponse();
    const decline = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert.equal(decline, [
-    'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
-    `*Name:* ${guest}`, "*Attendance:* Sorry, we can't make it", '',
-    'Sending Vihaan lots of love for his big day! 💛',
-   ].join('\n'));
+    `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting me to Vihaan’s first birthday.`,
+    'I’m sorry I won’t be able to make it. Sending Vihaan lots of love for his big day! 💛',
+   ].join('\n\n'));
    assert(!decline.includes('guests'),'Decline has no headcount');
    await page.locator('#guest-attendance').selectOption('yes');
    assert(await page.locator('#guest-party').isVisible(),'Switching back restores the guest list');
@@ -170,7 +167,7 @@ try {
    assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Restoring attendance also restores required-name validation');
    await inputs.last().fill('Final friend');
    await sendResponse();
-   assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('10. Final friend'));
+   assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('and Final friend. There will be 10 of us altogether.'));
    assert(await page.locator('#rsvp-dialog').evaluate(dialog => dialog.scrollWidth <= dialog.clientWidth), 'Guest cards fit the dialog at every tested width');
    assert.equal(await page.evaluate(()=>localStorage.length),0);
   }
