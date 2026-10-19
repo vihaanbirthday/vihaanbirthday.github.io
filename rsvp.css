@@ -59,8 +59,8 @@
 #rsvp-form .button:hover, .rsvp-shortcut:hover, .invitation-ready #rsvp-button:hover { background: #ffda65; filter: none; transform: translateY(-2px); box-shadow: 3px 6px 0 #34344d; }
 #rsvp-form .button:active, .rsvp-shortcut:active, .invitation-ready #rsvp-button:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 #34344d; }
 /* A warm cartoon halo and a little sparkle invite guests to reply. */
-.rsvp-shortcut, #rsvp-button { position: relative; isolation: isolate; }
-.rsvp-shortcut::before, #rsvp-button::before {
+#rsvp-button { position: relative; isolation: isolate; }
+#rsvp-button::before {
   content: '';
   position: absolute;
   inset: -5px;
@@ -71,7 +71,7 @@
   pointer-events: none;
   animation: rsvp-glow 2.6s ease-in-out infinite;
 }
-.rsvp-shortcut::after, #rsvp-button::after {
+#rsvp-button::after {
   content: '';
   position: absolute;
   top: -10px;
@@ -105,6 +105,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   #rsvp-form .button, .rsvp-shortcut, .invitation-ready #rsvp-button { transition: none; }
-  .rsvp-shortcut::before, #rsvp-button::before,
-  .rsvp-shortcut::after, #rsvp-button::after { animation: none; opacity: .8; }
+  #rsvp-button::before, #rsvp-button::after { animation: none; opacity: .8; }
 }
