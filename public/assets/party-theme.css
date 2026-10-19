@@ -1,0 +1,13 @@
+/* Shared party colours for the invitation and its isolated game screens. */
+:root {
+  --party-ink: #34344d;
+  --party-paper: #fffaf0;
+  --party-yellow: #ffe58f;
+  --party-pink: #ffd5df;
+  --party-blue: #d7ecff;
+  --party-mint: #d2edd9;
+  --party-lilac: #e7dcff;
+  --party-accent: #b73352;
+  --party-text: #595969;
+  --party-font: 'Trebuchet MS', 'DM Sans', sans-serif;
+}

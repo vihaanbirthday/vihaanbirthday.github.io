@@ -1,0 +1,156 @@
+/* The RSVP's paper-and-ink cartoon style, throughout the storybook. */
+:root { --sans: var(--party-font); --serif: var(--party-font); }
+body { font-family: var(--party-font); }
+body.invitation-ready[data-page] {
+  --ink: var(--party-ink);
+  --green: var(--party-ink);
+  --body-text: var(--party-text);
+  --muted: var(--party-text);
+  --orange: var(--party-accent);
+  --paper: var(--party-paper);
+  --line: #34344d40;
+  color: var(--party-ink);
+}
+.invitation-ready h2, .invitation-ready h3, .invitation-ready #hero-title,
+.invitation-ready .detail .detail-value { font-family: var(--party-font); font-weight: 800; }
+.invitation-ready h2 em { color: var(--party-accent); font-weight: 800; text-decoration: underline wavy #e8b43b 2px; text-underline-offset: 8px; }
+.invitation-ready .eyebrow { font-weight: 700; }
+body.invitation-ready[data-page] .site-header,
+body.invitation-ready[data-page] .invitation-controls { background: var(--party-paper); color: var(--party-ink); }
+body.invitation-ready[data-page] .header-inner { border-bottom: 2px dashed #34344d45; }
+.invitation-ready .site-header .brand { font-family: var(--party-font); font-weight: 800; letter-spacing: -1px; color: var(--party-ink); }
+body.invitation-ready[data-page] .brand-small { color: var(--party-text); font-weight: 700; }
+
+/* Raised paper buttons: the same shape, outline and press across the site. */
+.invitation-ready .button, .opening-button, .page-next, .page-back,
+body.invitation-ready[data-page] .gaming-shortcut, .page-menu summary {
+  border: 2px solid var(--party-ink);
+  border-radius: 14px;
+  background: var(--party-yellow);
+  color: var(--party-ink);
+  box-shadow: 3px 4px 0 var(--party-ink);
+  font-weight: 800;
+  transition: transform .15s, box-shadow .15s, background .15s;
+}
+.invitation-ready .button-outline, .page-back,
+body.invitation-ready[data-page] .gaming-shortcut { background: var(--party-blue); }
+.page-menu summary { background: var(--party-pink); }
+.page-back { padding-left: 14px; }
+.invitation-ready .button:hover, .opening-button:hover,
+body.invitation-ready[data-page] .page-next:hover, .page-back:hover,
+body.invitation-ready[data-page] .gaming-shortcut:hover, .page-menu summary:hover {
+  background: #ffda65;
+  color: var(--party-ink);
+  transform: translateY(-2px);
+  box-shadow: 3px 6px 0 var(--party-ink);
+}
+.invitation-ready .button:active, .opening-button:active, .page-next:active,
+.page-back:active, body.invitation-ready[data-page] .gaming-shortcut:active,
+.page-menu summary:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 var(--party-ink); }
+.invitation-ready .button:disabled { opacity: .55; transform: none; box-shadow: none; }
+body.invitation-ready[data-page] .gaming-shortcut[aria-current] { background: var(--party-lilac); color: var(--party-ink); }
+body.invitation-ready[data-page] .site-header .section-nav {
+  background: var(--party-paper);
+  border: 2px solid var(--party-ink);
+  border-radius: 20px;
+  box-shadow: 5px 5px 0 var(--party-ink);
+}
+body.invitation-ready[data-page] .section-nav a:hover,
+body.invitation-ready[data-page] .section-nav a[aria-current] { background: var(--party-yellow); color: var(--party-ink); }
+body.invitation-ready[data-page] .invitation-controls:before { height: 2px; background: var(--party-ink); opacity: .3; }
+#page-counter { font-weight: 800; color: var(--party-ink); }
+body.invitation-ready[data-page] .page-progress-track { height: 8px; border: 2px solid var(--party-ink); border-radius: 6px; background: var(--party-blue); }
+body.invitation-ready[data-page] .page-progress-track i { background: #ef9bb5; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid #426ca9; outline-offset: 4px; }
+
+/* The animated handwritten name keeps its blue ink on a cream cover card. */
+.opening-content { isolation: isolate; }
+.opening-content:before { content: ''; position: absolute; z-index: -1; inset: -20px -16px; border: 3px solid var(--party-ink); border-radius: 36px; background: #fffaf0e8; box-shadow: 6px 6px 0 var(--party-ink); }
+.invitation-ready .opening-kicker { width: fit-content; margin-inline: auto; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-pink); color: var(--party-ink); font-weight: 700; transform: rotate(-3deg); }
+.invitation-ready .opening-afterword p { font-family: var(--party-font); font-weight: 800; color: var(--party-ink); }
+.opening-afterword em { color: var(--party-accent); }
+.invitation-ready .opening-note, .invitation-ready .opening-dedication { color: var(--party-text); }
+.opening-bunting .bunting-flag { stroke: var(--party-ink); stroke-width: 2px; stroke-linejoin: round; }
+.opening-star, .nursery-spark { color: #bc8123; text-shadow: 1px 1px 0 var(--party-ink); }
+.nursery-confetti { border: 1px solid #34344d80; }
+.hero-copy>.eyebrow, .section-heading>.eyebrow, .venue-copy>.eyebrow,
+.rsvp-section>.eyebrow { width: fit-content; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-yellow); color: var(--party-ink); font-size: 12px; letter-spacing: 1px; }
+.section-heading>.eyebrow, .rsvp-section>.eyebrow { margin-inline: auto; }
+.invitation-ready .safari-frame { position: relative; isolation: isolate; }
+.safari-frame:before { content: ''; position: absolute; inset: 12% 4% 5%; z-index: -1; border: 3px solid var(--party-ink); border-radius: 46% 48% 40% 42%; background: var(--party-blue); box-shadow: 5px 5px 0 #34344d25; transform: rotate(-4deg); }
+
+/* Individual event cards, countdown stickers and a postcard for the venue. */
+.invitation-ready .details-grid { padding: 0; gap: 18px; border: 0; background: transparent; box-shadow: none; }
+.invitation-ready .detail { padding: 24px 18px; border: 2px solid var(--party-ink); border-radius: 20px; background: var(--party-paper); box-shadow: 4px 4px 0 var(--party-ink); }
+.invitation-ready .detail:last-child { border: 2px solid var(--party-ink); }
+.invitation-ready .detail:nth-child(2) { background: #fff0f4; }
+.invitation-ready .detail:nth-child(3) { background: #edf5ff; }
+.invitation-ready .detail-icon { border: 2px solid var(--party-ink); border-radius: 13px; color: var(--party-ink); background: var(--party-yellow); box-shadow: 2px 2px 0 var(--party-ink); }
+.invitation-ready .detail:nth-child(2) .detail-icon { background: var(--party-pink); }
+.invitation-ready .detail:nth-child(3) .detail-icon { background: var(--party-blue); }
+.invitation-ready .countdown-bar { border: 2px dashed var(--party-ink); border-radius: 18px; background: var(--party-paper); }
+.invitation-ready #countdown-values b { display: block; background: var(--party-yellow); border-radius: 6px; outline: 1px solid var(--party-ink); font-weight: 800; }
+.invitation-ready #countdown-values span { margin-top: 4px; }
+.invitation-ready .text-link { font-weight: 700; color: var(--party-ink); border-bottom: 2px dashed var(--party-ink); }
+.invitation-ready .venue-visual>img { border: 3px solid var(--party-ink); border-radius: 26px; background: var(--party-paper); box-shadow: 6px 6px 0 var(--party-ink); transform: rotate(-2deg); }
+.invitation-ready .photo-caption { width: fit-content; margin: 16px auto 0; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-yellow); font-size: 13px; color: var(--party-ink); }
+.invitation-ready .venue-address strong { font-family: var(--party-font); font-weight: 800; }
+.invitation-ready .rsvp-section>.event-recap { padding: 10px 18px; border: 2px dashed var(--party-ink); border-radius: 16px; background: var(--party-paper); }
+.invitation-ready .ending-games { border: 2px solid var(--party-ink); background: var(--party-pink); box-shadow: 3px 3px 0 var(--party-ink); }
+
+/* The games shelf and all surrounding dialogs belong to the same party. */
+.invitation-ready .game-card { border: 2px solid var(--party-ink); background: var(--party-paper); box-shadow: 4px 4px 0 var(--party-ink); transition: transform .15s, box-shadow .15s; }
+.invitation-ready .game-card:hover { transform: translateY(-3px); box-shadow: 4px 7px 0 var(--party-ink); }
+.invitation-ready .game-card:active { transform: translate(2px, 3px); box-shadow: 2px 1px 0 var(--party-ink); }
+.invitation-ready .game-preview { border-bottom: 2px solid var(--party-ink); }
+.invitation-ready .preview-tap { background: var(--party-yellow); }
+.invitation-ready .preview-hextris { background: var(--party-lilac); }
+.invitation-ready .preview-ohhi { background: var(--party-pink); }
+.invitation-ready .preview-broomstick { background: var(--party-blue); }
+#game-dialog, #game-exit-dialog, #result-share-dialog { color: var(--party-ink); border: 3px solid var(--party-ink); border-radius: 24px; background: var(--party-paper); box-shadow: 6px 6px 0 var(--party-ink), 0 24px 80px #292b4b40; }
+dialog::backdrop { background: #35354d99; backdrop-filter: blur(5px); }
+.icon-button { border: 2px solid var(--party-ink); background: var(--party-pink); color: var(--party-ink); box-shadow: 2px 3px 0 var(--party-ink); }
+.game-toolbar { background: var(--party-blue); border-bottom: 2px solid var(--party-ink); padding-bottom: 12px; }
+.game-tabs { gap: 12px; padding-top: 10px; }
+.game-tabs a { padding: 4px 12px; border: 2px solid var(--party-ink); border-radius: 10px; background: var(--party-yellow); color: var(--party-ink); font-weight: 700; text-decoration: none; }
+.game-dialog-footer .footer-link { padding: 6px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-pink); text-decoration: none; font-weight: 700; }
+.game-loading { background: var(--party-paper); color: var(--party-ink); }
+.game-loading h3 { font-weight: 800; }
+.game-loading-dots i { width: 10px; height: 10px; border: 1px solid var(--party-ink); background: var(--party-pink); }
+#result-share-preview { border: 2px solid var(--party-ink); }
+@media (min-width: 761px) and (min-height: 501px) {
+  .invitation-ready #game-dialog[open] { display: flex; flex-direction: column; height: min(850px, 94dvh); }
+  .invitation-ready #game-frame-container { flex: 1; min-height: 0; height: auto; }
+  .game-toolbar, #game-help, .game-dialog-footer { flex-shrink: 0; }
+}
+@media (max-width: 1050px) {
+  .invitation-ready .game-preview { border-bottom: 0; border-right: 2px solid var(--party-ink); }
+}
+@media (max-width: 700px) {
+  .hero-copy>.eyebrow, .venue-copy>.eyebrow { margin-inline: auto; }
+  .invitation-ready .details-grid { gap: 10px; padding: 0; }
+  .invitation-ready .detail, .invitation-ready .detail:last-child { padding: 12px 14px; border: 2px solid var(--party-ink); border-radius: 16px; }
+  .invitation-ready .detail .detail-value { font-size: 23px; }
+  .invitation-ready .venue-visual>img { border-radius: 20px; }
+  .invitation-ready .photo-caption { margin-top: 10px; font-size: 12px; }
+  .opening-content:before { inset: -16px -10px; border-radius: 28px; box-shadow: 4px 4px 0 var(--party-ink); }
+}
+@media (max-width: 360px) {
+  body.invitation-ready[data-page] .gaming-shortcut { padding-inline: 6px; }
+  .invitation-ready .detail, .invitation-ready .detail:last-child { padding: 10px 12px; }
+  .invitation-ready .detail .detail-value { font-size: 21px; }
+  .invitation-ready .rsvp-section>.event-recap { padding: 8px 14px; }
+}
+@media (max-width: 760px) {
+  #game-dialog { border: 0; border-radius: 0; box-shadow: none; }
+}
+@media (max-height: 500px) {
+  .invitation-ready #game-dialog[data-game="flappy"] .game-toolbar { padding-bottom: 4px; }
+  .invitation-ready #game-dialog[data-game="flappy"] .game-tabs { padding: 0; gap: 8px; }
+  .invitation-ready #game-dialog[data-game="flappy"] .game-tabs a { min-height: 32px; padding: 2px 8px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-ready .button, .opening-button, .page-next, .page-back,
+  body.invitation-ready[data-page] .gaming-shortcut, .page-menu summary,
+  .invitation-ready .game-card { transition: none; }
+}

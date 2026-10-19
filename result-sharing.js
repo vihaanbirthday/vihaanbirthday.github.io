@@ -149,32 +149,48 @@ function normalizeResult(game, data) {
 
 function drawResult(canvas, result) {
   const ctx = canvas.getContext('2d');
-  const gradient = ctx.createLinearGradient(0, 0, 0, 800);
-  gradient.addColorStop(0, result.slug === 'flappy' ? '#333755' : '#2b5251');
-  gradient.addColorStop(1, result.slug === 'flappy' ? '#111a31' : '#122d33');
-  ctx.fillStyle = gradient;
+  const theme = getComputedStyle(canvas);
+  const color = name => theme.getPropertyValue(`--party-${name}`).trim();
+  const ink = color('ink');
+  const font = theme.getPropertyValue('--party-font').trim();
+  ctx.fillStyle = color(result.slug === 'flappy' ? 'lilac' : 'blue');
   ctx.fillRect(0, 0, 720, 800);
+  function card(x, y, width, height, radius, fill) {
+    ctx.fillStyle = fill;
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.roundRect(x, y, width, height, radius);
+    ctx.fill();
+    ctx.stroke();
+  }
+  card(26, 26, 676, 764, 32, ink);
+  card(18, 18, 676, 764, 32, color('paper'));
+  card(308, 38, 104, 100, 28, color('pink'));
+  card(204, 352, 320, 152, 28, ink);
+  card(200, 348, 320, 152, 28, color('yellow'));
   ctx.textAlign = 'center';
-  function text(value, y, size, color = '#f7f2df', family = 'DM Sans') {
-    ctx.fillStyle = color;
-    ctx.font = `500 ${size}px "${family}", sans-serif`;
+  function text(value, y, size, fill = ink, weight = 800) {
+    ctx.fillStyle = fill;
+    ctx.font = `${weight} ${size}px ${font}`;
     ctx.fillText(value, 360, y, 640);
   }
-  text('✦', 110, 72, '#edc66c');
-  text('VIHAAN’S BIRTHDAY CHALLENGE', 165, 20, '#b7d5ce');
-  text(result.name, 236, 54, '#f7f2df', 'Playfair Display');
-  text(result.heading, 318, 34, '#f7f2df', 'Playfair Display');
-  text(String(result.score), 440, 100, '#f6d777');
-  text('POINTS', 482, 20, '#b7d5ce');
+  text('✦', 110, 72);
+  text('VIHAAN’S BIRTHDAY CHALLENGE', 173, 20, color('text'), 600);
+  text(result.name, 244, 52);
+  text(result.heading, 318, 34, color('accent'));
+  text(String(result.score), 440, 100);
+  text('POINTS', 482, 20);
   text(result.summary, 553, 28);
-  text(result.detail, 600, 23, '#f6d777');
+  text(result.detail, 600, 23, color('text'), 600);
   for (let i = 0; i < (result.cleared === undefined ? 0 : 8); i++) {
     ctx.beginPath();
     ctx.arc(234 + i * 36, 656, 10, 0, Math.PI * 2);
-    ctx.fillStyle = i < result.cleared ? '#edc66c' : '#ffffff10';
+    ctx.fillStyle = color(i < result.cleared ? 'yellow' : 'paper');
     ctx.fill();
-    ctx.strokeStyle = '#acc5b9';
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 3;
     ctx.stroke();
   }
-  text(result.footer, 732, 22, '#b7d5ce');
+  text(result.footer, 732, 22, color('text'), 600);
 }

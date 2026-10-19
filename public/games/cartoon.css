@@ -1,0 +1,78 @@
+@import url('../assets/party-theme.css');
+
+/* Menu and control styling only; each game's playfield keeps its own colours. */
+body.cartoon-game { font-family: var(--party-font); }
+.cartoon-game button { font-family: var(--party-font); }
+.cartoon-game button:focus-visible { outline: 3px solid #426ca9; outline-offset: 4px; }
+.game-taptaptap :is(h1, h2), .game-flappy :is(h1, h2), .game-hextris .GOTitle,
+.game-ohhi :is(h1, h2, h3) { font-family: var(--party-font); font-weight: 800; }
+.game-taptaptap :is(.primary, .secondary),
+.game-flappy :is(#start-flight, #watch-demo, #demo-start, #demo-back, #share-final-score, #replay, #pause-flight, #resume-flight),
+.game-hextris :is(#share-final-score, #restart),
+.game-ohhi :is(#menu button, #about button, #share-final-score) {
+  border: 2px solid var(--party-ink);
+  border-radius: 12px;
+  background: var(--party-yellow);
+  color: var(--party-ink);
+  box-shadow: 3px 4px 0 var(--party-ink);
+  font-family: var(--party-font);
+  font-weight: 800;
+}
+.game-taptaptap .secondary, .game-flappy :is(#watch-demo, #demo-back, #replay),
+.game-hextris #restart, .game-ohhi #about button { background: var(--party-blue); }
+.cartoon-game button:disabled { cursor: default; }
+
+/* Tap Tap Tap: bright paper menus and legible pastel score cards. */
+body.game-taptaptap, .game-taptaptap .main-wrapper { background: var(--party-paper); color: var(--party-ink); }
+.game-taptaptap .main-wrapper { background: radial-gradient(ellipse at 50% 0, #d7ecff, transparent 70%), var(--party-paper); }
+.game-taptaptap :is(.eyebrow, .small, .credit, .stats-grid span, #gmStatsTotalTapCount, .run-status, .feedback) { color: var(--party-text); }
+.game-taptaptap :is(.countdown, .big-score, .bonus, #combo) { color: var(--party-accent); font-weight: 800; }
+.game-taptaptap #hearts { color: var(--party-accent); }
+.game-taptaptap .game-mark { background: var(--party-yellow); border: 2px solid var(--party-ink); color: var(--party-ink); box-shadow: 4px 4px 0 var(--party-ink); }
+.game-taptaptap .journey i { background: var(--party-paper); border: 2px solid var(--party-ink); }
+.game-taptaptap .journey i.done { background: var(--party-yellow); }
+.game-taptaptap .sample, .game-taptaptap .tpbl-circle { border: 2px solid var(--party-ink); }
+.game-taptaptap .game-space { background: #eaf3ff; border: 2px dashed var(--party-ink); }
+.game-taptaptap .icon-button { border: 2px solid var(--party-ink); background: var(--party-pink); box-shadow: 2px 3px 0 var(--party-ink); }
+.game-taptaptap .time-track { background: var(--party-blue); outline: 1px solid var(--party-ink); }
+.game-taptaptap #gmStatsTimeProgress { background: #d77591; }
+
+/* Broomstick Flyer: paper character cards against the magical night sky. */
+.game-flappy :is(.start-card, .demo-card, .pause-card, #scoreboard) { background: var(--party-paper); color: var(--party-ink); border: 3px solid var(--party-ink); border-radius: 20px; box-shadow: 5px 5px 0 var(--party-ink); }
+.game-flappy :is(.eyebrow, .start-intro p, #selection-status, .instructions, #scoreboard #result-character, .demo-difficulty, #demo-tip) { color: var(--party-text); }
+.game-flappy :is(h1 em, #scoreboard h2, #scoreboard p span) { color: var(--party-accent); font-weight: 800; }
+.game-flappy #character-label { font-family: var(--party-font); font-weight: 800; }
+.game-flappy .character-option { background: var(--party-blue); color: var(--party-ink); border: 2px solid var(--party-ink); border-radius: 12px; box-shadow: 2px 3px 0 #34344d40; }
+.game-flappy .character-option[data-character="pip"] { background: var(--party-pink); }
+.game-flappy .character-option[data-character="lumi"] { background: var(--party-lilac); }
+.game-flappy .character-option[aria-pressed="true"] { border: 2px solid var(--party-ink); outline: 3px solid #b73352; outline-offset: 2px; background: var(--party-yellow); }
+.game-flappy .character-option[aria-pressed="true"]:after { color: var(--party-accent); }
+.game-flappy .character-option strong, .game-flappy .pause-card p { font-family: var(--party-font); }
+.game-flappy .character-option strong { font-weight: 800; }
+.game-flappy .character-option small { color: var(--party-text); }
+.game-flappy #start-flight:disabled { background: #e4e0da; color: #656372; border-color: #888492; box-shadow: none; }
+.game-flappy #demo-scene { border: 2px solid var(--party-ink); border-radius: 12px; }
+.game-flappy .demo-card h2 { color: var(--party-ink); }
+.game-flappy .demo-steps { color: var(--party-text); }
+.game-flappy .demo-steps li.is-current { color: var(--party-accent); font-weight: 700; }
+@media (min-height: 481px) and (max-height: 600px) {
+  .game-flappy .demo-card { padding: 14px; }
+  .game-flappy .demo-card h2 { font-size: 22px; margin: 8px 0 10px; }
+  .game-flappy #demo-scene { height: 120px; }
+}
+
+/* Hextris: framed icon controls and paper help/results over its canvas. */
+.game-hextris :is(#openSideBar, #pauseBtn, #restartBtn) { border: 2px solid var(--party-ink); border-radius: 16px; background-color: var(--party-yellow); box-shadow: 2px 3px 0 var(--party-ink); }
+.game-hextris #startBtn:after { content: '▶'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 64px; height: 64px; border: 3px solid var(--party-ink); border-radius: 20px; background: var(--party-yellow); color: var(--party-ink); box-shadow: 3px 4px 0 var(--party-ink); font-size: 32px; }
+.game-hextris :is(#helpScreen, #gameoverscreen) { background: var(--party-paper); color: var(--party-ink); }
+.game-hextris :is(#inst_main_body, #container) { font-family: var(--party-font); }
+.game-hextris #instructions_head { font-weight: 800; }
+
+/* 0h h1: light menu cards, retaining the puzzle's distinct red/blue tiles. */
+.game-ohhi :is(#menu, #about) { background: var(--party-paper); color: var(--party-ink); }
+.game-ohhi :is(#menu, #about) :is(h2, h3, p) { color: var(--party-ink); font-family: var(--party-font); }
+.game-ohhi #menu button:hover, .game-ohhi #about button:hover { background: var(--party-pink); }
+.game-ohhi #bar button.iconcon { border: 2px solid var(--party-blue); border-radius: 12px; background: var(--party-ink); box-shadow: 2px 3px 0 #0005; }
+@media (prefers-reduced-motion: reduce) {
+  .cartoon-game button { transition: none; }
+}
