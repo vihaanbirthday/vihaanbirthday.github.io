@@ -93,6 +93,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 .invitation-ready #countdown-values b { display: grid; place-items: center; padding: 3px 6px; background: var(--party-yellow); border: 2px solid var(--party-ink); border-radius: 9px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.2; }
 .invitation-ready #countdown-values span { margin-top: 6px; text-align: center; }
 .invitation-ready .text-link { font-weight: 700; color: var(--party-ink); border-bottom: 2px dashed var(--party-ink); }
+#calendar-button { color: #1d59b8; border-bottom-color: currentColor; }
+#calendar-button:hover { color: #16458d; }
 .invitation-ready .venue-visual>img { border: 3px solid var(--party-ink); border-radius: 26px; background: var(--party-paper); box-shadow: 6px 6px 0 var(--party-ink); }
 .invitation-ready .venue-address strong { font-family: var(--party-font); font-weight: 800; }
 .invitation-ready .rsvp-section>.event-recap { padding: 10px 18px; border: 2px dashed var(--party-ink); border-radius: 16px; background: var(--party-paper); }
