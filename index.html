@@ -135,7 +135,7 @@
         <span class="nursery-spark nursery-spark-one">✦</span><span class="nursery-spark nursery-spark-two">✧</span>
         <span class="nursery-confetti confetti-one"></span><span class="nursery-confetti confetti-two"></span><span class="nursery-confetti confetti-three"></span>
       </div>
-      <div class="venue-visual reveal"><img id="venue-photo" src="./assets/venue-garden.svg" alt="Illustration of Paps Restaurant, with a striped awning and outdoor tables" width="1000" height="940" loading="lazy"><div class="photo-caption">An illustration of our party spot</div></div>
+      <div class="venue-visual reveal"><img id="venue-photo" src="./assets/venue-garden.svg" alt="Illustration of Paps Restaurant, with a striped awning and outdoor tables" width="1000" height="940" loading="lazy"></div>
       <div class="venue-copy reveal"><div class="eyebrow">A LITTLE ADVENTURE AT PAPS</div><h2>The <span class="safari-anchor" data-safari-anchor="giraffe"><em>venue.</em></span></h2><div class="venue-address"><strong>Paps Bar, Lounge & Restaurant</strong><span>Caleechurn Lane, Carreau Laliane<br>Vacoas-Phoenix, Mauritius</span></div><a class="button button-outline" href="https://maps.app.goo.gl/bnpBMfxSez6iZjbZA" target="_blank" rel="noopener noreferrer"><span data-icon="pin"></span> Directions & photos <span aria-hidden="true">↗</span></a></div>
     </section>
     <section data-page="rsvp" id="rsvp" tabindex="-1" class="rsvp-section wrap section-space invitation-page">
@@ -151,7 +151,15 @@
       <p>We’d love to share<br>his big day with you.</p>
       <p class="event-recap" data-event-recap></p>
       <button class="button" id="rsvp-button" data-rsvp type="button"><span data-icon="message"></span> RSVP on WhatsApp <span aria-hidden="true">↗</span></button>
-      <div class="ending-games"><p>Stay for a little fun?</p><a class="text-link" href="#games">Play games <span aria-hidden="true">→</span></a></div>
+      <div class="ending-games">
+        <svg class="stacking-cubes" viewBox="16 8 68 86" aria-hidden="true">
+          <ellipse class="cube-floor" cx="50" cy="86" rx="29" ry="5"/>
+          <g transform="translate(34 50)"><g class="stacking-cube cube-first"><path class="cube-left" d="M0 8 16 16V34L0 26Z"/><path class="cube-right" d="M16 16 32 8V26L16 34Z"/><path class="cube-top" d="M0 8 16 0 32 8 16 16Z"/><circle class="cube-eye" cx="21" cy="21" r="1.4"/><circle class="cube-eye" cx="27" cy="18" r="1.4"/><path d="M22 26q3 1 5-3"/></g></g>
+          <g transform="translate(34 32)"><g class="stacking-cube cube-middle"><path class="cube-left" d="M0 8 16 16V34L0 26Z"/><path class="cube-right" d="M16 16 32 8V26L16 34Z"/><path class="cube-top" d="M0 8 16 0 32 8 16 16Z"/><circle class="cube-eye" cx="21" cy="21" r="1.4"/><circle class="cube-eye" cx="27" cy="18" r="1.4"/><path d="M22 26q3 1 5-3"/></g></g>
+          <g transform="translate(34 14)"><g class="stacking-cube cube-last"><path class="cube-left" d="M0 8 16 16V34L0 26Z"/><path class="cube-right" d="M16 16 32 8V26L16 34Z"/><path class="cube-top" d="M0 8 16 0 32 8 16 16Z"/><circle class="cube-eye" cx="21" cy="21" r="1.4"/><circle class="cube-eye" cx="27" cy="18" r="1.4"/><path d="M22 26q3 1 5-3"/></g></g>
+        </svg>
+        <div class="ending-games-copy"><p>Stay for a little fun?</p><a class="text-link" href="#games">Play games <span aria-hidden="true">→</span></a></div>
+      </div>
     </section>
     <section data-page="games" id="games" class="games-section section-space invitation-page" aria-labelledby="gaming-title" tabindex="-1">
       <div class="nursery-decoration" aria-hidden="true">
@@ -220,7 +228,7 @@
         <button id="add-guest" type="button" aria-controls="guest-list" aria-describedby="guest-party-hint"><span class="guest-plus" aria-hidden="true">+</span> Add a guest</button>
         <p id="guest-limit" role="status" hidden>Your crew is complete! That’s the limit of 10 people, including you.</p>
       </div>
-      <button class="button" type="submit">Open WhatsApp ↗</button>
+      <button class="button" type="submit">Send Response <span aria-hidden="true">↗</span></button>
       <p class="form-note" id="rsvp-form-note">Send your message in WhatsApp to finish your RSVP. Your details aren’t stored on this website.</p>
     </form>
   </dialog>

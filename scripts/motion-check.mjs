@@ -87,19 +87,27 @@ try {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   await openChapter(page, '#rsvp');
+  const cubes = page.locator('.stacking-cube');
+  assert.equal(await cubes.count(), 3, 'Three cartoon cubes build the game-link stack');
+  const cubePose = await cubes.evaluateAll(elements => elements.map(el => getComputedStyle(el).transform));
+  await page.waitForTimeout(700);
+  assert(await cubes.evaluateAll((elements, before) => elements.some((el, index) => getComputedStyle(el).transform !== before[index]), cubePose), 'Cubes visibly drop into the stack beside Play games');
   await page.locator('#rsvp-button').click();
   await page.waitForFunction(() => document.body.classList.contains('motion-dialog'));
   assert.equal(await page.locator('#rsvp .safari-stop').getAttribute('data-paused'), 'true', 'Dialog pauses animal movement');
   assert(await page.locator('#rsvp .nursery-toy').evaluateAll(toys => toys.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Dialog pauses nursery background movement');
+  assert(await cubes.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Dialog pauses the stacking cubes');
   await page.locator('#close-rsvp').click();
   await page.waitForFunction(() => !document.body.classList.contains('motion-dialog'));
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction(() => document.body.classList.contains('motion-paused'));
+  assert(await cubes.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationName === 'none')), 'Reduced motion shows a still cube stack');
   await openChapter(page, '#main');
   assert(await page.locator('.name-stroke').evaluateAll(paths => paths.every(path => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < 0.001)), 'Reduced motion shows the entire name immediately');
   assert.equal(await page.locator('#motion-toggle').count(), 0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
+  assert(await cubes.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'The cube animation pauses when its chapter is hidden');
   assert.deepEqual(errors, []);
   console.log('Left-to-right handwriting, text after the final stroke, replay, complete paused lettering, stable reading text, keyboard greetings, reduced motion and dialog motion passed.');
 } finally { await browser.close(); }

@@ -216,6 +216,7 @@ $('#rsvp-form').addEventListener('submit', e => {
     attending ? 'Looking forward to celebrating with you! 🎉' : 'Sending Vihaan lots of love for his big day! 💛',
   ].join('\n');
   window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+  rsvpDialog.close();
 });
 $('#rsvp-form').addEventListener('input', e => {
   $('#guest-name').setCustomValidity('');

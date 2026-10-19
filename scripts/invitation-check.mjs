@@ -27,7 +27,7 @@ try {
   });
   // Test doubles: never contact WhatsApp or send any messages.
   await page.addInitScript(()=>{
-   window.open=(url)=>{window.testOpenedURL=url;return null};
+   window.open=(url)=>{window.testOpenedURL=url;window.testModalOpenAtHandoff=document.querySelector('#rsvp-dialog').open;return null};
    Object.defineProperty(navigator,'share',{value:undefined,configurable:true});
   });
   await page.goto(base);
@@ -65,15 +65,24 @@ try {
    const inputs = page.locator('#guest-list input');
    const submit = page.locator('#rsvp-form button[type=submit]');
    const add = page.locator('#add-guest');
+   assert.equal((await submit.textContent()).replace('↗', '').trim(), 'Send Response');
+   async function sendResponse() {
+    await submit.tap();
+    assert.equal(await page.evaluate(()=>window.testModalOpenAtHandoff), true, 'WhatsApp opens before closing the RSVP');
+    assert(await page.locator('#rsvp-dialog').isHidden(), 'Sending a valid response automatically closes the modal');
+    assert(await page.locator('#rsvp-button').evaluate(el => document.activeElement === el), 'Focus returns to the RSVP entry point');
+    await page.locator('#rsvp-button').tap();
+   }
    assert.equal(await page.locator('#guest-count').count(), 0, 'Headcount is derived from named guests');
    await page.locator('#guest-name').fill('   ');
    await page.locator('#guest-attendance').selectOption('yes');
    await page.locator('#rsvp-form button[type=submit]').tap();
    assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined);
+   assert(await page.locator('#rsvp-dialog').isVisible(), 'Invalid responses keep the modal open');
    const guest = 'A & B <script>alert(1)</script> 🦁';
    await page.locator('#guest-name').fill(guest);
    assert.equal(await page.locator('#guest-total').textContent(), '1 / 10 guests');
-   await submit.tap();
+   await sendResponse();
    let reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert(reply.includes("*Attendance:* I'll be there"));
    assert(reply.includes('*Total guests:* 1 guest (including me and children)'));
@@ -93,8 +102,8 @@ try {
    assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Whitespace is not a guest name');
    await inputs.nth(1).fill('Baby Sam');
    if (test.actual) await page.screenshot({path:'test-results/rsvp-accept.png'});
-   await page.locator('#rsvp-form button[type=submit]').tap();
-   assert(await page.locator('#rsvp-form').isVisible(), 'Submitting keeps the form available without a review screen');
+   await sendResponse();
+   assert(await page.locator('#rsvp-form').isVisible(), 'The form can be reopened after the WhatsApp handoff');
    const url=new URL(await page.evaluate(()=>window.testOpenedURL));
    assert.equal(url.origin,'https://wa.me');
    assert.equal(url.pathname,`/${test.event.whatsappNumber}`);
@@ -120,7 +129,7 @@ try {
    assert(await page.locator('#guest-limit').isVisible());
    assert.equal(await inputs.count(), 9);
    assert.equal(await inputs.evaluateAll(fields => new Set(fields.map(el => el.id)).size), 9, 'Labels retain unique IDs after removal and adding');
-   await submit.tap();
+   await sendResponse();
    reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert(reply.includes('*Total guests:* 10 guests'));
    assert(reply.includes('10. Friend 10'));
@@ -144,7 +153,7 @@ try {
    assert.equal(await page.locator('#guest-party').isVisible(),false);
    assert(await inputs.evaluateAll(fields => fields.every(input => input.disabled)));
    if (test.actual) await page.screenshot({path:'test-results/rsvp-decline.png'});
-   await page.locator('#rsvp-form button[type=submit]').tap();
+   await sendResponse();
    const decline = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert.equal(decline, [
     'Hi Madhav & Urvashee!', '', "*Vihaan's 1st Birthday — RSVP*",
@@ -160,7 +169,7 @@ try {
    await submit.tap();
    assert.equal(await page.evaluate(()=>window.testOpenedURL),undefined,'Restoring attendance also restores required-name validation');
    await inputs.last().fill('Final friend');
-   await submit.tap();
+   await sendResponse();
    assert(new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text').includes('10. Final friend'));
    assert(await page.locator('#rsvp-dialog').evaluate(dialog => dialog.scrollWidth <= dialog.clientWidth), 'Guest cards fit the dialog at every tested width');
    assert.equal(await page.evaluate(()=>localStorage.length),0);

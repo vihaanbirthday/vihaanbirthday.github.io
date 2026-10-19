@@ -63,10 +63,9 @@ body.invitation-ready[data-page] .page-progress-track { height: 8px; border: 2px
 body.invitation-ready[data-page] .page-progress-track i { background: #ef9bb5; }
 button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid #426ca9; outline-offset: 4px; }
 
-/* The animated handwritten name keeps its blue ink on a cream cover card. */
+/* Blue handwriting sits directly on the opening's soft background. */
 .opening-content { isolation: isolate; }
-.opening-content:before { content: ''; position: absolute; z-index: -1; inset: -20px -16px; border: 3px solid var(--party-ink); border-radius: 36px; background: #fffaf0e8; box-shadow: 6px 6px 0 var(--party-ink); }
-.invitation-ready .opening-kicker { width: fit-content; margin-inline: auto; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-pink); color: var(--party-ink); font-weight: 700; transform: rotate(-3deg); }
+.invitation-ready .opening-kicker { width: fit-content; margin-inline: auto; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-pink); color: var(--party-ink); font-weight: 700; }
 .invitation-ready .opening-afterword p { font-family: var(--party-font); font-weight: 800; color: var(--party-ink); }
 .opening-afterword em { color: var(--party-accent); }
 .invitation-ready .opening-note, .invitation-ready .opening-dedication { color: var(--party-text); }
@@ -89,14 +88,51 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 .invitation-ready .detail:nth-child(2) .detail-icon { background: var(--party-pink); }
 .invitation-ready .detail:nth-child(3) .detail-icon { background: var(--party-blue); }
 .invitation-ready .countdown-bar { border: 2px dashed var(--party-ink); border-radius: 18px; background: var(--party-paper); }
-.invitation-ready #countdown-values b { display: block; background: var(--party-yellow); border-radius: 6px; outline: 1px solid var(--party-ink); font-weight: 800; }
-.invitation-ready #countdown-values span { margin-top: 4px; }
+.invitation-ready #countdown-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center; }
+.invitation-ready #countdown-values>div { min-width: 38px; }
+.invitation-ready #countdown-values b { display: grid; place-items: center; padding: 3px 6px; background: var(--party-yellow); border: 2px solid var(--party-ink); border-radius: 9px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.invitation-ready #countdown-values span { margin-top: 6px; text-align: center; }
 .invitation-ready .text-link { font-weight: 700; color: var(--party-ink); border-bottom: 2px dashed var(--party-ink); }
-.invitation-ready .venue-visual>img { border: 3px solid var(--party-ink); border-radius: 26px; background: var(--party-paper); box-shadow: 6px 6px 0 var(--party-ink); transform: rotate(-2deg); }
-.invitation-ready .photo-caption { width: fit-content; margin: 16px auto 0; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-yellow); font-size: 13px; color: var(--party-ink); }
+.invitation-ready .venue-visual>img { border: 3px solid var(--party-ink); border-radius: 26px; background: var(--party-paper); box-shadow: 6px 6px 0 var(--party-ink); }
 .invitation-ready .venue-address strong { font-family: var(--party-font); font-weight: 800; }
 .invitation-ready .rsvp-section>.event-recap { padding: 10px 18px; border: 2px dashed var(--party-ink); border-radius: 16px; background: var(--party-paper); }
 .invitation-ready .ending-games { border: 2px solid var(--party-ink); background: var(--party-pink); box-shadow: 3px 3px 0 var(--party-ink); }
+.ending-games-copy { text-align: left; }
+.invitation-ready .ending-games .text-link { min-height: 44px; padding-block: 6px; }
+.stacking-cubes { flex: 0 0 80px; width: 80px; height: 76px; fill: none; stroke: var(--party-ink); stroke-width: 2; stroke-linejoin: round; }
+.cube-floor { fill: #34344d1a; stroke: none; }
+.cube-top { fill: var(--party-yellow); }
+.cube-left { fill: #ffcf62; }
+.cube-right { fill: #e8ac3e; }
+.cube-middle .cube-top { fill: var(--party-blue); }
+.cube-middle .cube-left { fill: #a9d5f8; }
+.cube-middle .cube-right { fill: #79b3e0; }
+.cube-last .cube-top { fill: var(--party-pink); }
+.cube-last .cube-left { fill: #f6a8bf; }
+.cube-last .cube-right { fill: #de7d9c; }
+.cube-eye { fill: var(--party-ink); stroke: none; }
+.stacking-cube { animation: cube-stack-first 6s ease-in-out infinite; }
+.cube-middle { animation-name: cube-stack-middle; }
+.cube-last { animation-name: cube-stack-last; }
+@keyframes cube-stack-first {
+  0%, 5% { opacity: 0; transform: translateY(-52px); }
+  14%, 22%, 80% { opacity: 1; transform: translateY(0); }
+  18% { opacity: 1; transform: translateY(3px); }
+  90%, 100% { opacity: 0; transform: translateY(10px); }
+}
+@keyframes cube-stack-middle {
+  0%, 22% { opacity: 0; transform: translateY(-52px); }
+  34%, 42%, 80% { opacity: 1; transform: translateY(0); }
+  38% { opacity: 1; transform: translateY(3px); }
+  90%, 100% { opacity: 0; transform: translateY(10px); }
+}
+@keyframes cube-stack-last {
+  0%, 42% { opacity: 0; transform: translateY(-52px); }
+  54%, 62%, 80% { opacity: 1; transform: translateY(0); }
+  58% { opacity: 1; transform: translateY(3px); }
+  90%, 100% { opacity: 0; transform: translateY(10px); }
+}
+.invitation-page[hidden] .stacking-cube { animation-play-state: paused; }
 
 /* The games shelf and all surrounding dialogs belong to the same party. */
 .invitation-ready .game-card { border: 2px solid var(--party-ink); background: var(--party-paper); box-shadow: 4px 4px 0 var(--party-ink); transition: transform .15s, box-shadow .15s; }
@@ -132,8 +168,6 @@ dialog::backdrop { background: #35354d99; backdrop-filter: blur(5px); }
   .invitation-ready .detail, .invitation-ready .detail:last-child { padding: 12px 14px; border: 2px solid var(--party-ink); border-radius: 16px; }
   .invitation-ready .detail .detail-value { font-size: 23px; }
   .invitation-ready .venue-visual>img { border-radius: 20px; }
-  .invitation-ready .photo-caption { margin-top: 10px; font-size: 12px; }
-  .opening-content:before { inset: -16px -10px; border-radius: 28px; box-shadow: 4px 4px 0 var(--party-ink); }
 }
 @media (max-width: 360px) {
   body.invitation-ready[data-page] .gaming-shortcut { padding-inline: 6px; }
@@ -153,4 +187,5 @@ dialog::backdrop { background: #35354d99; backdrop-filter: blur(5px); }
   .invitation-ready .button, .opening-button, .page-next, .page-back,
   body.invitation-ready[data-page] .gaming-shortcut, .page-menu summary,
   .invitation-ready .game-card { transition: none; }
+  .stacking-cube { animation: none; }
 }
