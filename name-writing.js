@@ -3,9 +3,20 @@ export function setupNameWriting(welcome, isOpening) {
   const strokes = [...welcome.querySelectorAll('.name-stroke')];
   const canvas = welcome.querySelector('.writing-fireworks');
   const svg = welcome.querySelector('.name-writing');
+  const kicker = welcome.querySelector('.opening-kicker');
+  const title = welcome.querySelector('.opening-title');
+  const closingLines = ['.opening-afterword', '.opening-note', '.opening-button', '.opening-dedication'].map(selector => welcome.querySelector(selector));
   const ctx = canvas.getContext('2d');
   const sparkColors = ['#d69b36', '#e8b84f', '#b77d29', '#fff0b8'];
   let animations = [], frame = 0, particles = [], last = 0;
+  function reveal(element, delay, duration = 550) {
+    const animation = element.animate([
+      { opacity: 0, translate: '0 8px', visibility: 'hidden' },
+      { opacity: 1, translate: '0 0', visibility: 'visible' },
+    ], { duration, delay, easing: 'ease-out', fill: 'both' });
+    animations.push(animation);
+    return animation;
+  }
   function drawStar(x, y, radius, rotation) {
     ctx.beginPath();
     for (let i = 0; i < 8; i++) {
@@ -31,14 +42,18 @@ export function setupNameWriting(welcome, isOpening) {
     animations = [];
     strokes.forEach(path => { path.style.strokeDasharray = 'none'; path.style.strokeDashoffset = '0'; path.style.opacity = '1'; });
     welcome.classList.remove('is-writing');
+    welcome.classList.remove('is-revealing');
     welcome.classList.add('has-written');
   }
   function play() {
     finish();
     if (document.body.classList.contains('motion-paused') || !isOpening()) return;
     welcome.classList.add('is-writing');
+    welcome.classList.add('is-revealing');
     welcome.classList.remove('has-written');
-    let delay = 100;
+    reveal(kicker, 100);
+    reveal(title, 750, 150);
+    let delay = 900;
     const timeline = strokes.map(path => {
       const length = path.getTotalLength();
       const duration = Math.max(90, length / 0.62);
@@ -56,6 +71,16 @@ export function setupNameWriting(welcome, isOpening) {
       delay += duration;
       return segment;
     });
+    // Each line starts after the preceding line has settled, automatically.
+    let nextLine = delay + 150;
+    const closingAnimations = closingLines.map(element => {
+      const animation = reveal(element, nextLine);
+      nextLine += 750;
+      return animation;
+    });
+    Promise.all(closingAnimations.map(animation => animation.finished)).then(() => {
+      welcome.classList.remove('is-revealing');
+    }).catch(() => { /* Navigation, replay or reduced motion cancels the sequence. */ });
     let emission = 0;
     last = performance.now();
     function draw(now) {

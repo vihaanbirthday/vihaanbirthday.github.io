@@ -7,7 +7,36 @@ try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
+  // Observe an untouched opening before exercising the optional name replay.
+  await page.addInitScript(() => {
+    window.openingReveals = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      const selectors = ['.opening-kicker', '.opening-title', '.opening-afterword', '.opening-note', '.opening-button', '.opening-dedication'];
+      const timer = setInterval(() => {
+        for (const selector of selectors) {
+          if (window.openingReveals.some(item => item.selector === selector)) continue;
+          const element = document.querySelector(selector);
+          const style = getComputedStyle(element);
+          if (style.visibility === 'hidden' || parseFloat(style.opacity) < .05) continue;
+          if (selector === '.opening-title' && ![...element.querySelectorAll('.name-stroke')].some(path => parseFloat(getComputedStyle(path).opacity) > 0 && parseFloat(getComputedStyle(path).strokeDashoffset) < path.getTotalLength())) continue;
+          const previous = window.openingReveals.at(-1);
+          const previousComplete = !previous || (previous.selector === '.opening-title'
+            ? [...document.querySelectorAll('.name-stroke')].every(path => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < .001)
+            : parseFloat(getComputedStyle(document.querySelector(previous.selector)).opacity) >= .99);
+          window.openingReveals.push({ selector, previousComplete });
+        }
+        if (window.openingReveals.length === selectors.length) clearInterval(timer);
+      }, 16);
+    });
+  });
   await page.goto(base);
+  assert(await page.locator('.opening-button').isHidden(), 'Open invitation stays outside the focus order until its turn');
+  assert(await page.locator('.opening-dedication').isHidden(), 'The dedication waits until the final reveal');
+  await page.waitForFunction(() => window.openingReveals.length === 6);
+  assert.deepEqual(await page.evaluate(() => window.openingReveals.map(item => item.selector)), ['.opening-kicker', '.opening-title', '.opening-afterword', '.opening-note', '.opening-button', '.opening-dedication'], 'Every opening line appears automatically in reading order without a click');
+  assert(await page.evaluate(() => window.openingReveals.every(item => item.previousComplete)), 'Each line settles before the following line starts');
+  await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-revealing'));
+  await page.locator('#replay-writing').click();
   // Inspect the actual rendered ink across the timeline. Unstarted letters
   // must be invisible, including their rounded stroke endpoints.
   const result = await page.locator('.name-stroke').evaluateAll(paths => {
@@ -33,6 +62,8 @@ try {
   assert(result.samples.every(sample => sample.messageHidden), 'The text below the name stays hidden through every stroke, including the last flourish');
   assert(result.completed, 'The completed name remains fully readable');
   await page.waitForFunction(() => document.querySelector('#welcome').classList.contains('has-written'));
+  await page.locator('.opening-afterword').waitFor({ state: 'visible' });
+  await page.locator('.opening-note').waitFor({ state: 'visible' });
   assert(await page.locator('.opening-afterword').isVisible(), 'The birthday text appears after the complete name');
   assert(await page.locator('.opening-note').isVisible(), 'The invitation note appears after the complete name');
   assert.equal(await page.locator('.writing-fireworks').count(), 1, 'A single spark canvas follows the writing');
@@ -47,7 +78,7 @@ try {
   await page.locator('#replay-writing').tap();
   assert(await page.locator('.opening-afterword').isHidden(), 'Replay hides the birthday text again');
   assert(await page.locator('.opening-note').isHidden(), 'Replay hides the invitation note again');
-  await page.waitForTimeout(650);
+  await page.waitForTimeout(1150);
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.some((value, index) => index % 4 === 3 && value > 0)), 'Live fireworks follow the active stroke');
   await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-writing'));
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.every((value, index) => index % 4 !== 3 || value === 0)), 'Sparks stop and clear after the writing finishes');
@@ -63,6 +94,7 @@ try {
   assert(await page.locator('.opening-button').isVisible());
   assert(await page.locator('.opening-afterword').isVisible(), 'Reduced motion shows the birthday text immediately');
   assert(await page.locator('.opening-note').isVisible(), 'Reduced motion shows the invitation note immediately');
+  assert(await page.locator('.opening-dedication').isVisible(), 'Reduced motion shows the dedication immediately');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   await page.locator('.opening-button').click();
@@ -109,5 +141,5 @@ try {
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   assert(await cubes.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'The cube animation pauses when its chapter is hidden');
   assert.deepEqual(errors, []);
-  console.log('Left-to-right handwriting, text after the final stroke, replay, complete paused lettering, stable reading text, keyboard greetings, reduced motion and dialog motion passed.');
+  console.log('Automatic opening in reading order, left-to-right handwriting, replay, reduced motion, stable text, keyboard greetings and dialog motion passed.');
 } finally { await browser.close(); }

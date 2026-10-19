@@ -78,11 +78,6 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
 .opening-button:hover{background:#b7d2e7;transform:translateY(-2px)}
 .opening-button span{font-size:24px}
 .invitation-ready .opening-dedication{position:static;font-size:15px;color:#526c82;margin:24px 0 0;letter-spacing:0}
-.is-writing:not(.has-written) .opening-afterword,.is-writing:not(.has-written) .opening-note{opacity:0;visibility:hidden}
-.has-written .opening-afterword{animation:opening-arrive .65s both}
-.has-written .opening-note{animation:opening-arrive .65s .18s both}
-@media(prefers-reduced-motion:reduce){.has-written .opening-afterword,.has-written .opening-note{animation:none}}
-@keyframes opening-arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .invitation-ready[data-page="welcome"]{--orange:#a35f49;--ink:#365f80;--green:#365f80;--line:#c9d8e2;background:#f8f4ec;color:#365f80}
 .invitation-ready[data-page="welcome"] .site-header{background:#e6eff7;color:#365f80}
 .invitation-ready[data-page="welcome"] .invitation-controls{background:#f8f4ec;color:#365f80}
@@ -330,13 +325,13 @@ body.invitation-ready{height:100dvh;padding:0;overflow-x:hidden;overflow-y:auto;
   .invitation-ready .details-grid{padding-block:20px}
   .invitation-ready .opening-content{display:grid;grid-template-columns:1.15fr 1fr;gap:0 28px;align-items:center;max-width:960px}
   .opening-title{grid-column:1;grid-row:1/6}
-  .name-writing{max-height:46dvh}
+  .name-writing{max-height:40dvh}
   .invitation-ready .opening-kicker{grid-column:2;font-size:12px;letter-spacing:1px}
   .opening-afterword,.opening-note,.opening-button{grid-column:2}
   .invitation-ready .opening-afterword p{font-size:28px}
   .invitation-ready .opening-note{font-size:17px;margin:8px 0 12px}
   .opening-button{font-size:16px;min-height:48px;padding:10px 20px}
-  .invitation-ready .opening-dedication{display:none}
+  .invitation-ready .opening-dedication{display:block;font-size:13px;margin-top:12px}
 }
 
 /* Keep the broomstick game fully visible on phones held sideways. */
