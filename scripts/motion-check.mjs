@@ -100,7 +100,9 @@ try {
   assert(await page.locator('.opening-dedication').isVisible(), 'Reduced motion shows the dedication immediately');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
-  await page.locator('.opening-button').click();
+  // Click the breathing button directly rather than waiting for a static size.
+  const openingBox = await page.locator('.opening-button').boundingBox();
+  await page.mouse.click(openingBox.x + openingBox.width / 2, openingBox.y + openingBox.height / 2);
   assert(await coverDecorations.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Opening decorations pause offscreen');
   await page.waitForFunction(() => document.querySelector('.hero .safari-home')?.dataset.painted === 'true');
   assert.equal(await page.locator('#hero-title em,.word-accent').evaluateAll(words => words.filter(word => getComputedStyle(word).animationName !== 'none').length), 0, 'Reading text stays still');

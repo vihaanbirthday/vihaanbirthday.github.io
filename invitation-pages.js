@@ -17,9 +17,19 @@ export function setupInvitationPages() {
   const { finish: finishWriting, play: playWriting, replay: replayWriting } = setupNameWriting(welcome, () => current === 0);
   const { finish: finishReveals, play: playReveals } = setupSlideReveals();
   const openingButton = welcome.querySelector('.opening-button');
+  function isRevealing() {
+    return pages[current]?.matches('.is-revealing, .is-slide-revealing');
+  }
+  function skipSequence() {
+    if (!isRevealing()) return false;
+    if (current === 0) finishWriting();
+    else finishReveals();
+    syncNextShine();
+    return true;
+  }
   function syncNextShine() {
     const page = pages[current];
-    const complete = !!page && !page.classList.contains('is-revealing') && !page.classList.contains('is-slide-revealing');
+    const complete = !!page && !isRevealing();
     next.classList.toggle('is-sequence-ready', complete && current !== 0);
     openingButton.classList.toggle('is-sequence-ready', complete && current === 0);
   }
@@ -85,6 +95,7 @@ export function setupInvitationPages() {
     const index = hashes.indexOf(url.hash);
     if (index === -1) return;
     event.preventDefault();
+    if (link === openingButton && skipSequence()) return;
     go(index);
   });
   const followHistory = () => {
@@ -105,7 +116,10 @@ export function setupInvitationPages() {
   window.addEventListener('hashchange', followHistory);
   const previousPage = () => current === gamesIndex ? gamesReturnPage : current - 1;
   previous.addEventListener('click', () => go(previousPage()));
-  next.addEventListener('click', () => go(current === gamesIndex ? gamesReturnPage : (current + 1) % invitationCount));
+  next.addEventListener('click', () => {
+    if (skipSequence()) return;
+    go(current === gamesIndex ? gamesReturnPage : (current + 1) % invitationCount);
+  });
   document.querySelector('#replay-writing').addEventListener('click', replayWriting);
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && pageMenu.open) {
@@ -123,6 +137,10 @@ export function setupInvitationPages() {
   });
   let touch;
   const main = document.querySelector('#main');
+  main.addEventListener('click', event => {
+    if (event.defaultPrevented || event.button !== 0 || event.target.closest('a, button, input, select, textarea, summary, [role="button"], [contenteditable]')) return;
+    if (pages[current]?.contains(event.target)) skipSequence();
+  });
   main.addEventListener('touchstart', event => {
     touch = event.touches.length === 1 && !event.target.closest('a, button, input, select, textarea')
       ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
