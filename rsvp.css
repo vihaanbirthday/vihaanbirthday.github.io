@@ -1,0 +1,73 @@
+/* A little cartoon party invitation, with the same local fonts and artwork. */
+#rsvp-dialog {
+  --party-ink: #34344d;
+  --party-pink: #ffd5df;
+  color: var(--party-ink);
+  width: min(500px, calc(100vw - 28px));
+  border: 3px solid var(--party-ink);
+  border-radius: 30px 30px 24px 24px;
+  background: #fffaf0;
+  box-shadow: 7px 7px 0 var(--party-ink), 0 24px 80px #292b4b40;
+  overscroll-behavior: contain;
+  font-family: 'Trebuchet MS', var(--sans);
+}
+.invitation-ready #rsvp-dialog { padding: 26px 26px 24px; }
+#rsvp-dialog::backdrop { background: #35354d99; backdrop-filter: blur(5px); }
+#rsvp-dialog .dialog-close {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--party-ink);
+  background: var(--party-pink);
+  box-shadow: 2px 3px 0 var(--party-ink);
+  color: var(--party-ink);
+}
+.rsvp-postmark { display: flex; align-items: center; gap: 12px; margin: 0 52px 16px 0; }
+.rsvp-postmark svg { width: 58px; height: 58px; stroke: var(--party-ink); stroke-width: 2.5; fill: #ffe58f; transform: rotate(-9deg); }
+.rsvp-letter-heart { fill: #ff9db6; }
+.rsvp-postmark span { padding: 7px 10px; border: 2px solid var(--party-ink); border-radius: 8px; background: #d7ecff; font-size: 12px; font-weight: 800; letter-spacing: 1px; transform: rotate(4deg); }
+.invitation-ready #rsvp-dialog .eyebrow { font-size: 11px; letter-spacing: 1px; font-weight: 700; }
+.invitation-ready #rsvp-dialog h2 { margin: 8px 0 0; font-family: inherit; font-size: 42px; font-weight: 800; letter-spacing: -1.5px; }
+#rsvp-title em { color: #b73352; font-weight: 800; text-decoration: underline wavy #f4b842 2px; text-underline-offset: 7px; }
+#rsvp-form { margin-top: 16px; gap: 10px; }
+#rsvp-dialog .form-intro { color: #595969; font-size: 16px; line-height: 1.5; margin-bottom: 4px; }
+.invitation-ready #rsvp-form label { color: var(--party-ink); font-size: 15px; font-weight: 700; }
+#rsvp-form input, #rsvp-form select { border: 2px solid var(--party-ink); border-radius: 12px; background: #fff; color: var(--party-ink); padding: 12px; min-width: 0; min-height: 48px; }
+#rsvp-form :is(input, select):focus-visible { outline: 3px solid #426ca9; outline-offset: 3px; }
+#rsvp-dialog button:focus-visible { outline: 3px solid #426ca9; outline-offset: 4px; }
+#guest-party { margin-top: 8px; padding: 16px; background: #eaf3ff; border: 2px solid var(--party-ink); border-radius: 18px; box-shadow: 3px 3px 0 #bccce3; }
+.guest-party-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.guest-party-heading h3 { font-size: 19px; letter-spacing: -.5px; }
+#guest-total { padding: 5px 8px; background: #ffe58f; border: 2px solid var(--party-ink); border-radius: 10px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+#guest-party-hint, #guest-limit { margin-top: 10px; color: #50536a; font-size: 13px; line-height: 1.5; }
+#guest-list { display: grid; gap: 12px; }
+.guest-card { display: grid; grid-template-columns: 28px minmax(0, 1fr) 36px; align-items: center; gap: 8px; margin-top: 12px; }
+.guest-card + .guest-card { margin-top: 0; }
+.guest-number { display: grid; place-items: center; width: 28px; height: 32px; background: #ffd5df; border: 2px solid var(--party-ink); border-radius: 45% 45% 40% 40%; font-size: 15px; font-weight: 800; transform: rotate(-7deg); }
+.guest-card:nth-child(3n + 2) .guest-number { background: #ffe58f; transform: rotate(6deg); }
+.guest-card:nth-child(3n) .guest-number { background: #d2edd9; }
+.guest-card label { display: block; margin-bottom: 5px; }
+#rsvp-form .guest-card input { padding: 10px; }
+.remove-guest { display: grid; place-items: center; align-self: end; width: 36px; min-height: 48px; border: 0; border-radius: 10px; background: transparent; color: #9f2946; font-size: 28px; }
+.remove-guest:hover { background: #ffd5df; }
+#add-guest { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px; margin-top: 16px; padding: 8px 12px; border: 2px dashed var(--party-ink); border-radius: 12px; background: #fffaf0; color: var(--party-ink); font-weight: 700; font-size: 16px; }
+.guest-plus { display: grid; place-items: center; width: 27px; height: 27px; border: 2px solid var(--party-ink); border-radius: 50%; background: #ffe58f; font-size: 24px; line-height: 1; }
+#add-guest:hover:enabled { background: #fff0bf; }
+#add-guest:disabled { opacity: .55; }
+#guest-limit { font-weight: 700; }
+#rsvp-form .button, .rsvp-shortcut, .invitation-ready #rsvp-button { border: 2px solid #34344d; border-radius: 14px; background: #ffe58f; color: #34344d; font-weight: 800; box-shadow: 3px 4px 0 #34344d; transition: transform .15s, box-shadow .15s; }
+#rsvp-form .button { min-height: 52px; font-size: 17px; margin-top: 12px; }
+#rsvp-form .button:hover, .rsvp-shortcut:hover, .invitation-ready #rsvp-button:hover { background: #ffda65; filter: none; transform: translateY(-2px); box-shadow: 3px 6px 0 #34344d; }
+#rsvp-form .button:active, .rsvp-shortcut:active, .invitation-ready #rsvp-button:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 #34344d; }
+#rsvp-dialog .form-note { margin-top: 4px; color: #595969; font-size: 13px; line-height: 1.5; }
+@media (max-width: 380px) {
+  .invitation-ready #rsvp-dialog { padding: 24px 16px 20px; }
+  #guest-party { padding: 12px; }
+  .guest-card { grid-template-columns: 24px minmax(0, 1fr) 32px; gap: 6px; }
+  .guest-number { width: 24px; }
+  .remove-guest { width: 32px; }
+  .rsvp-postmark { gap: 8px; }
+  .rsvp-postmark span { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #rsvp-form .button, .rsvp-shortcut, .invitation-ready #rsvp-button { transition: none; }
+}

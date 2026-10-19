@@ -101,11 +101,68 @@ gameDialog.addEventListener('close', () => {
 const rsvpDialog = $('#rsvp-dialog');
 const rsvpReady = /^[1-9]\d{7,14}$/.test(event.whatsappNumber);
 const guestAttendance = $('#guest-attendance');
-const guestCount = $('#guest-count');
+const guestList = $('#guest-list');
+const addGuest = $('#add-guest');
+const maxGuests = 10;
+let guestId = 0;
+function guestInputs() {
+  return [...guestList.querySelectorAll('input')];
+}
+function syncGuestList() {
+  const inputs = guestInputs();
+  const count = inputs.length + 1;
+  const attending = guestAttendance.value === 'yes';
+  $('#guest-total').textContent = `${count} / ${maxGuests} guests`;
+  addGuest.disabled = !attending || count >= maxGuests;
+  $('#guest-limit').hidden = count < maxGuests;
+  inputs.forEach((input, index) => {
+    const row = input.closest('.guest-card');
+    row.querySelector('label').textContent = `Guest ${index + 2}`;
+    row.querySelector('.guest-number').textContent = index + 2;
+    row.querySelector('button').setAttribute('aria-label', `Remove guest ${index + 2}`);
+    input.disabled = !attending;
+  });
+}
+addGuest.addEventListener('click', () => {
+  if (guestAttendance.value !== 'yes' || guestInputs().length >= maxGuests - 1) return;
+  const row = document.createElement('div');
+  row.className = 'guest-card';
+  const number = document.createElement('span');
+  number.className = 'guest-number';
+  number.setAttribute('aria-hidden', 'true');
+  const field = document.createElement('div');
+  const label = document.createElement('label');
+  const input = document.createElement('input');
+  input.id = `party-guest-${++guestId}`;
+  input.name = 'guests[]';
+  input.type = 'text';
+  input.required = true;
+  input.maxLength = 80;
+  input.autocomplete = 'off';
+  input.placeholder = 'Their name';
+  label.htmlFor = input.id;
+  field.append(label, input);
+  const remove = document.createElement('button');
+  remove.type = 'button';
+  remove.className = 'remove-guest';
+  remove.textContent = '×';
+  remove.addEventListener('click', () => {
+    const inputs = guestInputs();
+    const index = inputs.indexOf(input);
+    row.remove();
+    syncGuestList();
+    // Keep keyboard focus near the removed guest, even after renumbering.
+    (guestInputs()[index] || guestInputs()[index - 1] || addGuest).focus();
+  });
+  row.append(number, field, remove);
+  guestList.append(row);
+  syncGuestList();
+  input.focus();
+});
 function syncRSVPFields() {
   const attending = guestAttendance.value === 'yes';
   $('#guest-party').hidden = !attending;
-  guestCount.disabled = !attending;
+  syncGuestList();
 }
 guestAttendance.addEventListener('change', syncRSVPFields);
 syncRSVPFields();
@@ -128,27 +185,41 @@ $('#rsvp-form').addEventListener('submit', e => {
   const name = $('#guest-name').value.trim();
   if (!name) { $('#guest-name').setCustomValidity('Please enter your name.'); $('#guest-name').reportValidity(); return; }
   const attending = guestAttendance.value === 'yes';
-  const count = guestCount.value;
-  if (attending && !/^[1-4]$/.test(count)) {
-    guestCount.setCustomValidity('Please choose between 1 and 4 guests, including you and children.');
-    guestCount.reportValidity();
-    return;
+  const inputs = guestInputs();
+  const count = inputs.length + 1;
+  if (attending) {
+    if (count > maxGuests) {
+      $('#guest-name').setCustomValidity('Your party can include up to 10 people, including you and children.');
+      $('#guest-name').reportValidity();
+      return;
+    }
+    for (const input of inputs) {
+      if (!input.value.trim()) {
+        input.setCustomValidity('Please enter this guest’s name or remove them from your crew.');
+        input.reportValidity();
+        return;
+      }
+    }
   }
   const message = [
     'Hi Madhav & Urvashee!',
     '',
     "*Vihaan's 1st Birthday — RSVP*",
     `*Name:* ${name}`,
-    `*Attendance:* ${attending ? (count === '1' ? "I'll be there" : "We'll be there") : "Sorry, we can't make it"}`,
-    ...(attending ? [`*Total guests:* ${count} ${count === '1' ? 'guest' : 'guests'} (including me and children)`] : []),
+    `*Attendance:* ${attending ? (count === 1 ? "I'll be there" : "We'll be there") : "Sorry, we can't make it"}`,
+    ...(attending ? [
+      `*Total guests:* ${count} ${count === 1 ? 'guest' : 'guests'} (including me and children)`,
+      '*Guest names:*',
+      ...[name, ...inputs.map(input => input.value.trim())].map((guest, index) => `${index + 1}. ${guest}`),
+    ] : []),
     '',
     attending ? 'Looking forward to celebrating with you! 🎉' : 'Sending Vihaan lots of love for his big day! 💛',
   ].join('\n');
   window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 });
-$('#rsvp-form').addEventListener('input', () => {
+$('#rsvp-form').addEventListener('input', e => {
   $('#guest-name').setCustomValidity('');
-  guestCount.setCustomValidity('');
+  if (e.target instanceof HTMLInputElement) e.target.setCustomValidity('');
 });
 const eventDate = getEventDate(event);
 if (!eventDate) {

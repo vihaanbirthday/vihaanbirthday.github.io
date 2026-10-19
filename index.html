@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="./invitation.css">
   <link rel="stylesheet" href="./nursery-backgrounds.css">
   <link rel="stylesheet" href="./party-interactions.css">
+  <link rel="stylesheet" href="./rsvp.css">
   <script type="module" src="./main.js"></script>
 </head>
 <body>
@@ -196,11 +197,12 @@
   <dialog id="game-dialog" aria-labelledby="game-title"><div class="game-toolbar"><div><span class="eyebrow">VIHAAN'S GAMING CORNER</span><h2 id="game-title">Let's play</h2></div><button class="icon-button" id="close-game" type="button" aria-label="Close game">×</button></div><nav class="game-tabs" aria-label="Return to invitation sections"><a href="#rsvp" data-section-link>RSVP</a><a href="#games" data-section-link>Gaming</a></nav><p id="game-help"></p><div id="game-frame-container"></div><div class="game-dialog-footer"><a class="footer-link" href="#main">← Invitation</a><button id="restart-game" type="button" class="footer-link">Restart ↻</button></div></dialog>
   <dialog id="rsvp-dialog" aria-labelledby="rsvp-title">
     <button class="icon-button dialog-close" id="close-rsvp" type="button" aria-label="Close RSVP">×</button>
-    <span class="eyebrow">WE'D LOVE TO HEAR FROM YOU</span>
+    <div class="rsvp-postmark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="17" width="50" height="36" rx="8"/><path d="m9 21 23 18 23-18M9 49l15-15m31 15L40 34"/><path class="rsvp-letter-heart" d="M32 24s-12-7-12-14a7 7 0 0 1 12-4 7 7 0 0 1 12 4c0 7-12 14-12 14Z"/></svg><span>PARTY POST!</span></div>
+    <span class="eyebrow">A LITTLE REPLY. A LOT OF JOY.</span>
     <h2 id="rsvp-title">Your <em>reply.</em></h2>
     <p id="rsvp-unavailable" hidden>Our WhatsApp RSVP details are coming soon. Please check back or message Madhav & Urvashee directly.</p>
     <form id="rsvp-form">
-      <p class="form-intro">Enter your details to open your reply in WhatsApp.</p>
+      <p class="form-intro">Who’s coming to Vihaan’s big day?</p>
       <label for="guest-name">Your name</label>
       <input aria-describedby="rsvp-form-note" id="guest-name" name="name" required maxlength="80" autocomplete="name" placeholder="Your name">
       <label for="guest-attendance">Can you join us?</label>
@@ -210,10 +212,11 @@
         <option value="no">Sorry, we can't make it</option>
       </select>
       <div id="guest-party" hidden>
-        <label for="guest-count">Total guests, including you and children (max. 4)</label>
-        <select id="guest-count" name="count" disabled>
-          <option value="1">Just me</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4">4 guests</option>
-        </select>
+        <div class="guest-party-heading"><h3>Your party crew</h3><span id="guest-total" role="status" aria-live="polite" aria-atomic="true">1 / 10 guests</span></div>
+        <p id="guest-party-hint">You’re guest 1! Add everyone coming with you, including children. Up to 10 people in total.</p>
+        <div id="guest-list"></div>
+        <button id="add-guest" type="button" aria-controls="guest-list" aria-describedby="guest-party-hint"><span class="guest-plus" aria-hidden="true">+</span> Add a guest</button>
+        <p id="guest-limit" role="status" hidden>Your crew is complete! That’s the limit of 10 people, including you.</p>
       </div>
       <button class="button" type="submit">Open WhatsApp ↗</button>
       <p class="form-note" id="rsvp-form-note">Send your message in WhatsApp to finish your RSVP. Your details aren’t stored on this website.</p>
