@@ -36,7 +36,9 @@ try {
   assert.deepEqual(await page.evaluate(() => window.openingReveals.map(item => item.selector)), ['.opening-kicker', '.opening-title', '.opening-afterword', '.opening-note', '.opening-button', '.opening-dedication'], 'Every opening line appears automatically in reading order without a click');
   assert(await page.evaluate(() => window.openingReveals.every(item => item.previousComplete)), 'Each line settles before the following line starts');
   await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-revealing'));
+  await page.waitForFunction(() => document.querySelector('.opening-button').classList.contains('is-sequence-ready'));
   await page.locator('#replay-writing').click();
+  assert.equal(await page.locator('.opening-button.is-sequence-ready').count(), 0, 'Replaying the opening resets its glass shine');
   // Inspect the actual rendered ink across the timeline. Unstarted letters
   // must be invisible, including their rounded stroke endpoints.
   const result = await page.locator('.name-stroke').evaluateAll(paths => {

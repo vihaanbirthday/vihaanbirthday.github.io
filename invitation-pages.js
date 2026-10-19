@@ -16,6 +16,15 @@ export function setupInvitationPages() {
   history.replaceState({ ...history.state, invitationPosition: 0 }, '', location.href);
   const { finish: finishWriting, play: playWriting } = setupNameWriting(welcome, () => current === 0);
   const { finish: finishReveals, play: playReveals } = setupSlideReveals();
+  const openingButton = welcome.querySelector('.opening-button');
+  function syncNextShine() {
+    const page = pages[current];
+    const complete = !!page && !page.classList.contains('is-revealing') && !page.classList.contains('is-slide-revealing');
+    next.classList.toggle('is-sequence-ready', complete && current !== 0);
+    openingButton.classList.toggle('is-sequence-ready', complete && current === 0);
+  }
+  const revealObserver = new MutationObserver(syncNextShine);
+  pages.forEach(page => revealObserver.observe(page, { attributes: true, attributeFilter: ['class'] }));
   const pageMenu = document.querySelector('#page-menu');
   function showPage(index, { focus = true } = {}) {
     pageMenu.open = false;
@@ -56,6 +65,7 @@ export function setupInvitationPages() {
     if (focus) pages[index].focus({ preventScroll: true });
     if (index === 0) playWriting();
     else playReveals(pages[index]);
+    syncNextShine();
   }
   function canNavigate(proceed) {
     return document.dispatchEvent(new CustomEvent('invitation:before-navigate', { cancelable: true, detail: { proceed } }));

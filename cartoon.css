@@ -63,6 +63,31 @@ body.invitation-ready[data-page] .page-progress-track { height: 8px; border: 2px
 body.invitation-ready[data-page] .page-progress-track i { background: #ef9bb5; }
 button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid #426ca9; outline-offset: 4px; }
 
+/* A glass reflection signals that the slide's reading sequence is complete. */
+.page-next, .opening-button { position: relative; isolation: isolate; overflow: hidden; }
+.page-next::after, .opening-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: -60%;
+  width: 40%;
+  height: 220%;
+  background: linear-gradient(90deg, transparent, #ffffff70 25%, #ffffffe6 50%, #ffffff70 75%, transparent);
+  opacity: 0;
+  transform: translateX(-160%) skewX(-18deg);
+  pointer-events: none;
+}
+.page-next.is-sequence-ready, .opening-button.is-sequence-ready { background-image: linear-gradient(180deg, #ffffff60, transparent 55%); }
+.is-sequence-ready::after { animation: next-glass-shine 3.2s ease-in-out infinite; }
+@keyframes next-glass-shine {
+  0% { opacity: 0; transform: translateX(-160%) skewX(-18deg); }
+  8% { opacity: .9; }
+  34% { opacity: .9; transform: translateX(360%) skewX(-18deg); }
+  35%, 100% { opacity: 0; transform: translateX(360%) skewX(-18deg); }
+}
+.motion-dialog .page-next::after, .motion-dialog .opening-button::after { animation: none; opacity: 0; }
+
 /* Blue handwriting sits directly on the opening's soft background. */
 .opening-content { isolation: isolate; }
 .invitation-ready .opening-kicker { width: fit-content; margin-inline: auto; padding: 4px 10px; border: 2px solid var(--party-ink); border-radius: 9px; background: var(--party-pink); color: var(--party-ink); font-weight: 700; }
@@ -186,6 +211,7 @@ dialog::backdrop { background: #35354d99; backdrop-filter: blur(5px); }
   .invitation-ready #game-dialog[data-game="flappy"] .game-tabs a { min-height: 32px; padding: 2px 8px; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .page-next::after, .opening-button::after { animation: none; display: none; }
   .invitation-ready .button, .opening-button, .page-next, .page-back,
   body.invitation-ready[data-page] .gaming-shortcut, .page-menu summary,
   .invitation-ready .game-card { transition: none; }
