@@ -107,6 +107,7 @@ try {
   assert.notEqual(await toy.evaluate(el => getComputedStyle(el).transform), toyPose, 'The nursery background toy gently moves');
   assert(await page.locator('.invitation-page[hidden] .nursery-toy').evaluateAll(toys => toys.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'Inactive page decorations stop moving');
   const friend = page.locator('.hero .safari-friend');
+  await page.waitForFunction(() => !document.querySelector('.hero .safari-friend').closest('[inert]'));
   await friend.focus();
   await page.keyboard.press('Enter');
   assert.equal(await friend.getAttribute('data-gesture'), 'hello', 'Animal greeting works by keyboard');
@@ -119,6 +120,7 @@ try {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   await openChapter(page, '#rsvp');
+  await page.waitForFunction(() => !document.querySelector('#rsvp').classList.contains('is-slide-revealing'));
   const cubes = page.locator('.stacking-cube');
   assert.equal(await cubes.count(), 3, 'Three cartoon cubes build the game-link stack');
   const cubePose = await cubes.evaluateAll(elements => elements.map(el => getComputedStyle(el).transform));

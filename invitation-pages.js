@@ -1,4 +1,5 @@
 import { setupNameWriting } from './name-writing.js';
+import { setupSlideReveals } from './slide-reveals.js';
 // One invitation chapter at a time. Native anchors remain a readable fallback.
 export function setupInvitationPages() {
   const pages = [...document.querySelectorAll('#main > [data-page]')];
@@ -14,6 +15,7 @@ export function setupInvitationPages() {
   let historyPosition = 0, restoringHistory = false;
   history.replaceState({ ...history.state, invitationPosition: 0 }, '', location.href);
   const { finish: finishWriting, play: playWriting } = setupNameWriting(welcome, () => current === 0);
+  const { finish: finishReveals, play: playReveals } = setupSlideReveals();
   const pageMenu = document.querySelector('#page-menu');
   function showPage(index, { focus = true } = {}) {
     pageMenu.open = false;
@@ -27,6 +29,7 @@ export function setupInvitationPages() {
     }
     const direction = index < current ? 'backward' : 'forward';
     finishWriting();
+    finishReveals();
     if (index === gamesIndex && current >= 0 && current < invitationCount) gamesReturnPage = current;
     current = index;
     pages.forEach((page, i) => {
@@ -52,6 +55,7 @@ export function setupInvitationPages() {
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (focus) pages[index].focus({ preventScroll: true });
     if (index === 0) playWriting();
+    else playReveals(pages[index]);
   }
   function canNavigate(proceed) {
     return document.dispatchEvent(new CustomEvent('invitation:before-navigate', { cancelable: true, detail: { proceed } }));
@@ -128,6 +132,7 @@ export function setupInvitationPages() {
     const paused = document.body.classList.contains('motion-paused');
     document.querySelector('#replay-writing').disabled = paused;
     if (paused) finishWriting();
+    if (paused || document.body.classList.contains('motion-dialog')) finishReveals();
   }
   new MutationObserver(syncWritingMotion).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   syncWritingMotion();

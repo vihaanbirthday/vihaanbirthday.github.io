@@ -10,6 +10,7 @@
     "test": "node scripts/check-site.mjs",
     "test:pages": "node scripts/pages-check.mjs",
     "test:navigation": "node scripts/navigation-check.mjs",
+    "test:reveals": "node scripts/slide-reveals-check.mjs",
     "check:ready": "node scripts/check-ready.mjs",
     "test:sharing": "node scripts/taptaptap-check.mjs && node scripts/result-sharing-check.mjs",
     "test:flappy": "node scripts/broomstick-check.mjs && node scripts/flappy-motion-check.mjs && node scripts/flappy-difficulty-check.mjs",
