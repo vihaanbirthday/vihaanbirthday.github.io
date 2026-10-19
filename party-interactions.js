@@ -39,18 +39,35 @@ export function setupPartyInteractions() {
       particle.style.backgroundColor = colors[i % colors.length];
       layer.append(particle);
       const angle = Math.PI * 2 * i / (quiet ? 12 : 28) + (Math.random() - .5) * .2;
-      const distance = quiet ? 22 + Math.random() * 16 : 65 + Math.random() * 105;
+      const distance = 22 + Math.random() * 16;
       const dx = Math.cos(angle) * distance;
-      const dy = Math.sin(angle) * distance - 45;
       const rotation = Math.random() * 360;
-      return particle.animate(quiet ? [
+      const duration = quiet ? 320 : 2400 + Math.random() * 700;
+      const speed = 150 + Math.random() * 120;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed - 70;
+      const fallSpeed = 125 + Math.random() * 25;
+      const drag = 1.8;
+      const flutterPhase = Math.random() * Math.PI * 2;
+      const spin = (Math.random() < .5 ? -1 : 1) * (70 + Math.random() * 80);
+      const frames = quiet ? [
         { transform: `translate(${dx}px, ${Math.sin(angle) * distance}px) rotate(${rotation}deg)`, opacity: .9 },
         { transform: `translate(${dx}px, ${Math.sin(angle) * distance}px) rotate(${rotation}deg)`, opacity: 0 },
-      ] : [
-        { transform: `translate(0, 0) rotate(${rotation}deg) scale(.3)`, opacity: 1 },
-        { transform: `translate(${dx * .65}px, ${dy * .7 - 15}px) rotate(${rotation + 140}deg)`, opacity: 1, offset: .4 },
-        { transform: `translate(${dx}px, ${dy + 85}px) rotate(${rotation + 320}deg) scale(.65)`, opacity: 0 },
-      ], { duration: quiet ? 320 : 850 + Math.random() * 300, easing: 'cubic-bezier(.12,.55,.45,1)', fill: 'both' });
+      ] : Array.from({ length: 41 }, (_, step) => {
+        const progress = step / 40;
+        const time = progress * duration / 1000;
+        // Air resistance slows the burst; gravity settles paper into a gentle fall.
+        const travel = (1 - Math.exp(-drag * time)) / drag;
+        const flutter = Math.min(1, time * 2) * Math.sin(time * 5 + flutterPhase);
+        const x = vx * travel + flutter * 9;
+        const y = fallSpeed * time + (vy - fallSpeed) * travel;
+        return {
+          transform: `translate(${x}px, ${y}px) rotate(${rotation + spin * time}deg) rotateY(${flutter * 55}deg) scale(${Math.min(1, .3 + time * 6)})`,
+          opacity: progress < .78 ? 1 : (1 - progress) / .22,
+          offset: progress,
+        };
+      });
+      return particle.animate(frames, { duration, easing: quiet ? 'ease-out' : 'linear', fill: 'both' });
     });
     const dispose = () => {
       animations.forEach(animation => animation.cancel());
