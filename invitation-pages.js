@@ -14,7 +14,7 @@ export function setupInvitationPages() {
   let current = -1;
   let historyPosition = 0, restoringHistory = false;
   history.replaceState({ ...history.state, invitationPosition: 0 }, '', location.href);
-  const { finish: finishWriting, play: playWriting } = setupNameWriting(welcome, () => current === 0);
+  const { finish: finishWriting, play: playWriting, replay: replayWriting } = setupNameWriting(welcome, () => current === 0);
   const { finish: finishReveals, play: playReveals } = setupSlideReveals();
   const openingButton = welcome.querySelector('.opening-button');
   function syncNextShine() {
@@ -106,7 +106,7 @@ export function setupInvitationPages() {
   const previousPage = () => current === gamesIndex ? gamesReturnPage : current - 1;
   previous.addEventListener('click', () => go(previousPage()));
   next.addEventListener('click', () => go(current === gamesIndex ? gamesReturnPage : (current + 1) % invitationCount));
-  document.querySelector('#replay-writing').addEventListener('click', playWriting);
+  document.querySelector('#replay-writing').addEventListener('click', replayWriting);
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && pageMenu.open) {
       pageMenu.open = false;

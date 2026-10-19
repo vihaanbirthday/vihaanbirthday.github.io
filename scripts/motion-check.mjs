@@ -38,7 +38,7 @@ try {
   await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-revealing'));
   await page.waitForFunction(() => document.querySelector('.opening-button').classList.contains('is-sequence-ready'));
   await page.locator('#replay-writing').click();
-  assert.equal(await page.locator('.opening-button.is-sequence-ready').count(), 0, 'Replaying the opening resets its glass shine');
+  assert.equal(await page.locator('.opening-button.is-sequence-ready').count(), 1, 'Replaying only the name preserves the completed opening’s glass shine');
   // Inspect the actual rendered ink across the timeline. Unstarted letters
   // must be invisible, including their rounded stroke endpoints.
   const result = await page.locator('.name-stroke').evaluateAll(paths => {
@@ -53,7 +53,7 @@ try {
         active: parseFloat(getComputedStyle(path).opacity) === 1 && parseFloat(getComputedStyle(path).strokeDashoffset) > 0 && parseFloat(getComputedStyle(path).strokeDashoffset) < path.getTotalLength(),
         past: order.slice(0, index).every(({ path }) => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < 0.001),
         future: order.slice(index + 1).every(({ path }) => parseFloat(getComputedStyle(path).opacity) === 0),
-        messageHidden: [...document.querySelectorAll('.opening-afterword, .opening-note')].every(el => getComputedStyle(el).visibility === 'hidden'),
+        textUnchanged: [...document.querySelectorAll('.opening-kicker, .opening-afterword, .opening-note, .opening-button, .opening-dedication')].every(el => getComputedStyle(el).visibility === 'visible' && getComputedStyle(el).opacity === '1'),
       };
     });
     animations.forEach(animation => animation.finish());
@@ -61,7 +61,7 @@ try {
   });
   assert(result.cleanStart, 'No dots or round caps are visible before writing begins');
   assert(result.samples.every(sample => sample.active && sample.past && sample.future), 'Each stroke draws smoothly while future strokes remain invisible');
-  assert(result.samples.every(sample => sample.messageHidden), 'The text below the name stays hidden through every stroke, including the last flourish');
+  assert(result.samples.every(sample => sample.textUnchanged), 'All revealed text stays visible while the name is redrawn');
   assert(result.completed, 'The completed name remains fully readable');
   await page.waitForFunction(() => document.querySelector('#welcome').classList.contains('has-written'));
   await page.locator('.opening-afterword').waitFor({ state: 'visible' });
@@ -78,8 +78,9 @@ try {
   assert.equal(await page.getByRole('button', { name: 'Replay the magic' }).count(), 0);
   assert(await page.locator('#replay-writing .name-writing').isVisible(), 'The name itself is the replay control');
   await page.locator('#replay-writing').tap();
-  assert(await page.locator('.opening-afterword').isHidden(), 'Replay hides the birthday text again');
-  assert(await page.locator('.opening-note').isHidden(), 'Replay hides the invitation note again');
+  assert(await page.locator('.opening-afterword').isVisible(), 'Name replay keeps the birthday text visible');
+  assert(await page.locator('.opening-note').isVisible(), 'Name replay keeps the invitation note visible');
+  assert(await page.locator('.opening-dedication').isVisible(), 'Name replay keeps the dedication visible');
   await page.waitForTimeout(1150);
   assert(await page.locator('.writing-fireworks').evaluate(canvas => canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data.some((value, index) => index % 4 === 3 && value > 0)), 'Live fireworks follow the active stroke');
   await page.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-writing'));
@@ -144,6 +145,22 @@ try {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.waitForFunction(() => !document.body.classList.contains('motion-paused'));
   assert(await cubes.evaluateAll(elements => elements.every(el => getComputedStyle(el).animationPlayState === 'paused')), 'The cube animation pauses when its chapter is hidden');
+  // Replaying during the initial reveal must leave that reveal's original clock intact.
+  const pending = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true });
+  pending.on('pageerror', error => errors.push(error.message));
+  await pending.goto(base);
+  await pending.waitForFunction(() => parseFloat(getComputedStyle(document.querySelector('.opening-afterword')).opacity) > .05 && getComputedStyle(document.querySelector('.opening-afterword')).visibility === 'visible');
+  await pending.evaluate(() => {
+    window.textTimeline = [...document.querySelectorAll('.opening-kicker, .opening-title, .opening-afterword, .opening-note, .opening-button, .opening-dedication')].map(element => ({ element, animation: element.getAnimations()[0], time: element.getAnimations()[0].currentTime }));
+  });
+  await pending.locator('#replay-writing').tap();
+  await pending.locator('#replay-writing').tap();
+  assert(await pending.evaluate(() => window.textTimeline.every(({ element, animation, time }) => element.getAnimations()[0] === animation && animation.currentTime >= time)), 'Repeated name taps preserve every text animation and its original progress');
+  await pending.waitForFunction(() => !document.querySelector('#welcome').classList.contains('is-revealing'));
+  assert(await pending.locator('.opening-dedication').isVisible(), 'The dedication appears on schedule during name replay');
+  assert(await pending.locator('#welcome').evaluate(el => el.classList.contains('is-writing')), 'The text sequence completes independently while the restarted name is still writing');
+  assert.equal(await pending.locator('.opening-button.is-sequence-ready').count(), 1, 'The next-action shine still starts when the original text sequence finishes');
+  await pending.close();
   assert.deepEqual(errors, []);
   console.log('Automatic opening in reading order, left-to-right handwriting, replay, reduced motion, stable text, keyboard greetings and dialog motion passed.');
 } finally { await browser.close(); }

@@ -8,13 +8,13 @@ export function setupNameWriting(welcome, isOpening) {
   const closingLines = ['.opening-afterword', '.opening-note', '.opening-button', '.opening-dedication'].map(selector => welcome.querySelector(selector));
   const ctx = canvas.getContext('2d');
   const sparkColors = ['#d69b36', '#e8b84f', '#b77d29', '#fff0b8'];
-  let animations = [], frame = 0, particles = [], last = 0;
+  let inkAnimations = [], textAnimations = [], frame = 0, particles = [], last = 0;
   function reveal(element, delay, duration = 550) {
     const animation = element.animate([
       { opacity: 0, translate: '0 8px', visibility: 'hidden' },
       { opacity: 1, translate: '0 0', visibility: 'visible' },
     ], { duration, delay, easing: 'ease-out', fill: 'both' });
-    animations.push(animation);
+    textAnimations.push(animation);
     return animation;
   }
   function drawStar(x, y, radius, rotation) {
@@ -36,24 +36,41 @@ export function setupNameWriting(welcome, isOpening) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-  function finish() {
+  function finishInk() {
     clearSparks();
-    animations.forEach(animation => animation.cancel());
-    animations = [];
+    inkAnimations.forEach(animation => animation.cancel());
+    inkAnimations = [];
     strokes.forEach(path => { path.style.strokeDasharray = 'none'; path.style.strokeDashoffset = '0'; path.style.opacity = '1'; });
     welcome.classList.remove('is-writing');
-    welcome.classList.remove('is-revealing');
     welcome.classList.add('has-written');
+  }
+  function finish() {
+    finishInk();
+    textAnimations.forEach(animation => animation.cancel());
+    textAnimations = [];
+    welcome.classList.remove('is-revealing');
   }
   function play() {
     finish();
     if (document.body.classList.contains('motion-paused') || !isOpening()) return;
-    welcome.classList.add('is-writing');
     welcome.classList.add('is-revealing');
-    welcome.classList.remove('has-written');
     reveal(kicker, 100);
     reveal(title, 750, 150);
-    let delay = 900;
+    let nextLine = playInk(900) + 150;
+    const closingAnimations = closingLines.map(element => {
+      const animation = reveal(element, nextLine);
+      nextLine += 750;
+      return animation;
+    });
+    Promise.all(closingAnimations.map(animation => animation.finished)).then(() => {
+      welcome.classList.remove('is-revealing');
+    }).catch(() => { /* Navigation or reduced motion cancels the sequence. */ });
+  }
+  function playInk(delay) {
+    finishInk();
+    if (document.body.classList.contains('motion-paused') || !isOpening()) return;
+    welcome.classList.add('is-writing');
+    welcome.classList.remove('has-written');
     const timeline = strokes.map(path => {
       const length = path.getTotalLength();
       const duration = Math.max(90, length / 0.62);
@@ -67,20 +84,10 @@ export function setupNameWriting(welcome, isOpening) {
         { strokeDashoffset: 0, opacity: 1 },
       ], { duration, delay, easing: 'linear', fill: 'both' });
       const segment = { path, animation, delay, duration, length, hiddenOffset };
-      animations.push(animation);
+      inkAnimations.push(animation);
       delay += duration;
       return segment;
     });
-    // Each line starts after the preceding line has settled, automatically.
-    let nextLine = delay + 150;
-    const closingAnimations = closingLines.map(element => {
-      const animation = reveal(element, nextLine);
-      nextLine += 750;
-      return animation;
-    });
-    Promise.all(closingAnimations.map(animation => animation.finished)).then(() => {
-      welcome.classList.remove('is-revealing');
-    }).catch(() => { /* Navigation, replay or reduced motion cancels the sequence. */ });
     let emission = 0;
     last = performance.now();
     function draw(now) {
@@ -137,12 +144,12 @@ export function setupNameWriting(welcome, isOpening) {
       });
       ctx.globalAlpha = 1;
       const writing = timeline.some(s => s.animation.playState !== 'finished');
-      // Reveal the birthday message only once the final ink stroke is complete.
       if (!writing) welcome.classList.add('has-written');
       if (writing || particles.length) frame = requestAnimationFrame(draw);
       else { clearSparks(); welcome.classList.remove('is-writing'); }
     }
     frame = requestAnimationFrame(draw);
+    return delay;
   }
-  return { finish, play };
+  return { finish, play, replay: () => playInk(100) };
 }
