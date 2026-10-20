@@ -3,6 +3,13 @@ import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.TEST_URL || 'http://127.0.0.1:4173';
+const revealGroups = {
+  invitation: ['.eyebrow', '#hero-title', '.hero-description', '.hero-art'],
+  celebration: ['.section-heading .eyebrow', '.section-heading h2', '.detail', '#countdown'],
+  venue: ['.venue-visual', '.eyebrow', 'h2', '.venue-address', '.button'],
+  rsvp: ['.eyebrow', 'h2', ':scope > p:not(.event-recap)', '.event-recap', '#rsvp-button', '.ending-games'],
+  games: ['.eyebrow', '#gaming-title', '.games-heading p', '.game-card'],
+};
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
 await mkdir('test-results', { recursive: true });
 try {
@@ -18,6 +25,16 @@ try {
   for (const id of ['invitation', 'celebration', 'venue', 'rsvp', 'games']) {
     await page.goto(`${base}/#${id}`);
     await page.waitForFunction(id => document.body.dataset.page === id && document.querySelector(`#${id}`).classList.contains('is-slide-revealing'), id);
+    const groups = await page.locator(`#${id}`).evaluate((section, selectors) => {
+      const targets = [...section.querySelectorAll('[data-slide-reveal]')];
+      const expected = selectors.flatMap(selector => [...section.querySelectorAll(selector)]);
+      return {
+        matches: targets.length === expected.length && targets.every((target, index) => target === expected[index]),
+        nested: targets.some(target => target.querySelector('[data-slide-reveal]')),
+      };
+    }, revealGroups[id]);
+    assert(groups.matches, `${id}: whole headings, sentences and boxes are the reveal units`);
+    assert(!groups.nested, `${id}: text inside a box never reveals separately`);
     assert.equal(await page.locator('#page-next.is-sequence-ready').count(), 0, `${id}: Next does not shine while content is appearing`);
     const controls = page.locator(`#${id} [data-slide-reveal]:is(a, button), #${id} [data-slide-reveal] button`);
     if (await controls.count()) {
@@ -41,7 +58,7 @@ try {
       observe();
     }));
     assert.deepEqual(records.map(record => record.index), records.map((_, index) => index), `${id}: content appears automatically in reading order`);
-    assert(records.every(record => record.previousComplete), `${id}: each line settles before the next begins`);
+    assert(records.every(record => record.previousComplete), `${id}: each group settles before the next begins`);
     await page.waitForFunction(id => !document.querySelector(`#${id}`).classList.contains('is-slide-revealing'), id);
     await page.waitForFunction(() => document.querySelector('#page-next').classList.contains('is-sequence-ready'));
     assert(await page.locator(`#${id} [data-slide-reveal]`).evaluateAll(elements => elements.every(el => !el.inert)), `${id}: controls unlock after the reveal`);

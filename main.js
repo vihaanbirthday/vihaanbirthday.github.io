@@ -231,7 +231,7 @@ const recapTime = eventDate && event.time
   ? new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Indian/Mauritius' }).format(eventDate) + ' · Mauritius time'
   : 'Time coming soon';
 document.querySelectorAll('[data-event-recap]').forEach(el => {
-  el.replaceChildren(...[recapDate, recapTime, 'Paps Restaurant'].map((text, index) => { const line = document.createElement('span'); line.textContent = text; if (index > 0) line.dataset.slideReveal = ''; return line; }));
+  el.replaceChildren(...[recapDate, recapTime, 'Paps Restaurant'].map(text => { const line = document.createElement('span'); line.textContent = text; return line; }));
 });
 if (event.date) {
   const date = getEventDate(event);
