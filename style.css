@@ -129,7 +129,7 @@
 @media(max-height:550px){.game-loading img{height:16dvh}.game-loading{padding:10px}.game-loading-dots{margin-top:10px}}
 
 /* Interactive companions sit beside section headings. */
-.safari-anchor{--safari-size:78px;display:inline-flex;align-items:center;gap:2px;max-width:100%;vertical-align:middle;white-space:nowrap}
+.safari-anchor{--safari-size:78px;display:inline-flex;align-items:center;gap:2px;max-width:100%;vertical-align:baseline;white-space:nowrap}
 .hero .safari-anchor{--safari-size:108px}
 .rsvp-section .safari-anchor{--safari-size:88px}
 .safari-stop{position:relative;display:inline-block;flex:0 1 var(--safari-size);width:var(--safari-size);min-width:44px;height:var(--safari-size);pointer-events:none;isolation:isolate;font-size:12px;line-height:1;letter-spacing:normal}
