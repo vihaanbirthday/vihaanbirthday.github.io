@@ -6,10 +6,6 @@
  Object.defineProperty(document, 'cookie', {get:()=>'',set:()=>{},configurable:true});
 })();
 
-// Each game calls this after its interactive start screen has initialized.
-// Sharing stays in the parent invitation; game frames keep their sandbox intact.
-window.invitationShareResult = result => window.parent.postMessage({ type: 'invitation:share-result', result }, '*');
-
 // Parent requests are authenticated by their window, including opaque sandbox origins.
 window.invitationRegisterSession = ({ hasProgress, pause = () => {} }) => {
  window.addEventListener('message', event => {

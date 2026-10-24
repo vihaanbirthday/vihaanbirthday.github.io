@@ -102,7 +102,7 @@ try {
       await page.clock.runFor(1200);
       assert.equal(await frame.evaluate(() => currentstate), 0);
       assert(await frame.locator('#splash').isVisible(), 'Replay offers character selection');
-      assert(await frame.locator('#share-final-score').isHidden());
+      assert.equal(await frame.locator('#share-final-score').count(), 0);
     }
     await frame.locator('#watch-demo').click();
     assert(await frame.locator('#flight-demo').isVisible());

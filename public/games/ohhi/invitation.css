@@ -1,11 +1,3 @@
-#share-final-score[hidden]{display:none!important}#share-final-score{box-sizing:border-box;position:absolute;left:5%;bottom:8%;width:90%;min-height:44px;padding:10px 12px;border:1px solid #ffffff80;border-radius:8px;background:#c24b31;color:white;font:15px Arial,sans-serif;cursor:pointer;touch-action:manipulation;z-index:10}#share-final-score:focus-visible{outline:3px solid white;outline-offset:3px}
-
-/* Leave a clear gap between score, sharing and the original Back control. */
-body:has(#share-final-score:not([hidden])) #bar .iconcon{padding:8px 0;min-height:44px}
-body:has(#share-final-score:not([hidden])) #score{bottom:max(17%,104px)}
-#share-final-score{bottom:52px;left:50%;width:min(90vw,320px);transform:translateX(-50%);white-space:nowrap}
-@media(max-height:350px){body:has(#share-final-score:not([hidden])) #menugrid,body:has(#share-final-score:not([hidden])) #chooseSize{display:none}body:has(#share-final-score:not([hidden])) #score{font-size:24px!important;line-height:26px!important;height:26px!important}}
-
 /* Clear menu choices and native keyboard controls, available immediately. */
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
 #menu button,#about button{display:block;margin:14px auto;padding:12px 18px;min-width:150px;min-height:44px;border:1px solid #ffffff80;border-radius:10px;background:#333;color:white;font:20px 'Josefin Sans',sans-serif}

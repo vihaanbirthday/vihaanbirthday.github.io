@@ -84,7 +84,7 @@ try {
    assert.equal(await page.locator('#guest-total').textContent(), '1 / 10 guests');
    await sendResponse();
    let reply = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
-   assert.equal(reply, `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting me to Vihaan’s first birthday.\n\nI’ll be there and can’t wait to celebrate with you! 🎉`, 'A solo reply is conversational and collapses extra spaces in the name');
+   assert.equal(reply, `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting me to Vihaan’s first birthday.\n\nI’ll be there and can’t wait to celebrate with you!`, 'A solo reply is conversational and collapses extra spaces in the name');
    await add.focus();
    await add.press('Enter');
    assert(await inputs.nth(0).evaluate(el => el === document.activeElement), 'Adding by keyboard focuses the new name');
@@ -107,7 +107,7 @@ try {
    assert.equal(url.pathname,`/${test.event.whatsappNumber}`);
    assert.equal(url.searchParams.get('text'), [
     `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting us to Vihaan’s first birthday.`,
-    'I’ll be coming with Léa & Zoë 🐯 and Baby Sam. There will be 3 of us altogether. We’re looking forward to celebrating with you! 🎉',
+    'I’ll be coming with Léa & Zoë 🐯 and Baby Sam. There will be 3 of us altogether. We’re looking forward to celebrating with you!',
    ].join('\n\n'), 'A group reply names the accompanying guests naturally, with clean spaces and one paragraph break');
    await page.locator('.remove-guest').first().focus();
    await page.locator('.remove-guest').first().press('Enter');
@@ -155,7 +155,7 @@ try {
    const decline = new URL(await page.evaluate(()=>window.testOpenedURL)).searchParams.get('text');
    assert.equal(decline, [
     `Hi Madhav and Urvashee, it’s ${guest}! Thank you for inviting me to Vihaan’s first birthday.`,
-    'I’m sorry I won’t be able to make it. Sending Vihaan lots of love for his big day! 💛',
+    'I’m sorry I won’t be able to make it. Sending Vihaan lots of love for his big day!',
    ].join('\n\n'));
    assert(!decline.includes('guests'),'Decline has no headcount');
    await page.locator('#guest-attendance').selectOption('yes');

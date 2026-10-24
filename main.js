@@ -2,7 +2,6 @@ import { event } from './event-config.js';
 import { getEventDate } from './event-details.js';
 import { setupSafariFriends } from './safari-friends.js';
 import { setupInvitationPages } from './invitation-pages.js';
-import { setupResultSharing } from './result-sharing.js';
 import { setupGameExit } from './game-exit.js';
 import { setupPartyInteractions } from './party-interactions.js';
 const $ = (s) => document.querySelector(s);
@@ -37,7 +36,6 @@ const games = {
 const gameDialog = $('#game-dialog');
 let activeGame, gameTrigger, loadingTimer;
 const gameContainer = $('#game-frame-container');
-const closeResultSharing = setupResultSharing({ gameDialog, gameContainer, whatsappNumber: event.whatsappNumber });
 const requestGameAction = setupGameExit(gameDialog, gameContainer);
 function clearGameLoading() {
   clearTimeout(loadingTimer);
@@ -53,7 +51,6 @@ window.addEventListener('message', event => {
   frame.classList.remove('is-loading');
 });
 function loadGame() {
-  closeResultSharing();
   clearGameLoading();
   gameContainer.setAttribute('aria-busy', 'true');
   const hero = document.createElement('div');
@@ -91,7 +88,6 @@ document.querySelectorAll('[data-game]').forEach(button => button.addEventListen
 $('#close-game').addEventListener('click', () => requestGameAction(() => gameDialog.close()));
 $('#restart-game').addEventListener('click', () => requestGameAction(loadGame, 'restart'));
 gameDialog.addEventListener('close', () => {
-  closeResultSharing();
   clearGameLoading();
   gameContainer.replaceChildren();
   delete gameDialog.dataset.game;
@@ -204,11 +200,11 @@ $('#rsvp-form').addEventListener('submit', e => {
   }
   const guests = inputs.map(input => cleanName(input.value));
   const greeting = `Hi Madhav and Urvashee, it’s ${name}! Thank you for inviting ${attending && count > 1 ? 'us' : 'me'} to Vihaan’s first birthday.`;
-  let reply = 'I’m sorry I won’t be able to make it. Sending Vihaan lots of love for his big day! 💛';
+  let reply = 'I’m sorry I won’t be able to make it. Sending Vihaan lots of love for his big day!';
   if (attending) {
     reply = count === 1
-      ? 'I’ll be there and can’t wait to celebrate with you! 🎉'
-      : `I’ll be coming with ${new Intl.ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(guests)}. There will be ${count} of us altogether. We’re looking forward to celebrating with you! 🎉`;
+      ? 'I’ll be there and can’t wait to celebrate with you!'
+      : `I’ll be coming with ${new Intl.ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(guests)}. There will be ${count} of us altogether. We’re looking forward to celebrating with you!`;
   }
   const message = `${greeting}\n\n${reply}`;
   window.open(`https://wa.me/${event.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');

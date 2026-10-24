@@ -7,9 +7,9 @@ body.cartoon-game { font-family: var(--party-font); }
 .game-taptaptap :is(h1, h2), .game-flappy :is(h1, h2), .game-hextris .GOTitle,
 .game-ohhi :is(h1, h2, h3) { font-family: var(--party-font); font-weight: 800; }
 .game-taptaptap :is(.primary, .secondary),
-.game-flappy :is(#start-flight, #watch-demo, #demo-start, #demo-back, #share-final-score, #replay, #pause-flight, #resume-flight),
-.game-hextris :is(#share-final-score, #restart),
-.game-ohhi :is(#menu button, #about button, #share-final-score) {
+.game-flappy :is(#start-flight, #watch-demo, #demo-start, #demo-back, #replay, #pause-flight, #resume-flight),
+.game-hextris #restart,
+.game-ohhi :is(#menu button, #about button) {
   border: 2px solid var(--party-ink);
   border-radius: 12px;
   background: var(--party-yellow);

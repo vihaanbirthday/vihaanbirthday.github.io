@@ -59,11 +59,11 @@ try {
   await frame.evaluate(() => { playerDead(); });
   await page.clock.runFor(1500);
   assert.equal((await pose()).state, 2);
-  assert(await frame.locator('#share-final-score').isVisible(), 'Game over still offers final score sharing');
+  assert.equal(await frame.locator('#share-final-score').count(), 0, 'Game over has no score-sharing option');
   await frame.locator('#replay').tap();
   await page.clock.runFor(1200);
   assert.equal((await pose()).state, 0);
   assert(Math.abs((await pose()).rendered) < 0.001, 'Replay resets the bird to a level pose');
   assert.deepEqual(errors, []);
-  console.log('Broomstick Flyer: gradual rendered dive-to-climb turn, immediate lift, refresh-rate consistency, game over, sharing and replay passed.');
+  console.log('Broomstick Flyer: gradual rendered dive-to-climb turn, immediate lift, refresh-rate consistency, game over and replay passed.');
 } finally { await browser.close(); }

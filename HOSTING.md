@@ -46,8 +46,8 @@ Run `npm run check:ready` to verify the event settings before sharing. Calendar 
 
 Open the HTTPS site on your phone. Check the displayed date and time, open each game, open Maps, and confirm that the RSVP button prepares a message to your intended WhatsApp recipient. The site never sends the message itself. Website event details and the RSVP recipient are public; use your host's access controls if you need a private invitation.
 
-## Game result sharing
+## Game results
 
-All four games offer **Share final score** on their result screens. A PNG result image is generated locally. On devices with file sharing, choose WhatsApp and Madhav in the share sheet. Otherwise, download the image, open the directed WhatsApp chat, and attach it yourself. The recipient comes from `event-config.js`; WhatsApp requires the guest to send the message. 0h h1 shares the completed puzzle size and its total points for this visit.
+All four games keep results within the game session and offer replay controls without score-sharing options.
 
-To check sharing and gameplay locally, run the production preview server, then `npm run test:sharing` (or set `TEST_URL` if the preview uses another port). This covers result images, configured contact, download fallback, cancellation, replay, and phone portrait/landscape layouts.
+To check results and gameplay locally, run the production preview server, then `npm run test:results` (or set `TEST_URL` if the preview uses another port). This covers all eight Tap Tap Tap levels, final results, replay, and phone portrait/landscape layouts.

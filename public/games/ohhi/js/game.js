@@ -24,14 +24,9 @@ var Game = new (function() {
       onHomeScreen = true,
       undoStack = [],
       undone = false,
-      gameEnded = false,
-      finalResult = null;
+      gameEnded = false;
 
   function init() {
-    document.getElementById('share-final-score').addEventListener('click', function(event) {
-      event.stopPropagation();
-      if (gameEnded && finalResult) window.invitationShareResult(finalResult);
-    });
     $('#scorenr').html(getScore());
     $('#tweeturl').hide();
     
@@ -150,8 +145,6 @@ var Game = new (function() {
   }
 
   function showMenu() {
-    finalResult = null;
-    document.getElementById('share-final-score').hidden = true;
     onHomeScreen = true;
     clearTimeouts();
     $('.screen').hide().removeClass('show');
@@ -170,8 +163,6 @@ var Game = new (function() {
   }
 
   function showSizes() {
-    finalResult = null;
-    document.getElementById('share-final-score').hidden = true;
     onHomeScreen = false;
     showGame();
     $('#boardsize').html('<span>Select a size</span>');
@@ -187,8 +178,6 @@ var Game = new (function() {
   }
 
   function showLoad() {
-    finalResult = null;
-    document.getElementById('share-final-score').hidden = true;
     onHomeScreen = false;
     $('.screen').hide().removeClass('show');
     $('#loading').show();
@@ -217,8 +206,6 @@ var Game = new (function() {
 
   // puzzle is object with format { size:6, full:[2,1,...], empty:[0,0,2,...], quality: 76, ms: 42 }
   function startGame(puzzle) {
-    finalResult = null;
-    document.getElementById('share-final-score').hidden = true;
     onHomeScreen = false;
     if (!puzzle || !puzzle.size || !puzzle.full)
       throw 'no proper puzzle object received'
@@ -279,8 +266,6 @@ var Game = new (function() {
         $('#board').addClass('hidden');
         endGameTOH2 = setTimeout(function() {
           gameEnded = true;
-          finalResult = { score: newScore, size: grid.width, tutorial: !!startedTutorial };
-          document.getElementById('share-final-score').hidden = false;
           $('#menugrid').removeClass('hidden');
           $('#chooseSize').addClass('show');
           $('#score').show();
