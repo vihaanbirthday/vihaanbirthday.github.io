@@ -66,7 +66,7 @@ NN/g recommends [setting expectations before and during a form](https://www.nngr
 
 **Observed:** At 390 × 844 pixels, the event name, date, time, venue, and RSVP are visible in the first screen. This is already useful. The hero's practical text is substantially smaller than its three-line headline, and its date omits the year and its time omits the timezone. Those details are present farther down the page.
 
-**Recommendation:** Preserve the hero structure. Give the date, time, and location slightly more visual weight. Use “Sunday 6 December 2026” and “11:00 am · Mauritius time” near the first action. Aim for approximately 16px for practical reading text on phones and check wrapping at 320px. Avoid enlarging secondary decorative labels at the expense of useful details.
+**Recommendation:** Preserve the hero structure. Give the date, time, and location slightly more visual weight. Use “Sunday 6 December 2026” and “11:30 am · Mauritius time” near the first action. Aim for approximately 16px for practical reading text on phones and check wrapping at 320px. Avoid enlarging secondary decorative labels at the expense of useful details.
 
 **Implementation locations:** `index.html:39`, `main.js:179`, the final mobile overrides in `style.css`.
 
